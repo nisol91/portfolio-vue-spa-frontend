@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import App from './App.vue'
-// import Index from './Index.vue'
 import router from "./routes";
 import VueRouter from "vue-router";
 import moment from "moment";
@@ -14,33 +12,36 @@ import { messages } from "./i18n/translations"
 import VueI18n from 'vue-i18n'
 import VueMeta from 'vue-meta'
 import firebase from "firebase";
+import axios from 'axios'
+import VueAxios from 'vue-axios';
 
 
 
 //----
+import Index from "./Index";
+import App from './App.vue'
 
-// import StarRating from './shared/components/StarRating'
-// import FatalError from './shared/components/FatalError'
-// import ValidationErrors from './shared/components/ValidationErrors'
-// import Success from './shared/components/Success'
-// import SuccessBanner from './shared/components/SuccessBanner'
-// import NotFound from './shared/components/NotFound'
-// import ButtonCheck from './shared/components/ButtonCheck'
-// import MapboxMap from './shared/components/MapboxMap'
-// import MapboxSearch from './shared/components/MapboxSearch'
-// import UserSettings from "../js/user/UserSettings"
-// import ModalForm from "../js/shared/components/ModalForm.vue"
-// import DeleteForm from "../js/shared/components/DeleteForm.vue"
-// import CustomSelect from "../js/shared/components/CustomSelect.vue"
-// import ModalConfirmDelete from "../js/shared/components/ModalConfirmDelete.vue"
-// import FileLoader from "../js/shared/components/FileLoader.vue"
-// import SelectLocale from './locales/SelectLocale.vue'
+import StarRating from './components/shared/components/StarRating'
+import FatalError from './components/shared/components/FatalError'
+import ValidationErrors from './components/shared/components/ValidationErrors'
+import Success from './components/shared/components/Success'
+import SuccessBanner from './components/shared/components/SuccessBanner'
+import NotFound from './components/shared/components/NotFound'
+import ButtonCheck from './components/shared/components/ButtonCheck'
+import MapboxMap from './components/shared/components/MapboxMap'
+import MapboxSearch from './components/shared/components/MapboxSearch'
+import UserSettings from "./components/user/UserSettings"
+import ModalForm from "./components/shared/components/ModalForm.vue"
+import DeleteForm from "./components/shared/components/DeleteForm.vue"
+import CustomSelect from "./components/shared/components/CustomSelect.vue"
+import ModalConfirmDelete from "./components/shared/components/ModalConfirmDelete.vue"
+import FileLoader from "./components/shared/components/FileLoader.vue"
+import SelectLocale from './i18n/SelectLocale.vue'
 
 
 Vue.config.productionTip = false
 
-
-
+Vue.use(VueAxios, axios)
 Vue.use(VueRouter);
 Vue.use(Vuex)
 Vue.use(VueMapbox, { mapboxgl: Mapbox });
@@ -58,22 +59,22 @@ Vue.directive("in-viewport", inViewportDirective);
 Vue.filter('fromNow', value => moment(value).fromNow())
 
 // register components that i want to be registered globally, such as shared components
-// Vue.component('star-rating', StarRating);
-// Vue.component('fatal-error', FatalError);
-// Vue.component('v-errors', ValidationErrors);
-// Vue.component('success', Success);
-// Vue.component('success-banner', SuccessBanner);
-// Vue.component('not-found', NotFound);
-// Vue.component('button-check', ButtonCheck);
-// Vue.component('mapbox-map', MapboxMap);
-// Vue.component('mapbox-search', MapboxSearch);
-// Vue.component('user-settings', UserSettings);
-// Vue.component('modal-form', ModalForm);
-// Vue.component('delete-form', DeleteForm);
-// Vue.component('custom-select', CustomSelect);
-// Vue.component('modal-confirm-delete', ModalConfirmDelete);
-// Vue.component('file-loader', FileLoader);
-// Vue.component('select-locale', SelectLocale);
+Vue.component('star-rating', StarRating);
+Vue.component('fatal-error', FatalError);
+Vue.component('v-errors', ValidationErrors);
+Vue.component('success', Success);
+Vue.component('success-banner', SuccessBanner);
+Vue.component('not-found', NotFound);
+Vue.component('button-check', ButtonCheck);
+Vue.component('mapbox-map', MapboxMap);
+Vue.component('mapbox-search', MapboxSearch);
+Vue.component('user-settings', UserSettings);
+Vue.component('modal-form', ModalForm);
+Vue.component('delete-form', DeleteForm);
+Vue.component('custom-select', CustomSelect);
+Vue.component('modal-confirm-delete', ModalConfirmDelete);
+Vue.component('file-loader', FileLoader);
+Vue.component('select-locale', SelectLocale);
 
 
 // vuex
@@ -97,17 +98,17 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-
 firebase.initializeApp(firebaseConfig);
 
 
 new Vue({
   el: '#app',
   router,
+  axios,
   store,
   vuetify,
   i18n,
-  render: h => h(App),
+  render: h => h(Index),
   async beforeCreate() {
     console.log('before');
     // load data stored in session if there are some

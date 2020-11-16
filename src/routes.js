@@ -10,9 +10,9 @@
 // import ResetPassword from "../js/auth/ResetPassword";
 // import AdminDashboard from "../js/admin/AdminDashboard";
 // import UserProfile from "../js/user/UserProfile";
-// import Portfolio from "../js/portfolio/Portfolio";
 // import Projects from "../js/portfolio/Projects";
 // import SingleProject from "../js/portfolio/SingleProject";
+import Portfolio from "./components/portfolio/Portfolio";
 import App from "./App.vue";
 
 
@@ -27,7 +27,7 @@ import VueRouter from "vue-router";
 const routes = [
     {
         path: "/",
-        component: App,
+        component: Portfolio,
         name: "home"
     },
     // {
