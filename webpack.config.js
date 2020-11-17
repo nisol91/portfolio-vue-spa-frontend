@@ -7,11 +7,41 @@ module.exports = {
 			// AND `<style lang="scss">` blocks in `.vue` files
 			{
 				test: /\.scss$/,
+				// use: [
+				// 	'vue-style-loader',
+				// 	'css-loader',
+				// 	'sass-loader'
+				// ]
+				// 
 				use: [
-					'vue-style-loader',
-					'css-loader',
-					'sass-loader'
+					{
+						loader: 'vue-style-loader',
+					},
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					},
+					{
+						loader: 'resolve-url-loader'
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true,
+							sourceMapContents: false
+						}
+					},
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[path][name].[ext]',
+						}
+					}
+
 				]
+				// 
 			}
 		]
 	},

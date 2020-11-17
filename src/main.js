@@ -14,6 +14,10 @@ import VueMeta from 'vue-meta'
 import firebase from "firebase";
 import axios from 'axios'
 import VueAxios from 'vue-axios';
+
+//----
+
+// style scss
 import "./sass/style.scss";
 
 
@@ -43,6 +47,8 @@ import SelectLocale from './i18n/SelectLocale.vue'
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
+window.axios = require('axios');
+
 Vue.use(VueRouter);
 Vue.use(Vuex)
 Vue.use(VueMapbox, { mapboxgl: Mapbox });
