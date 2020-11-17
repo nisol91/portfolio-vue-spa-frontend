@@ -14,12 +14,13 @@ import VueMeta from 'vue-meta'
 import firebase from "firebase";
 import axios from 'axios'
 import VueAxios from 'vue-axios';
+import "./sass/style.scss";
 
 
 
 //----
 import Index from "./Index";
-import App from './App.vue'
+// import App from './App.vue';
 
 import StarRating from './components/shared/components/StarRating'
 import FatalError from './components/shared/components/FatalError'
