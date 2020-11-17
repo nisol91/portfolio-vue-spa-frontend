@@ -21,9 +21,9 @@ import VueAxios from 'vue-axios';
 import "./sass/style.scss";
 
 
-
 //----
 import Index from "./Index";
+// volendo posso wrappare Index dentro ad App
 // import App from './App.vue';
 
 import StarRating from './components/shared/components/StarRating'
@@ -46,6 +46,8 @@ import SelectLocale from './i18n/SelectLocale.vue'
 
 Vue.config.productionTip = false
 
+// non riesco a importarlo globalmente in questo modo, quindi lo importo all' 
+// occorrenza nei singoli componenti
 Vue.use(VueAxios, axios)
 window.axios = require('axios');
 

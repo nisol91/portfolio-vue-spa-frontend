@@ -18,7 +18,10 @@
               selectedEl = '';
             "
           >
-            <img class="logoImg" :src="'/logo_nsz.png'" />
+            <img
+              class="logoImg"
+              :src="'https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/logo_nsz.png?alt=media&token=af711a53-d6d5-46ce-85a0-06ace2c7e62d'"
+            />
           </div>
           <div v-if="!this.$store.state.isHomePage" class="nav-children">
             <router-link :to="{ name: 'home' }"
@@ -232,6 +235,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
+import axios from "axios";
 
 export default {
   // this can be used alternatively to the meta in the head of welcome.blade.php page, for seo purpose
