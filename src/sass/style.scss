@@ -50,7 +50,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 .mainBox {
     padding-top: 70px;
-    background: rgb(86, 93, 112);
+    background: rgba(86, 93, 112, 0.383);
     overflow: hidden;
 }
 
@@ -98,7 +98,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 .my-navbar-hidden {
     transition: 1s;
-    top: -200px;
+    background: rgba(104, 118, 144, 0.877);
+    // top: -20px;
+
 }
 
 .nav-dx-menu {

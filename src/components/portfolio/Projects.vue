@@ -49,13 +49,13 @@
           {{ project.description }}
         </div>
         <div class="text-align-center-center">
-          technologies: {{ project.additional_data }}
+          technologies: {{ project.type }}
         </div>
       </div>
       <img
-        v-if="project.media[0]"
+        v-if="project.img"
         class="projectImage"
-        :src="`storage/${project.media[0].storage_path}`"
+        :src="project.img[0]"
         alt=""
       />
 
@@ -78,7 +78,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import _ from "lodash";
 import { db } from "../../main";
 
@@ -140,7 +139,7 @@ export default {
 
       this.projects.forEach((project) => {
         this.selectedCats.forEach((category) => {
-          if (project.additional_data.includes(category)) {
+          if (project.type.includes(category)) {
             this.filteredProjects.push(project);
           }
         });
@@ -154,35 +153,26 @@ export default {
         .get()
         .then((querySnapshot) => {
           console.log(querySnapshot);
-          const documents = querySnapshot.docs.map((doc) => doc.data());
-          console.log(documents);
-
-          // do something with documents
+          const projects = querySnapshot.docs.map((doc) => doc.data());
+          console.log(projects);
+          this.projects = projects;
+          // sorting projects on the base of 'in_evidence' field
+          this.projects = _.orderBy(
+            this.projects,
+            [
+              function (proj) {
+                return proj.in_evidence;
+              },
+            ],
+            ["desc"]
+          );
+          //mi serve per i filtri
+          this.filteredProjects = this.projects;
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.errors = error.response && error.response.data.errors;
         });
-      // try {
-      //   this.loading = true;
-      //   const response = await axios.get(
-      //     "https://jsonplaceholder.typicode.com/posts"
-      //   );
-      //   this.projects = response.data.projects;
-      //   console.log(response.data);
-      //   // sorting projects on the base of 'in_evidence' field
-      //   this.projects = _.orderBy(
-      //     this.projects,
-      //     [
-      //       function (proj) {
-      //         return proj.in_evidence;
-      //       },
-      //     ],
-      //     ["desc"]
-      //   );
-
-      //   //mi serve per i filtri
-      //   this.filteredProjects = this.projects;
-      //   this.loading = false;
-      // } catch (error) {
-      //   this.errors = error.response && error.response.data.errors;
-      // }
     },
   },
 };
@@ -226,7 +216,7 @@ export default {
     }
   }
   .projDescription {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: bold;
   }
   .projectImage {
@@ -238,6 +228,7 @@ export default {
       font-size: 25px;
     }
     margin-right: 20px;
+    width: 300px;
   }
 }
 </style>

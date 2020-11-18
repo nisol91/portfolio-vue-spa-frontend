@@ -299,7 +299,7 @@ export default {
     },
 
     getOffsetNav() {
-      if (this.offsetTop > 30 && this.offsetTop < 100) {
+      if (this.offsetTop > 80) {
         return true;
       }
       return false;

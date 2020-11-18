@@ -19,7 +19,7 @@
         </h4>
         <h6 class="projText">
           Technologies:
-          <span class="projTextBold">{{ project.additional_data }}</span>
+          <span class="projTextBold">{{ project.type }}</span>
         </h6>
         <v-btn v-if="project.url != '.'" color="primary" rounded dark>
           <a
@@ -29,10 +29,7 @@
           >
         </v-btn>
         <v-btn
-          v-if="
-            project.additional_data &&
-            project.additional_data.includes('interactive')
-          "
+          v-if="project.type && project.type.includes('interactive')"
           color="primary"
           rounded
           dark
@@ -58,7 +55,7 @@
           class="mediaDx d-flex flex-column justify-content-center align-items-center"
         >
           <!-- IMPORTANTE-------METTI SEMPRE IL / ALL INIZIO DEI PERCORSI -->
-          <img
+          <!-- <img
             v-for="image in project.media"
             :key="image.storage_path"
             class="projectImage2"
@@ -81,14 +78,14 @@
               type="video/mp4"
             />
             Your browser does not support the video tag.
-          </video>
+          </video> -->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
+import { db } from "../../main";
 
 export default {
   data() {
@@ -104,13 +101,17 @@ export default {
   },
   methods: {
     async getProject() {
-      try {
-        const response = await axios.get(`/api/get-project/${this.id}`);
-        this.project = response.data.project;
-        //   console.log(response.data.project);
-      } catch (error) {
-        this.errors = error.response && error.response.data.errors;
-      }
+      db.collection("projects")
+        .where("id", "==", this.id)
+        .get()
+        .then((querySnapshot) => {
+          const project = querySnapshot.docs.map((doc) => doc.data());
+          console.log(project[0]);
+          this.project = project[0];
+        })
+        .catch(function (error) {
+          console.log("Error getting documents: ", error);
+        });
     },
   },
 };
