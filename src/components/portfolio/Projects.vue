@@ -80,6 +80,7 @@
 <script>
 import axios from "axios";
 import _ from "lodash";
+import { db } from "../../main";
 
 export default {
   data() {
@@ -149,30 +150,39 @@ export default {
       }
     },
     async getProjects() {
-      try {
-        this.loading = true;
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        this.projects = response.data.projects;
-        console.log(response.data);
-        // sorting projects on the base of 'in_evidence' field
-        this.projects = _.orderBy(
-          this.projects,
-          [
-            function (proj) {
-              return proj.in_evidence;
-            },
-          ],
-          ["desc"]
-        );
+      db.collection("projects")
+        .get()
+        .then((querySnapshot) => {
+          console.log(querySnapshot);
+          const documents = querySnapshot.docs.map((doc) => doc.data());
+          console.log(documents);
 
-        //mi serve per i filtri
-        this.filteredProjects = this.projects;
-        this.loading = false;
-      } catch (error) {
-        this.errors = error.response && error.response.data.errors;
-      }
+          // do something with documents
+        });
+      // try {
+      //   this.loading = true;
+      //   const response = await axios.get(
+      //     "https://jsonplaceholder.typicode.com/posts"
+      //   );
+      //   this.projects = response.data.projects;
+      //   console.log(response.data);
+      //   // sorting projects on the base of 'in_evidence' field
+      //   this.projects = _.orderBy(
+      //     this.projects,
+      //     [
+      //       function (proj) {
+      //         return proj.in_evidence;
+      //       },
+      //     ],
+      //     ["desc"]
+      //   );
+
+      //   //mi serve per i filtri
+      //   this.filteredProjects = this.projects;
+      //   this.loading = false;
+      // } catch (error) {
+      //   this.errors = error.response && error.response.data.errors;
+      // }
     },
   },
 };

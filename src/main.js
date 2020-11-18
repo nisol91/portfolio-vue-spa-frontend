@@ -12,8 +12,10 @@ import { messages } from "./i18n/translations"
 import VueI18n from 'vue-i18n'
 import VueMeta from 'vue-meta'
 import firebase from "firebase";
-import axios from 'axios'
-import VueAxios from 'vue-axios';
+import { firestorePlugin } from 'vuefire'
+
+// import axios from 'axios'
+// import VueAxios from 'vue-axios';
 
 //----
 
@@ -53,6 +55,7 @@ Vue.config.productionTip = false
 import _ from "lodash"; */
 
 
+Vue.use(firestorePlugin)
 Vue.use(VueRouter);
 Vue.use(Vuex)
 Vue.use(VueMapbox, { mapboxgl: Mapbox });
@@ -109,8 +112,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+// Get a Firestore instance
+export const db = firebaseApp.firestore();
 
 new Vue({
   el: '#app',
