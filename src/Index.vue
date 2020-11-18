@@ -25,7 +25,9 @@
           </div>
           <div v-if="!this.$store.state.isHomePage" class="nav-children">
             <router-link :to="{ name: 'home' }"
-              ><img class="logoImg" :src="'/logo_nsz.png'"
+              ><img
+                class="logoImg"
+                :src="'https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/logo_nsz.png?alt=media&token=af711a53-d6d5-46ce-85a0-06ace2c7e62d'"
             /></router-link>
           </div>
         </div>
@@ -268,7 +270,7 @@ export default {
     // console.log(this.lastSearch);
     // console.log(this.lastSearchComputed);
     // console.log(this.itemsInBasket);
-    this.$store.dispatch("getUserRole");
+    // this.$store.dispatch("getUserRole");
 
     // console.log("ruolo index " + this.userRole);
     setTimeout(() => {
@@ -323,7 +325,7 @@ export default {
     async logout() {
       try {
         // laravel endpoint
-        await axios.post("/api/logout");
+        // await axios.post("/api/logout");
         this.$store.dispatch("logout");
       } catch (error) {
         this.$store.dispatch("logout");

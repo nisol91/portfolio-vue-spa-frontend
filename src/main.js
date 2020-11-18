@@ -46,10 +46,12 @@ import SelectLocale from './i18n/SelectLocale.vue'
 
 Vue.config.productionTip = false
 
-// non riesco a importarlo globalmente in questo modo, quindi lo importo all' 
-// occorrenza nei singoli componenti
-Vue.use(VueAxios, axios)
-window.axios = require('axios');
+
+
+// lodash e axios li importo per singolo componente all'occorrenza
+/* import axios from "axios";
+import _ from "lodash"; */
+
 
 Vue.use(VueRouter);
 Vue.use(Vuex)
@@ -113,7 +115,6 @@ firebase.initializeApp(firebaseConfig);
 new Vue({
   el: '#app',
   router,
-  axios,
   store,
   vuetify,
   i18n,

@@ -78,6 +78,9 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import _ from "lodash";
+
 export default {
   data() {
     return {
@@ -148,8 +151,11 @@ export default {
     async getProjects() {
       try {
         this.loading = true;
-        const response = await axios.get("api/get-projects");
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts"
+        );
         this.projects = response.data.projects;
+        console.log(response.data);
         // sorting projects on the base of 'in_evidence' field
         this.projects = _.orderBy(
           this.projects,

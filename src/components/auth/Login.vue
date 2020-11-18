@@ -65,6 +65,7 @@
 import validationErrors from "../shared/mixins/validationErrors";
 import { logIn } from "../shared/utils/auth";
 import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
   mixins: [validationErrors],
