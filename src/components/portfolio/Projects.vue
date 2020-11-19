@@ -90,7 +90,7 @@ export default {
       cats: ["web", "mobile"],
       selectedCats: [],
       toggleSearchByName: true,
-      loading: false,
+      loading: true,
     };
   },
   created() {
@@ -186,7 +186,7 @@ export default {
   height: 70px;
   background: rgb(73, 84, 90);
   border-radius: 10px;
-  padding: 20px 10px;
+  padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -228,7 +228,6 @@ export default {
       font-size: 25px;
     }
     margin-right: 20px;
-    width: 300px;
   }
 }
 </style>

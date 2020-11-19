@@ -1,12 +1,20 @@
 <template>
   <div class="p-4 d-flex flex-column">
     <div v-if="project.disabled">coming soon</div>
-    <div v-if="!project.disabled">
+    <div v-if="loading" class="splash-box">
+      <v-progress-circular
+        :size="70"
+        color="blue-grey darken-3"
+        indeterminate
+        class="splash-box-progress"
+      ></v-progress-circular>
+    </div>
+    <div v-if="!project.disabled && !loading">
       <router-link
         class="backBtn d-flex justify-content-center align-items-center"
         :to="{ name: 'projects' }"
-        >back to projects</router-link
-      >
+        ><i class="fas fa-arrow-left"></i> <span>back to projects</span>
+      </router-link>
       <div class="titleProjBar d-flex flex-row">
         <h3 class="projText">
           Title: <span class="projTextBold">{{ project.name }}</span>
@@ -69,13 +77,7 @@
             :src="image"
             alt=""
           />
-          <video
-            v-if="project.video"
-            width="600"
-            height="240"
-            controls
-            class="projVideo"
-          >
+          <video v-if="project.video" controls class="projVideo">
             <source :src="project.video" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -92,6 +94,7 @@ export default {
     return {
       id: this.$route.params.id,
       project: {},
+      loading: true,
     };
   },
   created() {
@@ -108,6 +111,7 @@ export default {
           const project = querySnapshot.docs.map((doc) => doc.data());
           console.log(project[0]);
           this.project = project[0];
+          this.loading = false;
         })
         .catch(function (error) {
           console.log("Error getting documents: ", error);
@@ -129,8 +133,8 @@ export default {
   width: 100%;
 }
 .projectImage2 {
-  margin: 20px 10px;
-  width: 60%;
+  margin: 100px 10px;
+  width: 40%;
   &:hover {
   }
 }
@@ -157,6 +161,10 @@ export default {
   &:hover {
     background: grey;
     transition: 0.5s;
+    text-decoration: none;
+  }
+  i {
+    margin-right: 10px;
   }
 }
 </style>
