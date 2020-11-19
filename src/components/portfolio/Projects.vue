@@ -44,36 +44,40 @@
       <div class="projectTitle">
         <h1>{{ project.name }}</h1>
       </div>
-      <div class="d-flex flex-column justify-content-center">
-        <div class="projDescription">
-          {{ project.description }}
-        </div>
-        <div class="text-align-center-center">
-          technologies: {{ project.type }}
-        </div>
-      </div>
-      <img
-        v-if="project.img"
-        class="projectImage"
-        :src="project.img[0]"
-        alt=""
-      />
 
-      <v-btn v-if="project.disabled" color="" rounded dark disabled>
-        <router-link
-          id="routerInsideVButtonDisabled"
-          class="d-flex justify-content-center align-items-center"
-          :to="{ name: 'project', params: { id: project.id } }"
-          >coming soon...
-        </router-link></v-btn
-      >
-      <v-btn v-if="!project.disabled" color="primary" rounded dark>
-        <router-link
-          class="routerInsideVButton d-flex justify-content-center align-items-center"
-          :to="{ name: 'project', params: { id: project.id } }"
-          >to the project
-        </router-link></v-btn
-      >
+      <div class="projCardDx">
+        <div class="d-flex flex-column justify-content-center">
+          <div class="projDescription">
+            {{ project.description }}
+          </div>
+          <div class="text-align-center-center">
+            technologies: {{ project.type }}
+          </div>
+        </div>
+        <img
+          v-if="project.img"
+          class="projectImage"
+          :src="project.img[0]"
+          alt=""
+        />
+        <div v-if="!project.img" class="imgPlaceholder"></div>
+
+        <v-btn v-if="project.disabled" color="" rounded dark disabled>
+          <router-link
+            id="routerInsideVButtonDisabled"
+            class="d-flex justify-content-center align-items-center"
+            :to="{ name: 'project', params: { id: project.id } }"
+            >coming soon...
+          </router-link></v-btn
+        >
+        <v-btn v-if="!project.disabled" color="primary" rounded dark>
+          <router-link
+            class="routerInsideVButton d-flex justify-content-center align-items-center"
+            :to="{ name: 'project', params: { id: project.id } }"
+            >to the project
+          </router-link></v-btn
+        >
+      </div>
     </v-card>
   </div>
 </template>
@@ -214,6 +218,14 @@ export default {
       background: rgb(195, 195, 195);
       transition: 0.5s;
     }
+
+    .projCardDx {
+      width: 70%;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
   }
   .projDescription {
     font-size: 13px;
@@ -221,9 +233,16 @@ export default {
   }
   .projectImage {
     max-height: 100%;
-    margin: 0 10px;
+    margin: 0 30px;
+  }
+  .imgPlaceholder {
+    max-height: 100%;
+    width: 100px;
+    margin: 0 30px;
   }
   .projectTitle {
+    width: 30%;
+    text-align: center;
     h1 {
       font-size: 25px;
     }

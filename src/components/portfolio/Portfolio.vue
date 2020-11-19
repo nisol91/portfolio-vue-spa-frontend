@@ -6,7 +6,10 @@
         <h2>{{ $t("message.home2") }}</h2>
       </div>
       <div class="trianglesBox">
-        <img :src="'/triangles_2.png'" alt="" />
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/triangles_2.png?alt=media&token=e7ec1bb5-da97-4e0a-842d-42f4ced40d8b"
+          alt=""
+        />
       </div>
     </div>
     <div id="projects" class="projects" v-in-viewport.once>
@@ -28,7 +31,10 @@
         </div>
       </div>
       <div class="trianglesBox">
-        <img :src="'/triangles.png'" alt="" />
+        <img
+          :src="'https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/triangles.png?alt=media&token=2cbb8a3a-3a37-4014-adfc-e13d9cfd95d7'"
+          alt=""
+        />
       </div>
     </div>
     <div id="about" class="about" v-in-viewport.once>
@@ -43,7 +49,10 @@
         </h4>
       </div>
       <div class="trianglesBox">
-        <img :src="'/triangles_3.png'" alt="" />
+        <img
+          :src="'https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/triangles_3.png?alt=media&token=ddc3ea66-18ec-47fe-8af0-d097e2fa51d9'"
+          alt=""
+        />
       </div>
     </div>
     <div id="skills" class="skills" v-in-viewport.once>
@@ -59,16 +68,23 @@
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Javascript: VueJs, Nativescript, JQuery<v-progress-linear
+          Javascript: VueJs, Nativescript, JQuery, ReactNative<v-progress-linear
             v-model="valueProg_2"
             color="indigo darken-2"
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Database: MySQL
+          Database: MySQL, MongoDB, Firestore
           <v-progress-linear
             v-model="valueProg_3"
             color="blue lighten-2"
+          ></v-progress-linear>
+        </div>
+        <div class="skillBox d-flex justify-content-between align-items-center">
+          Other: Firebase
+          <v-progress-linear
+            v-model="valueProg_1"
+            color="green lighten-2"
           ></v-progress-linear>
         </div>
       </div>
@@ -76,7 +92,7 @@
         <h4>services:</h4>
         <h4>
           <span class="dotList"><i class="far fa-dot-circle"></i></span>
-          Laravel-Vue Custom Applications
+          Small-Medium Custom Applications (vuejs, firebase, laravel)
         </h4>
         <h4>
           <span class="dotList"><i class="far fa-dot-circle"></i></span

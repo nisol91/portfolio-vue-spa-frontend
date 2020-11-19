@@ -175,12 +175,12 @@
             :to="{ name: 'adminDashboard' }"
             >AdminDashboard</router-link
           > -->
-          <router-link
+          <!-- <router-link
             v-if="!isLoggedIn"
             class="btn nav-button"
             :to="{ name: 'login' }"
             >login</router-link
-          >
+          > -->
           <router-link
             v-if="isLoggedIn"
             class="btn nav-button"
@@ -225,7 +225,13 @@
             ></a>
           </div>
           <div class="footer">
-            App made with Laravel <i class="fab fa-laravel"></i> and VueJs
+            App made with Firebase
+            <img
+              class="footerFirebaseImg"
+              src="https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/firebase-icon.png?alt=media&token=d4a6745f-e655-46c7-8e38-3c0c3724d193"
+              alt=""
+            />
+            and VueJs
             <i class="fab fa-vuejs"></i>
           </div>
         </div>
@@ -343,5 +349,8 @@ export default {
   border-bottom: 1px solid grey;
   padding: 20px 40px;
   background: rgb(107, 109, 114);
+}
+.footerFirebaseImg {
+  width: 40px;
 }
 </style>
