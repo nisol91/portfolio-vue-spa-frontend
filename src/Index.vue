@@ -351,6 +351,6 @@ export default {
   background: rgb(107, 109, 114);
 }
 .footerFirebaseImg {
-  width: 40px;
+  width: 30px;
 }
 </style>

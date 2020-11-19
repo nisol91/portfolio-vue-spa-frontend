@@ -50,7 +50,7 @@
           <div class="projDescription">
             {{ project.description }}
           </div>
-          <div class="text-align-center-center">
+          <div class="text-align-center-center projType">
             technologies: {{ project.type }}
           </div>
         </div>

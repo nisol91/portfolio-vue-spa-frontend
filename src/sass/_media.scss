@@ -23,7 +23,7 @@
     }
 
     #skills {
-        height: 650px !important;
+        height: 880px !important;
     }
 
     .nav-children {
@@ -45,6 +45,7 @@
     .projectsChip {
         width: 100px !important;
     }
+    
 
 
 }
@@ -95,6 +96,37 @@
 
     }
 
+    .projectsGallery {
+        h1 {
+            font-size: 20px !important;
+        }
+
+        h2 {
+            font-size: 10px !important;
+        }
+
+        h3 {
+            font-size: 10px !important;
+        }
+
+        h4 {
+            font-size: 8px !important;
+        }
+
+        h5 {
+            font-size: 7px !important;
+        }
+        .projDescription {
+            font-size: 12px !important;
+
+        }
+        
+        .projType {
+            font-size: 10px !important;
+
+        }
+    }
+
 
 }
 
@@ -123,6 +155,10 @@
             margin: 20px 10px !important;
             width: 50% !important;
         }
+        .projectTitle {
+
+            width: 80% !important;
+        }
     }
 
     .boxPortfolio {
@@ -145,6 +181,7 @@
         h5 {
             font-size: 16px !important;
         }
+        
     }
 
     #home,
@@ -222,6 +259,7 @@
             margin: 0px 15px !important;
         }
     }
+    
 }
 
 // Large devices (desktops, 992px and up)
@@ -233,7 +271,9 @@
 // ----------
 // Ultra Small devices (small phones, 320px and up)
 
-@media (min-width: 320px) and (max-width: 450px) {}
+@media (min-width: 320px) and (max-width: 450px) {
+    
+}
 
 @media (min-width: 450px) and (max-width: 576px) {
     .filters {

@@ -91,8 +91,8 @@
       <div>
         <h4>services:</h4>
         <h4>
-          <span class="dotList"><i class="far fa-dot-circle"></i></span>
-          Small-Medium Custom Applications (vuejs, firebase, laravel)
+          <span class="dotList"><i class="far fa-dot-circle"></i></span
+          >Small-Medium Custom Applications (vuejs, firebase, laravel)
         </h4>
         <h4>
           <span class="dotList"><i class="far fa-dot-circle"></i></span
@@ -101,6 +101,10 @@
         <h4>
           <span class="dotList"><i class="far fa-dot-circle"></i></span>Mobile
           Applications
+        </h4>
+        <h4>
+          <span class="dotList"><i class="far fa-dot-circle"></i></span>Custom
+          solutions for your business
         </h4>
       </div>
     </div>
