@@ -21,7 +21,12 @@
           Technologies:
           <span class="projTextBold">{{ project.type }}</span>
         </h6>
-        <v-btn v-if="project.url != '.'" color="primary" rounded dark>
+        <v-btn
+          v-if="project.url && !project.type.includes('interactive')"
+          color="primary"
+          rounded
+          dark
+        >
           <a
             class="routerInsideVButton linkProjBtn d-flex justify-content-center align-items-center"
             :href="project.url"
@@ -29,7 +34,9 @@
           >
         </v-btn>
         <v-btn
-          v-if="project.type && project.type.includes('interactive')"
+          v-if="
+            project.url && project.type && project.type.includes('interactive')
+          "
           color="primary"
           rounded
           dark
@@ -55,30 +62,23 @@
           class="mediaDx d-flex flex-column justify-content-center align-items-center"
         >
           <!-- IMPORTANTE-------METTI SEMPRE IL / ALL INIZIO DEI PERCORSI -->
-          <!-- <img
-            v-for="image in project.media"
-            :key="image.storage_path"
+          <img
+            v-for="image in project.img"
+            :key="image"
             class="projectImage2"
-            :src="`/storage/${image.storage_path}`"
+            :src="image"
             alt=""
           />
           <video
-            v-if="
-              project.media &&
-              project.media.length > 0 &&
-              project.media[0].storage_path_video != '.'
-            "
+            v-if="project.video"
             width="600"
             height="240"
             controls
             class="projVideo"
           >
-            <source
-              :src="`/storage/${project.media[0].storage_path_video}`"
-              type="video/mp4"
-            />
+            <source :src="project.video" type="video/mp4" />
             Your browser does not support the video tag.
-          </video> -->
+          </video>
         </div>
       </div>
     </div>
