@@ -81,7 +81,7 @@
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Other: Firebase
+          Other: Firebase, Lamp, Linux
           <v-progress-linear
             v-model="valueProg_1"
             color="green lighten-2"
@@ -202,7 +202,7 @@ export default {
 #skills {
   background: rgb(125, 161, 230);
   clip-path: polygon(0 0, 100% 0, 100% 70%, 0 calc(100% - 5vw));
-  height: 600px;
+  height: 700px;
 }
 #contact {
   background: rgb(64, 71, 85);

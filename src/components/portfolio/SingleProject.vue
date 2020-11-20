@@ -146,6 +146,7 @@ export default {
 }
 .projVideo {
   margin: 20px 10px;
+  max-width: 100vw;
 }
 .mediaProj {
   border-top: 1px solid rgba(60, 69, 85, 0.616);
