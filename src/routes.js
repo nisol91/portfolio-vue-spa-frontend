@@ -9,6 +9,7 @@
 // import ResetPassword from "./components/auth/ResetPassword";
 // import AdminDashboard from "./components/admin/AdminDashboard";
 import Register from "./components/auth/Register.vue";
+import Login from "./components/auth/Login.vue";
 import UserProfile from "./components/user/UserProfile";
 import Projects from "./components/portfolio/Projects";
 import SingleProject from "./components/portfolio/SingleProject";
@@ -38,23 +39,27 @@ const routes = [
         component: SingleProject,
         name: "project"
     },
-    // // un altro modo alternativo per importare un componente vue
     {
         path: "/auth/login",
-        component: require('./components/auth/Login.vue').default,
+        component: Login,
         name: "login"
-    },
-
-    {
-        path: "/userProfile",
-        component: UserProfile,
-        name: "userProfile"
     },
     {
         path: "/auth/register",
         component: Register,
         name: "register"
     },
+    {
+        path: "/userProfile",
+        component: UserProfile,
+        name: "userProfile"
+    },
+    // // un altro modo alternativo per importare un componente vue
+    // {
+    //     path: "/auth/login",
+    //     component: require('./components/auth/Login.vue').default,
+    //     name: "login"
+    // },
     // {
     //     path: "/laravelBnB",
     //     component: Bookables,

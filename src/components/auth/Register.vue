@@ -1,117 +1,122 @@
 <template>
-  <div class="w-50 m-auto align-items-center d-flex">
-    <div class="card card-body">
-      <form>
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your name"
-            class="form-control"
-            v-model="user.name"
-            :class="[{ 'is-invalid': errorFor('name') }]"
-          />
-          <v-errors :errors="errorFor('name')"></v-errors>
-        </div>
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="Enter your e-mail"
-            class="form-control"
-            v-model="user.email"
-            :class="[{ 'is-invalid': errorFor('email') }]"
-          />
-          <v-errors :errors="errorFor('email')"></v-errors>
-        </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">Register</div>
+          <div class="card-body">
+            <div v-if="error" class="alert alert-danger">{{ error }}</div>
+            <form action="#" @submit.prevent="submit">
+              <div class="form-group row">
+                <label for="name" class="col-md-4 col-form-label text-md-right"
+                  >Name</label
+                >
 
-        <div class="form-group">
-          <label for="email">Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            class="form-control"
-            v-model="user.password"
-            :class="[{ 'is-invalid': errorFor('password') }]"
-          />
-          <v-errors :errors="errorFor('password')"></v-errors>
-        </div>
+                <div class="col-md-6">
+                  <input
+                    id="name"
+                    type="name"
+                    class="form-control"
+                    name="name"
+                    value
+                    required
+                    autofocus
+                    v-model="form.name"
+                  />
+                </div>
+              </div>
 
-        <!-- 'password_confirmation' is read by laravel backend to check passwords -->
-        <div class="form-group">
-          <label for="email">Confirm your Password</label>
-          <input
-            type="password"
-            name="password_confirmation"
-            placeholder="Confirm your password"
-            class="form-control"
-            v-model="user.password_confirmation"
-            :class="[{ 'is-invalid': errorFor('password_confirmation') }]"
-          />
-          <v-errors :errors="errorFor('password_confirmation')"></v-errors>
-        </div>
+              <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label text-md-right"
+                  >Email</label
+                >
 
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg btn-block"
-          :disabled="loading"
-          @click.prevent="register"
-        >
-          Sign up
-        </button>
+                <div class="col-md-6">
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    value
+                    required
+                    autofocus
+                    v-model="form.email"
+                  />
+                </div>
+              </div>
 
-        <hr />
-        <div>
-          Already have an account?
-          <router-link :to="{ name: 'login' }" class="font-weight-bold"
-            >Log in</router-link
-          >
+              <div class="form-group row">
+                <label
+                  for="password"
+                  class="col-md-4 col-form-label text-md-right"
+                  >Password</label
+                >
+
+                <div class="col-md-6">
+                  <input
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    required
+                    v-model="form.password"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row mb-0">
+                <div class="col-md-8 offset-md-4">
+                  <button type="submit" class="btn btn-primary">
+                    Register
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
+
 <script>
-import validationErrors from "../shared/mixins/validationErrors";
-import { logIn } from "../shared/utils/auth";
-import axios from "axios";
+import firebase from "firebase";
 
 export default {
-  mixins: [validationErrors],
   data() {
     return {
-      user: {
-        name: null,
-        email: null,
-        password: null,
-        password_confirmation: null,
+      form: {
+        name: "",
+        email: "",
+        password: "",
       },
-      loading: false,
+      error: null,
     };
   },
   methods: {
-    async register() {
-      this.loading = true;
-      this.errors = null;
-      try {
-        // queste e l' endpoint di laravel.
-        const response = await axios.post("/api/register", this.user);
-
-        // faccio logout visto che sicuramente non ho ancora verificato la mail
-        this.$store.dispatch("logout");
-
-        // push home route (dovrebbe funzionare anche router.push, pero importando router)
-        this.$router.push({
-          name: "home",
+    submit() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+        .then((data) => {
+          data.user
+            .updateProfile({
+              displayName: this.form.name,
+            })
+            .then(() => {
+              // now we have access to the signed in user
+              const user = firebase.auth().currentUser;
+              // send the signed in user a verification email
+              const actionCodeSettings = {
+                url: `${process.env.VUE_APP_HOST_NAME}/sign-in/?email=${user.email}`,
+              };
+              user.sendEmailVerification(actionCodeSettings);
+            });
+        })
+        .catch((err) => {
+          this.error = err.message;
         });
-      } catch (error) {
-        this.errors = error.response && error.response.data.errors;
-      }
-      this.loading = false;
     },
   },
 };

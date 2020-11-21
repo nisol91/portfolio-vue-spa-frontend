@@ -1,127 +1,87 @@
 <template>
-  <div class="w-50 m-auto align-items-center d-flex">
-    <div class="" v-if="isLoggedIn">you are already logged in</div>
-    <div class="card card-body" v-else>
-      <form>
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="Enter your e-mail"
-            class="form-control"
-            v-model="email"
-            :class="[{ 'is-invalid': errorFor('email') }]"
-          />
-          <v-errors :errors="errorFor('email')"></v-errors>
-        </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">Login</div>
+          <div class="card-body">
+            <div v-if="error" class="alert alert-danger">{{ error }}</div>
+            <form action="#" @submit.prevent="submit">
+              <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label text-md-right"
+                  >Email</label
+                >
 
-        <div class="form-group">
-          <label for="email">Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            class="form-control"
-            v-model="password"
-            :class="[{ 'is-invalid': errorFor('password') }]"
-          />
-          <v-errors :errors="errorFor('password')"></v-errors>
-        </div>
+                <div class="col-md-6">
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    value
+                    required
+                    autofocus
+                    v-model="form.email"
+                  />
+                </div>
+              </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg btn-block"
-          :disabled="loading"
-          @click.prevent="login"
-        >
-          Log-in
-        </button>
-        <div class="" v-if="!isEmailVerified">
-          You need to verify your email in order to login
-        </div>
+              <div class="form-group row">
+                <label
+                  for="password"
+                  class="col-md-4 col-form-label text-md-right"
+                  >Password</label
+                >
 
-        <hr />
+                <div class="col-md-6">
+                  <input
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    required
+                    v-model="form.password"
+                  />
+                </div>
+              </div>
 
-        <div>
-          No account yet?
-          <router-link :to="{ name: 'register' }" class="font-weight-bold"
-            >Register</router-link
-          >
+              <div class="form-group row mb-0">
+                <div class="col-md-8 offset-md-4">
+                  <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div>
-          Forgotten password?
-          <router-link :to="{ name: 'forgotPassword' }" class="font-weight-bold"
-            >Reset password</router-link
-          >
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import validationErrors from "../shared/mixins/validationErrors";
-import { logIn } from "../shared/utils/auth";
-import { mapState } from "vuex";
-import axios from "axios";
+import firebase from "firebase";
 
 export default {
-  mixins: [validationErrors],
   data() {
     return {
-      email: null,
-      password: null,
-      loading: false,
+      form: {
+        email: "",
+        password: "",
+      },
+      error: null,
     };
   },
-  computed: {
-    ...mapState({
-      isLoggedIn: "isLoggedIn",
-      isEmailVerified: "isEmailVerified",
-    }),
-  },
   methods: {
-    async login() {
-      this.loading = true;
-      this.errors = null;
-      try {
-        await axios.get("/sanctum/csrf-cookie");
-
-        // questo e l endpoint /login di laravel.
-        const response = await axios.post("/api/login", {
-          email: this.email,
-          password: this.password,
+    submit() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.form.email, this.form.password)
+        .then((data) => {
+          this.$router.replace({ name: "Dashboard" });
+        })
+        .catch((err) => {
+          this.error = err.message;
         });
-
-        // se il login ha successo:
-        // setto token
-        localStorage.setItem("token", response.data.access_token);
-        // save in storage
-        logIn();
-        // guardo il ruolo
-        this.$store.dispatch("getUserRole");
-        //   console.log("ruolo index " + this.userRole);
-        // load user in the state
-        this.$store.dispatch("loadUser");
-        // push home route (dovrebbe funzionare anche router.push, pero importando router)
-        this.$router.push({
-          name: "home",
-        });
-      } catch (error) {
-        this.errors = error.response && error.response.data.errors;
-      }
-      this.loading = false;
-    },
-
-    // ma serve sto metodologout messo qui??
-    async logout() {
-      try {
-        this.$store.dispatch("logout");
-      } catch (error) {
-        this.$store.dispatch("logout");
-      }
     },
   },
 };
