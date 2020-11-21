@@ -216,3 +216,18 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
         margin-left: 30px;
     }
 }
+// bootstrap overrides 
+input {
+    &:focus{
+outline: none !important;
+box-shadow: none !important;
+    }
+    
+}
+button {
+    &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+}

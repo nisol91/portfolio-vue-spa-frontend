@@ -66,9 +66,16 @@
 
               <div class="form-group row mb-0">
                 <div class="col-md-8 offset-md-4">
-                  <button type="submit" class="btn btn-primary">
+                  <v-btn color="primary" rounded dark depressed>
                     Register
-                  </button>
+                  </v-btn>
+                  <div class="text-center">
+                    <v-btn rounded color="primary" dark> Rounded Button </v-btn>
+                    <v-btn tile color="success">
+                      <v-icon left> mdi-pencil </v-icon>
+                      Edit
+                    </v-btn>
+                  </div>
                 </div>
               </div>
             </form>
@@ -109,7 +116,7 @@ export default {
               const user = firebase.auth().currentUser;
               // send the signed in user a verification email
               const actionCodeSettings = {
-                url: `${process.env.VUE_APP_HOST_NAME}/sign-in/?email=${user.email}`,
+                url: `${window.location.hostname}/sign-in/?email=${user.email}`,
               };
               user.sendEmailVerification(actionCodeSettings);
             });

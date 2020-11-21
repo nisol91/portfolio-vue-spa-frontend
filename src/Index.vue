@@ -277,7 +277,7 @@ export default {
   },
   created() {
     this.loaded = false;
-    console.log(window.location.hostname);
+
     // console.log("====");
     // console.log(this.lastSearch);
     // console.log(this.lastSearchComputed);
