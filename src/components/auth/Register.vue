@@ -93,28 +93,32 @@ export default {
       error: null,
     };
   },
+  created() {
+    this.$store.commit("toggleHomePage", false);
+  },
   methods: {
     submit() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then((data) => {
-          db.collection("users")
-            .doc(data.user.uid)
-            .set({ name: this.form.name });
-        })
-        .then(() => {
-          // now we have access to the signed in user
-          const user = firebase.auth().currentUser;
-          // send the signed in user a verification email
-          const actionCodeSettings = {
-            url: `https://${window.location.hostname}/auth/login`,
-          };
-          user.sendEmailVerification(actionCodeSettings);
-        })
-        .catch((err) => {
-          this.error = err.message;
-        });
+      this.$store.dispatch("registration");
+      // firebase
+      //   .auth()
+      //   .createUserWithEmailAndPassword(this.form.email, this.form.password)
+      //   .then((data) => {
+      //     db.collection("users")
+      //       .doc(data.user.uid)
+      //       .set({ name: this.form.name });
+      //   })
+      //   .then(() => {
+      //     // now we have access to the signed in user
+      //     const user = firebase.auth().currentUser;
+      //     // send the signed in user a verification email
+      //     const actionCodeSettings = {
+      //       url: `https://${window.location.hostname}/auth/login`,
+      //     };
+      //     user.sendEmailVerification(actionCodeSettings);
+      //   })
+      //   .catch((err) => {
+      //     this.error = err.message;
+      //   });
     },
   },
 };

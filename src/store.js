@@ -1,5 +1,7 @@
 import { isLoggedIn, logOut } from "./components/shared/utils/auth"
 import axios from 'axios'
+import firebase from "firebase";
+import { db } from "./main";
 
 export default {
     // vuex store
@@ -150,6 +152,29 @@ export default {
                 dispatch('logout')
             }
         },
+        registration({ commit, dispatch }) {
+            console.log('ciao, sono la registration dello state')
+            // firebase
+            //     .auth()
+            //     .createUserWithEmailAndPassword(this.form.email, this.form.password)
+            //     .then((data) => {
+            //         db.collection("users")
+            //             .doc(data.user.uid)
+            //             .set({ name: this.form.name });
+            //     })
+            //     .then(() => {
+            //         // now we have access to the signed in user
+            //         const user = firebase.auth().currentUser;
+            //         // send the signed in user a verification email
+            //         const actionCodeSettings = {
+            //             url: `https://${window.location.hostname}/auth/login`,
+            //         };
+            //         user.sendEmailVerification(actionCodeSettings);
+            //     })
+            //     .catch((err) => {
+            //         this.error = err.message;
+            //     });
+        }
     },
     // sono come le computed properties del componente vue
     getters: {

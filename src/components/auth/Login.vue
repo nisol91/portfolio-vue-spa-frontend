@@ -71,6 +71,9 @@ export default {
       error: null,
     };
   },
+  created() {
+    this.$store.commit("toggleHomePage", false);
+  },
   methods: {
     submit() {
       firebase
