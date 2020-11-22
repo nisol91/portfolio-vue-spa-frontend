@@ -163,28 +163,23 @@
               itemsInBasket
             }}</span>
           </router-link>
-          <router-link
-            v-if="!isLoggedIn"
-            class="btn nav-button"
-            :to="{ name: 'register' }"
-            >register</router-link
-          >
+          
           <router-link
             v-if="isUserAdmin"
             class="btn nav-button"
             :to="{ name: 'adminDashboard' }"
             >AdminDashboard</router-link
           > -->
-          <!-- <router-link
+          <router-link
             v-if="!isLoggedIn"
             class="btn nav-button"
             :to="{ name: 'login' }"
             >login</router-link
-          > -->
-          <router-link class="btn nav-button" :to="{ name: 'login' }"
-            >login</router-link
           >
-          <router-link class="btn nav-button" :to="{ name: 'register' }"
+          <router-link
+            v-if="!isLoggedIn"
+            class="btn nav-button"
+            :to="{ name: 'register' }"
             >register</router-link
           >
           <router-link
@@ -204,7 +199,19 @@
         </div>
       </div>
       <div class="mainBox" v-scroll="onScroll">
+        <!--  -->
         <router-view v-if="loaded"></router-view>
+        <!--  -->
+        <v-snackbar v-if="globalMessage" v-model="globalMessage">
+          {{ globalMessage }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn color="red" text v-bind="attrs" @click="closeSnackbar">
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+        <!--  -->
         <div v-if="!loaded" class="splash-box">
           <v-progress-circular
             :size="70"
@@ -264,7 +271,7 @@ export default {
   },
   data() {
     return {
-      lastSearch: this.$store.state.lastSearch,
+      // lastSearch: this.$store.state.lastSearch,
       menuOpen: false,
       loaded: false,
       offsetTop: 0,
@@ -294,9 +301,22 @@ export default {
     }, 2000);
   },
   computed: {
-    ...mapState({ isLoggedIn: "isLoggedIn", userRole: "userRole" }),
+    ...mapState({
+      isLoggedIn: "isLoggedIn",
+      userRole: "userRole",
+      globalMessage: "globalMessage",
+    }),
 
     ...mapGetters({ itemsInBasket: "itemsInBasket" }),
+
+    // globalMessage: {
+    //   get() {
+    //     return this.globalMessage;
+    //   },
+    //   set(globalMessage) {
+    //     this.globalMessage = globalMessage;
+    //   },
+    // },
 
     isUserAdmin() {
       if (this.userRole === "developer" || this.userRole === "admin") {
@@ -323,6 +343,9 @@ export default {
   },
 
   methods: {
+    closeSnackbar() {
+      this.$store.dispatch("closeGlobalSnackbar");
+    },
     onClickOutside() {
       if (this.menuOpen == true) {
         this.menuOpen = false;

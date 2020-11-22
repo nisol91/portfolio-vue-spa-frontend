@@ -20,7 +20,7 @@ export default {
         isEmailVerified: true,
         userRole: "",
         user: {},
-        error: ''
+        globalMessage: ''
     },
     // le mutations hanno solo il compito di mutare lo stato dell'app, sono
     // come semplici funzioni
@@ -38,6 +38,10 @@ export default {
         },
         setBasket(state, payload) {
             state.basket = payload
+        },
+        setGlobalMessage(state, payload) {
+            state.globalMessage = payload
+
         },
         setUser(state, payload) {
             state.user = payload
@@ -173,6 +177,8 @@ export default {
                             name: "home"
                         });
                     }
+                    commit('setGlobalMessage', 'successfully logged out')
+
                 });
         },
         registration({ commit, dispatch }, payload) {
@@ -196,8 +202,8 @@ export default {
                         url: `https://${window.location.hostname}/auth/login`,
                     };
                     user.sendEmailVerification();
+                    commit('setGlobalMessage', 'successfully registered: check your email address')
                     dispatch('signOut')
-                    return 'successfully registered: check your email address'
                 })
                 .catch((err) => {
                     console.log(err.message)
@@ -226,6 +232,7 @@ export default {
                     })
 
                     router.replace({ name: "home" });
+                    commit('setGlobalMessage', 'successfully logged in')
 
                 })
                 .catch((err) => {
@@ -247,10 +254,15 @@ export default {
 
                 }
             });
+        },
+        closeGlobalSnackbar({ commit, dispatch }) {
+            commit('setGlobalMessage', false)
         }
     },
     // sono come le computed properties del componente vue
     getters: {
+        bb: (state) => state.globalMessage,
+
         itemsInBasket: (state) => state.basket.items.length,
 
         // higher horder function: is a functions composition, this means that is a function
