@@ -116,6 +116,12 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 // Get a Firestore instance
 export const db = firebaseApp.firestore();
 
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+
+// firebase.auth().onAuthStateChanged(user => {
+//   this.$store.dispatch("fetchUser", user);
+// });
+
 new Vue({
   el: '#app',
   router,
@@ -127,8 +133,8 @@ new Vue({
     console.log('before');
     // load data stored in session if there are some
     // this.$store.dispatch('loadStoredState')
-    // this.$store.dispatch('loadUser')
 
   },
+
 }).$mount('#app')
 

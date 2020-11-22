@@ -5,71 +5,82 @@
         <div class="card">
           <div class="card-header">Register</div>
           <div class="card-body">
-            <div v-if="error" class="alert alert-danger">{{ error }}</div>
-            <div class="form-group row">
-              <label for="name" class="col-md-4 col-form-label text-md-right"
-                >Name</label
-              >
+            <!-- <div v-if="error" class="alert alert-danger">{{ error }}</div> -->
+            <v-snackbar v-if="error" v-model="error">
+              {{ error }}
 
-              <div class="col-md-6">
-                <input
-                  id="name"
-                  type="name"
-                  class="form-control"
-                  name="name"
-                  value
-                  required
-                  autofocus
-                  v-model="form.name"
-                />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="email" class="col-md-4 col-form-label text-md-right"
-                >Email</label
-              >
-
-              <div class="col-md-6">
-                <input
-                  id="email"
-                  type="email"
-                  class="form-control"
-                  name="email"
-                  value
-                  required
-                  autofocus
-                  v-model="form.email"
-                />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label
-                for="password"
-                class="col-md-4 col-form-label text-md-right"
-                >Password</label
-              >
-
-              <div class="col-md-6">
-                <input
-                  id="password"
-                  type="password"
-                  class="form-control"
-                  name="password"
-                  required
-                  v-model="form.password"
-                />
-              </div>
-            </div>
-
-            <div class="form-group row mb-0">
-              <div class="col-md-8 offset-md-4">
-                <v-btn @click="submit" color="primary" rounded dark depressed>
-                  Register
+              <template v-slot:action="{ attrs }">
+                <v-btn color="red" text v-bind="attrs" @click="error = false">
+                  Close
                 </v-btn>
+              </template>
+            </v-snackbar>
+            <form action="#" @submit.prevent="submit">
+              <div class="form-group row">
+                <label for="name" class="col-md-4 col-form-label text-md-right"
+                  >Name</label
+                >
+
+                <div class="col-md-6">
+                  <input
+                    id="name"
+                    type="name"
+                    class="form-control"
+                    name="name"
+                    value
+                    required
+                    autofocus
+                    v-model="form.name"
+                  />
+                </div>
               </div>
-            </div>
+
+              <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label text-md-right"
+                  >Email</label
+                >
+
+                <div class="col-md-6">
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    value
+                    required
+                    autofocus
+                    v-model="form.email"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label
+                  for="password"
+                  class="col-md-4 col-form-label text-md-right"
+                  >Password</label
+                >
+
+                <div class="col-md-6">
+                  <input
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    required
+                    v-model="form.password"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row mb-0">
+                <div class="col-md-8 offset-md-4">
+                  <v-btn type="submit" color="primary" rounded dark depressed>
+                    Register
+                  </v-btn>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -90,35 +101,15 @@ export default {
         email: "",
         password: "",
       },
-      error: null,
+      error: "",
     };
   },
   created() {
     this.$store.commit("toggleHomePage", false);
   },
   methods: {
-    submit() {
-      this.$store.dispatch("registration");
-      // firebase
-      //   .auth()
-      //   .createUserWithEmailAndPassword(this.form.email, this.form.password)
-      //   .then((data) => {
-      //     db.collection("users")
-      //       .doc(data.user.uid)
-      //       .set({ name: this.form.name });
-      //   })
-      //   .then(() => {
-      //     // now we have access to the signed in user
-      //     const user = firebase.auth().currentUser;
-      //     // send the signed in user a verification email
-      //     const actionCodeSettings = {
-      //       url: `https://${window.location.hostname}/auth/login`,
-      //     };
-      //     user.sendEmailVerification(actionCodeSettings);
-      //   })
-      //   .catch((err) => {
-      //     this.error = err.message;
-      //   });
+    async submit() {
+      this.error = await this.$store.dispatch("registration", this.form);
     },
   },
 };

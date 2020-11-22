@@ -2,6 +2,8 @@ import { isLoggedIn, logOut } from "./components/shared/utils/auth"
 import axios from 'axios'
 import firebase from "firebase";
 import { db } from "./main";
+import router from "./routes";
+
 
 export default {
     // vuex store
@@ -17,7 +19,8 @@ export default {
         isLoggedIn: false,
         isEmailVerified: true,
         userRole: "",
-        user: {}
+        user: {},
+        error: ''
     },
     // le mutations hanno solo il compito di mutare lo stato dell'app, sono
     // come semplici funzioni
@@ -41,6 +44,8 @@ export default {
         },
         setLoggedIn(state, payload) {
             state.isLoggedIn = payload
+            localStorage.setItem('isLoggedIn', payload);
+
         },
         setEmailVerified(state, payload) {
             state.isEmailVerified = payload
@@ -152,28 +157,96 @@ export default {
                 dispatch('logout')
             }
         },
-        registration({ commit, dispatch }) {
+
+        // firebase
+        signOut({ commit, dispatch }) {
+            firebase
+                .auth()
+                .signOut()
+                .then(() => {
+                    commit('setLoggedIn', false)
+                    commit('setUser', {})
+
+                    if (router.currentRoute.name !== 'home') {
+
+                        router.replace({
+                            name: "home"
+                        });
+                    }
+                });
+        },
+        registration({ commit, dispatch }, payload) {
             console.log('ciao, sono la registration dello state')
-            // firebase
-            //     .auth()
-            //     .createUserWithEmailAndPassword(this.form.email, this.form.password)
-            //     .then((data) => {
-            //         db.collection("users")
-            //             .doc(data.user.uid)
-            //             .set({ name: this.form.name });
-            //     })
-            //     .then(() => {
-            //         // now we have access to the signed in user
-            //         const user = firebase.auth().currentUser;
-            //         // send the signed in user a verification email
-            //         const actionCodeSettings = {
-            //             url: `https://${window.location.hostname}/auth/login`,
-            //         };
-            //         user.sendEmailVerification(actionCodeSettings);
-            //     })
-            //     .catch((err) => {
-            //         this.error = err.message;
-            //     });
+            console.log(payload)
+
+            const err = firebase
+                .auth()
+                .createUserWithEmailAndPassword(payload.email, payload.password)
+                .then((data) => {
+                    db.collection("users")
+                        .doc(data.user.uid)
+                        .set({ displayName: payload.name });
+                })
+                .then(() => {
+                    // now we have access to the signed in user
+                    const user = firebase.auth().currentUser;
+                    user.updateProfile({ displayName: payload.name });
+                    // send the signed in user a verification email
+                    const actionCodeSettings = {
+                        url: `https://${window.location.hostname}/auth/login`,
+                    };
+                    user.sendEmailVerification();
+                    dispatch('signOut')
+                    return 'successfully registered: check your email address'
+                })
+                .catch((err) => {
+                    console.log(err.message)
+                    return err
+                });
+            return err
+        },
+        login({ commit, dispatch }, payload) {
+            console.log('ciao, sono il login dello state')
+            console.log(payload)
+
+
+            const err = firebase
+                .auth()
+                .signInWithEmailAndPassword(payload.email, payload.password)
+                .then((data) => {
+                    if (!firebase.auth().currentUser.emailVerified) {
+                        dispatch("signOut");
+                        return
+                    }
+                    commit('setLoggedIn', true)
+
+                    commit('setUser', {
+                        name: firebase.auth().currentUser.displayName,
+                        email: firebase.auth().currentUser.email,
+                    })
+
+                    router.replace({ name: "home" });
+
+                })
+                .catch((err) => {
+                    console.log(err.message)
+                    return err
+                });
+            return err
+
+        },
+        loadFirebaseUserAfterRefresh({ commit, dispatch }) {
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    commit('setLoggedIn', true)
+                    console.log(user)
+
+                } else {
+                    commit('setLoggedIn', false)
+
+                }
+            });
         }
     },
     // sono come le computed properties del componente vue

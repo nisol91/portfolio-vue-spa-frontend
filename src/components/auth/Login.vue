@@ -47,7 +47,9 @@
 
               <div class="form-group row mb-0">
                 <div class="col-md-8 offset-md-4">
-                  <button type="submit" class="btn btn-primary">Login</button>
+                  <v-btn type="submit" color="primary" rounded dark depressed>
+                    Login
+                  </v-btn>
                 </div>
               </div>
             </form>
@@ -75,16 +77,8 @@ export default {
     this.$store.commit("toggleHomePage", false);
   },
   methods: {
-    submit() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.form.email, this.form.password)
-        .then((data) => {
-          this.$router.replace({ name: "Dashboard" });
-        })
-        .catch((err) => {
-          this.error = err.message;
-        });
+    async submit() {
+      this.error = await this.$store.dispatch("login", this.form);
     },
   },
 };

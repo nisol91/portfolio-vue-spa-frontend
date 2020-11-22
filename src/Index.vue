@@ -250,6 +250,7 @@
 import { mapState, mapGetters } from "vuex";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
 import axios from "axios";
+import firebase from "firebase";
 
 export default {
   // this can be used alternatively to the meta in the head of welcome.blade.php page, for seo purpose
@@ -275,8 +276,11 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
     this.loaded = false;
+
+    // carico l utente firebase dopo il refresh
+    this.$store.dispatch("loadFirebaseUserAfterRefresh");
 
     // console.log("====");
     // console.log(this.lastSearch);
@@ -335,16 +339,7 @@ export default {
       //   console.log("====================================");
     },
     async logout() {
-      try {
-        // laravel endpoint
-        // await axios.post("/api/logout");
-        this.$store.dispatch("logout");
-      } catch (error) {
-        this.$store.dispatch("logout");
-      }
-      this.$router.push({
-        name: "home",
-      });
+      this.$store.dispatch("signOut");
     },
   },
 };
