@@ -206,19 +206,12 @@
         <!--  -->
         <router-view v-if="loaded"></router-view>
         <!--  -->
-        <v-snackbar
+        <global-message
           v-if="globalMessage"
-          v-model="globalMessage"
-          :timeout="3000"
-        >
-          {{ globalMessage }}
+          :globalMex="globalMessage"
+          :error="false"
+        ></global-message>
 
-          <template v-slot:action="{ attrs }">
-            <v-btn color="blue" text v-bind="attrs" @click="closeSnackbar">
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
         <!--  -->
         <div v-if="!loaded" class="splash-box">
           <v-progress-circular
@@ -351,9 +344,6 @@ export default {
   },
 
   methods: {
-    closeSnackbar() {
-      this.$store.dispatch("closeGlobalSnackbar");
-    },
     onClickOutside() {
       if (this.menuOpen == true) {
         this.menuOpen = false;

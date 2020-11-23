@@ -235,6 +235,7 @@ export default {
 .projects {
   opacity: 0;
 }
+
 .projects.in-viewport {
   opacity: 1;
   -webkit-animation: puff-in-center 0.7s cubic-bezier(0.47, 0, 0.745, 0.715)

@@ -43,6 +43,8 @@ import DeleteForm from "./components/shared/components/DeleteForm.vue"
 import CustomSelect from "./components/shared/components/CustomSelect.vue"
 import ModalConfirmDelete from "./components/shared/components/ModalConfirmDelete.vue"
 import FileLoader from "./components/shared/components/FileLoader.vue"
+import GlobalMessage from "./components/shared/components/GlobalMessage.vue"
+
 import SelectLocale from './i18n/SelectLocale.vue'
 
 
@@ -89,6 +91,8 @@ Vue.component('custom-select', CustomSelect);
 Vue.component('modal-confirm-delete', ModalConfirmDelete);
 Vue.component('file-loader', FileLoader);
 Vue.component('select-locale', SelectLocale);
+Vue.component('global-message', GlobalMessage);
+
 
 
 // vuex

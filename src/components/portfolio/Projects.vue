@@ -40,6 +40,7 @@
       v-for="project in filteredProjects"
       :key="project.id"
       class="projectCard"
+      v-in-viewport
     >
       <div class="projectTitle">
         <h1>{{ project.name }}</h1>
@@ -248,5 +249,13 @@ export default {
     }
     margin-right: 20px;
   }
+}
+.projectCard {
+  opacity: 0;
+}
+.projectCard.in-viewport {
+  opacity: 1;
+  -webkit-animation: slit-in-vertical 0.2s ease-out both;
+  animation: slit-in-vertical 0.2s ease-out both;
 }
 </style>

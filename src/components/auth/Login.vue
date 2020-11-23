@@ -1,20 +1,21 @@
 <template>
   <div class="container">
+    <v-snackbar v-if="error" v-model="error" :timeout="30000">
+      {{ error }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="error = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
           <div class="card-header">Login</div>
           <div class="card-body">
             <!-- <div v-if="error" class="alert alert-danger">{{ error }}</div> -->
-            <v-snackbar v-if="error" v-model="error" :timeout="3000">
-              {{ error }}
 
-              <template v-slot:action="{ attrs }">
-                <v-btn color="red" text v-bind="attrs" @click="error = false">
-                  Close
-                </v-btn>
-              </template>
-            </v-snackbar>
             <form action="#" @submit.prevent="submit">
               <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right"

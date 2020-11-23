@@ -186,6 +186,10 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .v-application {
     font-family: $font-family-sans-serif !important;
 
+    // .v-snack {
+    //     top: 90vh !important
+    // }
+
     .v-btn {
         // border-radius: 0px!important;
     }
@@ -193,6 +197,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
     #savv {
         border-radius: $btn-border;
     }
+
     h1 {
         color: black !important;
     }
@@ -216,12 +221,14 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
         margin-left: 30px;
     }
 }
-// bootstrap overrides 
-input, button, a {
-    &:focus{
-outline: none !important;
-box-shadow: none !important;
-    }
-    
-}
 
+// bootstrap overrides 
+input,
+button,
+a {
+    &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+}
