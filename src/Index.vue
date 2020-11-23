@@ -176,6 +176,9 @@
             :to="{ name: 'login' }"
             >login</router-link
           >
+          <v-chip class="ma-2" v-if="isLoggedIn">
+            Hey, {{ this.$store.state.user.displayName }}
+          </v-chip>
           <router-link
             v-if="!isLoggedIn"
             class="btn nav-button"
@@ -183,12 +186,13 @@
             >register</router-link
           >
           <router-link
+            class="userIndexIcon"
             v-if="isLoggedIn"
-            class="btn nav-button"
             :to="{ name: 'userProfile' }"
-            >User profile</router-link
+            ><v-icon class="userIndexIcon"
+              >mdi-account-circle</v-icon
+            ></router-link
           >
-
           <a
             href="#"
             v-if="isLoggedIn"
@@ -202,7 +206,11 @@
         <!--  -->
         <router-view v-if="loaded"></router-view>
         <!--  -->
-        <v-snackbar v-if="globalMessage" v-model="globalMessage">
+        <v-snackbar
+          v-if="globalMessage"
+          v-model="globalMessage"
+          :timeout="3000"
+        >
           {{ globalMessage }}
 
           <template v-slot:action="{ attrs }">
@@ -376,5 +384,16 @@ export default {
 }
 .footerFirebaseImg {
   width: 30px;
+}
+.loginName {
+  width: 100px;
+  margin: 0 10px;
+}
+.userIndexIcon {
+  &:hover {
+    text-decoration: none !important;
+    border: 2px !important;
+    color: rgb(85, 89, 109) !important;
+  }
 }
 </style>

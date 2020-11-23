@@ -27,15 +27,15 @@
     "vuefire": "^2.2.4"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@mapbox/mapbox-gl-geocoder": "^4.7.0",
+    "@mdi/font": "^5.8.55",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11",
-    "@fortawesome/fontawesome-free": "^5.14.0",
-    "@mapbox/mapbox-gl-geocoder": "^4.7.0",
     "html-webpack-plugin": "^4.5.0",
     "mapbox-gl": "^1.12.0",
     "moment": "^2.27.0",
@@ -45,6 +45,7 @@
     "vue-mapbox": "^0.4.1",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.3.4",
+    "vue-template-compiler": "^2.6.11",
     "vue-video-player": "^5.0.2",
     "vuetify": "^2.3.15",
     "vuex": "^3.5.1"

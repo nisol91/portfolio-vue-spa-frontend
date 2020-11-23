@@ -177,7 +177,7 @@ export default {
                             name: "home"
                         });
                     }
-                    commit('setGlobalMessage', 'successfully logged out')
+
 
                 });
         },
@@ -187,24 +187,31 @@ export default {
                 .auth()
                 .createUserWithEmailAndPassword(payload.email, payload.password)
                 .then((data) => {
+                    console.log(data)
                     db.collection("users")
                         .doc(data.user.uid)
-                        .set({ displayName: payload.name });
+                        .set({ displayName: payload.name, email: payload.email });
                 })
                 .then(() => {
                     // now we have access to the signed in user
                     const user = firebase.auth().currentUser;
                     user.updateProfile({ displayName: payload.name });
                     // send the signed in user a verification email
-                    const actionCodeSettings = {
-                        url: `https://${window.location.hostname}/auth/login`,
-                    };
+                    // const actionCodeSettings = {
+                    //     url: `https://${window.location.hostname}/auth/login`,
+                    // };
                     user.sendEmailVerification();
                     commit('setGlobalMessage', 'successfully registered: check your email address')
+                    setTimeout(() => {
+                        commit('setGlobalMessage', '')
+                    }, 3000)
                     dispatch('signOut')
+                    router.replace({
+                        name: "home"
+                    });
                 })
                 .catch((err) => {
-                    console.log(err.message)
+                    // console.log(err.message)
                     return err
                 });
             return err
@@ -218,16 +225,29 @@ export default {
                         dispatch("signOut");
                         return
                     }
+                    const user = firebase.auth().currentUser
+
+
+                    // se non ho ancora creato l user nel db, lo creo al primo login
+                    if (!db.collection("users")
+                        .doc(user.uid)) {
+                        db.collection("users")
+                            .doc(user.uid)
+                            .set({ displayName: user.displayName, email: user.email });
+                    }
+
                     commit('setLoggedIn', true)
 
                     commit('setUser', {
-                        name: firebase.auth().currentUser.displayName,
+                        displayName: firebase.auth().currentUser.displayName,
                         email: firebase.auth().currentUser.email,
                     })
 
                     router.replace({ name: "home" });
                     commit('setGlobalMessage', 'successfully logged in')
-
+                    setTimeout(() => {
+                        commit('setGlobalMessage', '')
+                    }, 3000)
                 })
                 .catch((err) => {
                     return err
@@ -240,7 +260,7 @@ export default {
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                     commit('setLoggedIn', true)
-                    console.log(user)
+                    // console.log(user)
 
                 } else {
                     commit('setLoggedIn', false)
