@@ -130,7 +130,7 @@ new Vue({
   i18n,
   render: h => h(Index),
   async beforeCreate() {
-    console.log('before');
+    // console.log('before');
     // load data stored in session if there are some
     // this.$store.dispatch('loadStoredState')
 

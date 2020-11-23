@@ -14,6 +14,8 @@ import UserProfile from "./components/user/UserProfile";
 import Projects from "./components/portfolio/Projects";
 import SingleProject from "./components/portfolio/SingleProject";
 import Portfolio from "./components/portfolio/Portfolio";
+import ForgotPassword from "./components/auth/ForgotPassword";
+
 // import App from "./App.vue";
 // import Review from "./components/review/Review";
 // import Basket from "./components/basket/Basket";
@@ -21,6 +23,7 @@ import Portfolio from "./components/portfolio/Portfolio";
 
 
 import VueRouter from "vue-router";
+import firebase from 'firebase'
 
 const routes = [
     {
@@ -48,6 +51,19 @@ const routes = [
         path: "/auth/register",
         component: Register,
         name: "register"
+    },
+    {
+        path: "/auth/forgot-password",
+        name: "forgotPassword",
+        component: ForgotPassword,
+        beforeEnter(to, from, next) {
+            const user = firebase.auth().currentUser;
+            if (user) {
+                next({ name: "home" });
+            } else {
+                next();
+            }
+        },
     },
     {
         path: "/userProfile",

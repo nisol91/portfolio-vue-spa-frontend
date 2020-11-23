@@ -182,8 +182,6 @@ export default {
                 });
         },
         registration({ commit, dispatch }, payload) {
-            console.log('ciao, sono la registration dello state')
-            console.log(payload)
 
             const err = firebase
                 .auth()
@@ -212,10 +210,6 @@ export default {
             return err
         },
         login({ commit, dispatch }, payload) {
-            console.log('ciao, sono il login dello state')
-            console.log(payload)
-
-
             const err = firebase
                 .auth()
                 .signInWithEmailAndPassword(payload.email, payload.password)
@@ -236,7 +230,6 @@ export default {
 
                 })
                 .catch((err) => {
-                    console.log(err.message)
                     return err
                 });
             return err
@@ -255,14 +248,26 @@ export default {
                 }
             });
         },
+        forgotPassword({ commit, dispatch }, payload) {
+            if (!payload) {
+                return "Please type in a valid email address.";
+            }
+            firebase
+                .auth()
+                .sendPasswordResetEmail(payload)
+                .then(() => {
+                    return true;
+                })
+                .catch(error => {
+                    return error.message;
+                });
+        },
         closeGlobalSnackbar({ commit, dispatch }) {
             commit('setGlobalMessage', false)
         }
     },
     // sono come le computed properties del componente vue
     getters: {
-        bb: (state) => state.globalMessage,
-
         itemsInBasket: (state) => state.basket.items.length,
 
         // higher horder function: is a functions composition, this means that is a function

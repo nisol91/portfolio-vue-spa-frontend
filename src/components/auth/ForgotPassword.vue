@@ -15,13 +15,9 @@
             v-model="email"
           />
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg btn-block"
-          @click.prevent="sendResetLink"
+        <v-btn @click.prevent="sendResetLink" color="blue" rounded dark
+          >Send reset link</v-btn
         >
-          Send reset link
-        </button>
       </form>
     </div>
   </div>
@@ -43,16 +39,8 @@ export default {
     }),
     async sendResetLink() {
       this.emailSent = false;
-      this.error = null;
-
-      try {
-        await axios.post("/api/forgot-password", {
-          email: this.email,
-        });
-        this.emailSent = true;
-      } catch (error) {
-        this.error = error.response.data.errors.email[0];
-      }
+      this.error = await this.$store.dispatch("forgotPassword", this.email);
+      this.emailSent = true;
     },
   },
   created() {},

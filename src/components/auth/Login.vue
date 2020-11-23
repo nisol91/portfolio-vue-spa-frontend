@@ -52,6 +52,13 @@
                   </v-btn>
                 </div>
               </div>
+              <div class="form-group row mb-0">
+                <div class="col-md-8 offset-md-4">
+                  <router-link :to="{ name: 'forgotPassword' }"
+                    ><v-btn color="blue" rounded dark>forgot password?</v-btn>
+                  </router-link>
+                </div>
+              </div>
             </form>
           </div>
         </div>
