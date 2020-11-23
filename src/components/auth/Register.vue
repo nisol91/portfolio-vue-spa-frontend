@@ -1,20 +1,21 @@
 <template>
-  <div class="container">
+  <div class="containerFormAuth">
+    <v-snackbar v-if="error" v-model="error" :timeout="3000">
+      {{ error }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="error = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
+        <div class="card formAuth">
           <div class="card-header">Register</div>
           <div class="card-body">
             <!-- <div v-if="error" class="alert alert-danger">{{ error }}</div> -->
-            <v-snackbar v-if="error" v-model="error" :timeout="3000">
-              {{ error }}
 
-              <template v-slot:action="{ attrs }">
-                <v-btn color="red" text v-bind="attrs" @click="error = false">
-                  Close
-                </v-btn>
-              </template>
-            </v-snackbar>
             <v-form
               action="#"
               @submit.prevent="submit"
@@ -48,13 +49,9 @@
                 v-model="form.password"
               ></v-text-field>
 
-              <div class="form-group row mb-0">
-                <div class="col-md-8 offset-md-4">
-                  <v-btn type="submit" color="primary" rounded dark depressed>
-                    Register
-                  </v-btn>
-                </div>
-              </div>
+              <v-btn type="submit" color="primary" rounded dark depressed>
+                Register
+              </v-btn>
             </v-form>
           </div>
         </div>
@@ -109,3 +106,5 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+</style>

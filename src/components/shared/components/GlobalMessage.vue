@@ -38,7 +38,7 @@ export default {
   position: fixed;
   height: 50px;
   width: 100vw;
-  top: 90vh;
+  top: 85vh;
   left: 0px;
   display: flex;
   justify-content: center;

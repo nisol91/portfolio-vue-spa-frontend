@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containerFormAuth">
     <v-snackbar v-if="error" v-model="error" :timeout="30000">
       {{ error }}
 
@@ -9,7 +9,7 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <div class="row justify-content-center">
+    <div class="formAuth row justify-content-center">
       <div class="col-md-8">
         <div class="card">
           <div class="card-header">Login</div>

@@ -101,6 +101,7 @@ export default {
   created() {
     this.$store.commit("toggleHomePage", false);
     this.getProjects();
+    this.getOrders();
   },
   computed: {},
   methods: {
@@ -157,9 +158,9 @@ export default {
       db.collection("projects")
         .get()
         .then((querySnapshot) => {
-          console.log(querySnapshot);
+          // console.log(querySnapshot);
           const projects = querySnapshot.docs.map((doc) => doc.data());
-          console.log(projects);
+          // console.log(projects);
           this.projects = projects;
           // sorting projects on the base of 'in_evidence' field
           this.projects = _.orderBy(
@@ -174,6 +175,27 @@ export default {
           //mi serve per i filtri
           this.filteredProjects = this.projects;
           this.loading = false;
+        })
+        .catch((error) => {
+          this.errors = error.response && error.response.data.errors;
+        });
+    },
+
+    // ~~~~~~~come prendere tutti gli ordini di tutti gli utenti
+    async getOrders() {
+      db.collection("users")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((document) => {
+            document.ref
+              .collection("orders")
+              .get()
+              .then((querySnapshot) => {
+                const order = querySnapshot.docs.map((doc) => doc.data());
+                console.log(order);
+              });
+          });
+          console.log(this.orders);
         })
         .catch((error) => {
           this.errors = error.response && error.response.data.errors;

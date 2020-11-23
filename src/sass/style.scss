@@ -182,6 +182,14 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
     margin: 0px !important;
 }
 
+.containerFormAuth {
+    height: 80vh;
+
+    .formAuth {
+        margin: 50px;
+    }
+}
+
 // vuetify overrides
 .v-application {
     font-family: $font-family-sans-serif !important;
