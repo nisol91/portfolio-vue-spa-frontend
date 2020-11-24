@@ -16,6 +16,19 @@
       :bannerEventName="bannerEventName"
     ></success-banner>
 
+    <h6 class="tv-map border-top border-bottom">
+      <mapbox-map :events="wineEvents"></mapbox-map>
+    </h6>
+    <v-tabs>
+      <v-tab @click="getEvents('wineEvents')">Events</v-tab>
+      <v-tab @click="getEvents('cellars')">Cellars</v-tab>
+    </v-tabs>
+    <div class="btn btn-secondary sorterBtn" @click="sortPrice">
+      sort by price
+    </div>
+    <div class="btn btn-secondary sorterBtn" @click="sortName">
+      sort by name
+    </div>
     <h6 class="tv-searchBar border-top border-bottom">
       <div>searchbar</div>
       <input
@@ -25,14 +38,15 @@
         @keyup="searchEvent(searchValue)"
       />
     </h6>
-    <h6 class="tv-map border-top border-bottom">
-      <mapbox-map :events="wineEvents"></mapbox-map>
-    </h6>
 
-    <div class="btn btn-secondary" @click="sortPrice">sort by price</div>
-    <div class="btn btn-secondary" @click="sortName">sort by name</div>
-
-    <div v-if="loading">loading....</div>
+    <div v-if="loading" class="splash-box">
+      <v-progress-circular
+        :size="70"
+        color="primary"
+        indeterminate
+        class="splash-box-progress"
+      ></v-progress-circular>
+    </div>
     <div v-if="!loading">
       <transition-group name="flip-list">
         <div
@@ -43,10 +57,27 @@
           <div class="d-flex justify-content-between">
             <span>{{ event.name }}</span>
             <span>{{ event.city }}</span>
-            <span>${{ event.price }}</span>
+            <span v-if="event.price" class="priceWine">${{ event.price }}</span>
+            <span v-if="event.type" class="priceWine">{{ event.type }}</span>
           </div>
-          <div class="mt-4">{{ event.description }}</div>
-          <div class="mt-4">IMMAGINE</div>
+          <div class="mt-4 descImgMainBox">
+            <v-img
+              v-if="event.media"
+              :src="event.media[0]"
+              class="grey lighten-2 mainImg"
+              :aspect-ratio="16 / 9"
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+            <div class="mt-4">{{ event.description }}</div>
+          </div>
         </div>
       </transition-group>
       <!-- <div class="navigatePagination d-flex justify-content-between">
@@ -82,13 +113,15 @@ export default {
     };
   },
   created() {
-    this.getEvents();
+    this.$store.commit("toggleHomePage", false);
+
+    this.getEvents("wineEvents");
   },
   methods: {
-    async getEvents() {
+    async getEvents(type) {
       this.loading = true;
-
-      db.collection("wineEvents")
+      this.wineEvents = null;
+      db.collection(type)
         .get()
         .then((querySnapshot) => {
           // console.log(querySnapshot);
@@ -99,8 +132,8 @@ export default {
           this.wineEvents = _.orderBy(
             this.wineEvents,
             [
-              function (proj) {
-                return proj.in_evidence;
+              function (ev) {
+                return ev.in_evidence;
               },
             ],
             ["desc"]
@@ -184,5 +217,20 @@ export default {
 .freccia {
   font-size: 20px;
   cursor: pointer;
+}
+.descImgMainBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mainImg {
+  max-width: 200px;
+}
+.sorterBtn {
+  margin: 20px;
+}
+.priceWine {
+  font-size: 25px;
+  font-weight: bold;
 }
 </style>

@@ -5,15 +5,24 @@
       :accessToken="accessToken"
       :mapStyle.sync="mapStyle"
       :center="coordinates"
-      :zoom="5"
+      :zoom="7"
     >
       <MglMarker
         v-for="event in wineEvents"
         :key="event.name"
         :coordinates="[event.location.latitude, event.location.longitude]"
         color="blue"
-        ><i slot="marker" class="fas fa-wine-glass-alt markerWine"></i
-      ></MglMarker>
+        ><i
+          v-if="!event.isCellar"
+          slot="marker"
+          class="fas fa-wine-glass-alt markerWine"
+        ></i>
+        <i
+          v-if="event.isCellar"
+          slot="marker"
+          class="fas fa-wine-bottle markerWine"
+        ></i>
+      </MglMarker>
     </MglMap>
   </div>
 </template>
