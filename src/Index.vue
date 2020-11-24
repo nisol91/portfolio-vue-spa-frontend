@@ -2,6 +2,27 @@
   <!-- nell index è comodo mettere la navigazione dell'app -->
   <div>
     <v-app>
+      <v-snackbar
+        v-if="hotMex"
+        v-model="hotMex"
+        :timeout="20000"
+        top
+        class="indexSnack"
+      >
+        {{ hotMex }}
+
+        <router-link :to="{ name: 'toccaVinoHome' }"
+          ><v-btn color="blue" text v-bind="attrs" @click="hotMex = ''"
+            >VAI</v-btn
+          ></router-link
+        >
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="blue" text v-bind="attrs" @click="hotMex = ''">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
       <div
         class="my-navbar d-flex justify-content-between align-items-center"
         :class="[{ 'my-navbar-hidden': getOffsetNav }]"
@@ -274,6 +295,7 @@ export default {
   data() {
     return {
       // lastSearch: this.$store.state.lastSearch,
+      hotMex: "checkout my new project",
       menuOpen: false,
       loaded: false,
       offsetTop: 0,
@@ -386,5 +408,8 @@ export default {
     border: 2px !important;
     color: rgb(85, 89, 109) !important;
   }
+}
+.indexSnack {
+  margin-top: 100px !important;
 }
 </style>
