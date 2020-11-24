@@ -23,20 +23,37 @@
       <v-tab @click="getEvents('wineEvents')">Events</v-tab>
       <v-tab @click="getEvents('cellars')">Cellars</v-tab>
     </v-tabs>
-    <div class="btn btn-secondary sorterBtn" @click="sortPrice">
-      sort by price
-    </div>
-    <div class="btn btn-secondary sorterBtn" @click="sortName">
-      sort by name
-    </div>
-    <h6 class="tv-searchBar border-top border-bottom">
-      <div>searchbar</div>
-      <input
-        type="text"
-        v-model="searchValue"
-        class="form-control"
-        @keyup="searchEvent(searchValue)"
-      />
+
+    <v-overlay :value="overlayPicker"
+      ><div @click="overlayPicker = !overlayPicker">
+        <i class="fas fa-times closeMonthPicker"></i>
+      </div>
+      <v-date-picker v-model="picker" type="month"></v-date-picker
+    ></v-overlay>
+    <h6 class="tv-searchBar filtersBox">
+      <div>
+        <div>Search your event - cellar</div>
+        <input
+          type="text"
+          v-model="searchValue"
+          class="form-control searchBarWine"
+          @keyup="searchEvent(searchValue)"
+        />
+      </div>
+      <div>
+        <div class="btn btn-secondary sorterBtn" @click="sortPrice">
+          sort by price
+        </div>
+        <div class="btn btn-secondary sorterBtn" @click="sortName">
+          sort by name
+        </div>
+        <div
+          class="btn btn-secondary sorterBtn"
+          @click="overlayPicker = !overlayPicker"
+        >
+          sort by month
+        </div>
+      </div>
     </h6>
 
     <div v-if="loading" class="splash-box">
@@ -101,6 +118,8 @@ export default {
   data() {
     return {
       // currentPagePagination: 1,
+      overlayPicker: false,
+      picker: new Date().toISOString().substr(0, 10),
       bannerEventName: this.$route.params.eventName,
       searchValue: null,
       loading: false,
@@ -167,7 +186,7 @@ export default {
         return (
           o.name.includes(val) ||
           o.city.includes(val) ||
-          o.price.toString().includes(val)
+          (o.price && o.price.toString().includes(val))
         );
       });
       //    console.log(this.wineEventsFiltered);
@@ -232,5 +251,18 @@ export default {
 .priceWine {
   font-size: 25px;
   font-weight: bold;
+}
+.searchBarWine {
+  width: 30vw;
+  margin: 10px;
+}
+.filtersBox {
+  display: flex;
+  justify-content: space-between;
+}
+.closeMonthPicker {
+  font-size: 25px;
+  margin: 20px;
+  cursor: pointer;
 }
 </style>
