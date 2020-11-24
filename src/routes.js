@@ -1,13 +1,13 @@
 
 // import Bookables from "./components/bookables/Bookables";
 // import Bookable from "./components/bookable/Bookable";
-// import ToccaVinoHome from "./components/toccavino/ToccaVinoHome";
-// import ToccaVinoAddEvent from "./components/toccavino/ToccaVinoAddEvent";
-// import ToccaVinoPayment from "./components/toccavino/ToccaVinoPayment";
 // import VerifyEmail from "./components/auth/VerifyEmail";
 // import ForgotPassword from "./components/auth/ForgotPassword";
 // import ResetPassword from "./components/auth/ResetPassword";
 // import AdminDashboard from "./components/admin/AdminDashboard";
+// import App from "./App.vue";
+// import Review from "./components/review/Review";
+
 import Register from "./components/auth/Register.vue";
 import Login from "./components/auth/Login.vue";
 import UserProfile from "./components/user/UserProfile";
@@ -15,12 +15,11 @@ import Projects from "./components/portfolio/Projects";
 import SingleProject from "./components/portfolio/SingleProject";
 import Portfolio from "./components/portfolio/Portfolio";
 import ForgotPassword from "./components/auth/ForgotPassword";
-
-// import App from "./App.vue";
-// import Review from "./components/review/Review";
-// import Basket from "./components/basket/Basket";
-// import NotFound from "./components/shared/components/NotFound";
-
+import ToccaVinoHome from "./components/toccavino/ToccaVinoHome";
+import ToccaVinoAddEvent from "./components/toccavino/ToccaVinoAddEvent";
+import ToccaVinoPayment from "./components/toccavino/ToccaVinoPayment";
+import Basket from "./components/basket/Basket";
+import NotFound from "./components/shared/components/NotFound";
 
 import VueRouter from "vue-router";
 import firebase from 'firebase'
@@ -70,6 +69,28 @@ const routes = [
         component: UserProfile,
         name: "userProfile"
     },
+    {
+        path: "/basket",
+        component: Basket,
+        name: "basket"
+    },
+    {
+        path: "/tocca-vino",
+        component: ToccaVinoHome,
+        name: "toccaVinoHome"
+    },
+    {
+        path: "/add-wine-event",
+        component: ToccaVinoAddEvent,
+        name: "toccaVinoAddEvent"
+    },
+    {
+        path: "/support-us",
+        component: ToccaVinoPayment,
+        name: "toccaVinoPayment"
+    },
+    { path: '*', component: NotFound }
+
     // // un altro modo alternativo per importare un componente vue
     // {
     //     path: "/auth/login",
@@ -111,27 +132,7 @@ const routes = [
     //     component: Review,
     //     name: "review"
     // },
-    // {
-    //     path: "/basket",
-    //     component: Basket,
-    //     name: "basket"
-    // },
-    // {
-    //     path: "/tocca-vino",
-    //     component: ToccaVinoHome,
-    //     name: "toccaVinoHome"
-    // },
-    // {
-    //     path: "/add-wine-event",
-    //     component: ToccaVinoAddEvent,
-    //     name: "toccaVinoAddEvent"
-    // },
-    // {
-    //     path: "/support-us",
-    //     component: ToccaVinoPayment,
-    //     name: "toccaVinoPayment"
-    // },
-    // { path: '*', component: NotFound }
+
 
 ]
 

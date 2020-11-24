@@ -60,6 +60,9 @@
 
 <script>
 import ToccaVinoFooter from "../toccavino/ToccaVinoFooter";
+import _ from "lodash";
+import { db } from "../../main";
+
 export default {
   components: {
     ToccaVinoFooter: ToccaVinoFooter,
@@ -85,18 +88,33 @@ export default {
     async getEvents() {
       this.loading = true;
 
-      try {
-        this.wineEvents = (
-          await axios.get(
-            `api/wine-events`
-            // `api/wine-events?page=${this.currentPagePagination}`
-          )
-        ).data;
-        //  console.log(this.wineEvents);
-      } catch (error) {}
-      this.loading = false;
-      this.wineEventsFiltered = this.wineEvents;
+      db.collection("projects")
+        .get()
+        .then((querySnapshot) => {
+          // console.log(querySnapshot);
+          const wineEvents = querySnapshot.docs.map((doc) => doc.data());
+          // console.log(wineEvents);
+          this.wineEvents = wineEvents;
+          // sorting wineEvents on the base of 'in_evidence' field
+          this.wineEvents = _.orderBy(
+            this.wineEvents,
+            [
+              function (proj) {
+                return proj.in_evidence;
+              },
+            ],
+            ["desc"]
+          );
+          //mi serve per i filtri
+          this.wineEventsFiltered = this.wineEvents;
+
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.errors = error.response && error.response.data.errors;
+        });
     },
+
     // eventuale pagination
     pageNext() {
       this.currentPagePagination += 1;

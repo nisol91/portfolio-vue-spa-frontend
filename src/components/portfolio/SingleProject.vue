@@ -51,7 +51,7 @@
         >
           <router-link
             class="linkProjBtn d-flex justify-content-center align-items-center"
-            :to="{ name: 'laravelBnB' }"
+            :to="{ name: project.url }"
             >to the interactive project</router-link
           >
         </v-btn>
