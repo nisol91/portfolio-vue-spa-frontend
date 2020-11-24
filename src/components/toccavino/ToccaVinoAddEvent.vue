@@ -1,99 +1,98 @@
 <template>
-  <div
-    class="d-flex justify-content-center align-items-center tv-footer col-md-12"
-  >
+  <div class="formEvent">
     <div class="text-white">toccavino add event</div>
-    <div class="col-md-6">
-      <div class="form-row">
-        <div class="col-md-6 form-group">
-          <label for="name">Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="first_name"
-            v-model="event.name"
-            :class="{ 'is-invalid': errorFor('event.name') }"
-          />
-          <v-errors :errors="errorFor('event.name')"></v-errors>
-        </div>
-        <div class="col-md-6 form-group">
-          <label for="description">description</label>
-          <input
-            type="text"
-            class="form-control"
-            name="street"
-            v-model="event.description"
-            :class="{ 'is-invalid': errorFor('event.description') }"
-          />
-          <v-errors :errors="errorFor('event.description')"></v-errors>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-6 form-group">
-          <label for="city">City</label>
-          <mapbox-search
-            v-model="event.city"
-            @get-coords="setCoords"
-            :errorsCity="errors"
-          ></mapbox-search>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-6 form-group">
-          <label for="price">price</label>
 
-          <input
-            type="text"
-            class="form-control"
-            name="price"
-            v-model="event.price"
-            :class="{ 'is-invalid': errorFor('event.price') }"
-          />
-          <v-errors :errors="errorFor('event.price')"></v-errors>
+    <v-form
+      action="#"
+      @submit.prevent="addEvent"
+      ref="form"
+      v-model="valid"
+      lazy-validation
+    >
+      <v-text-field
+        label="name"
+        :rules="rules"
+        value
+        required
+        v-model="form.name"
+      ></v-text-field>
+      <v-text-field
+        label="description"
+        :rules="rules"
+        value
+        required
+        v-model="form.description"
+      ></v-text-field>
+      <v-text-field
+        label="date"
+        :rules="rules"
+        value
+        disabled
+        v-model="form.date"
+      ></v-text-field>
+      <v-btn
+        class="saveEvent"
+        color="primary"
+        rounded
+        dark
+        depressed
+        @click="overlayPicker = !overlayPicker"
+      >
+        Select date
+      </v-btn>
+      <v-overlay :value="overlayPicker"
+        ><div @click="overlayPicker = !overlayPicker">
+          <i class="fas fa-times closeMonthPicker"></i>
         </div>
-      </div>
+        <v-date-picker v-model="picker"></v-date-picker>
 
-      <div class="form-row">
-        <div class="col-md-6 form-group">
-          <label for="price">from</label>
-
-          <input
-            type="text"
-            class="form-control"
-            name="from"
-            v-model="event.from"
-            :class="{ 'is-invalid': errorFor('event.from') }"
-          />
-          <v-errors :errors="errorFor('event.from')"></v-errors>
-        </div>
-        <div class="col-md-6 form-group">
-          <label for="price">to</label>
-
-          <input
-            type="text"
-            class="form-control"
-            name="to"
-            v-model="event.to"
-            :class="{ 'is-invalid': errorFor('event.to') }"
-          />
-          <v-errors :errors="errorFor('event.to')"></v-errors>
-        </div>
-      </div>
-
-      <div class="form-row pt-2 border-top">
-        <div class="col-md-12 form-group">
-          <button
+        <div class="monthBtn">
+          <v-btn
             type="submit"
-            class="btn btn-lg btn-primary btn-block"
-            @click.prevent="addEvent"
+            color="primary"
+            rounded
+            dark
+            depressed
+            @click="selectDate(picker)"
           >
-            save event
-          </button>
-          <!-- click.prevent è sempre meglio aggiungerlo quando si tratta di mandare dati,
-          cioè in caso di forms, anche se questo tecnicamente non è proprio un form-->
+            SELECT
+          </v-btn>
         </div>
-      </div>
-    </div>
+      </v-overlay>
+      <v-text-field
+        label="price"
+        :rules="rules"
+        value
+        required
+        v-model="form.price"
+      ></v-text-field>
+      <v-text-field
+        label="city"
+        :rules="rules"
+        value
+        required
+        v-model="form.city"
+      ></v-text-field>
+      <v-text-field
+        label="full address"
+        :rules="rules"
+        value
+        required
+        v-model="form.address"
+        @keyup="getPlace()"
+      ></v-text-field>
+
+      <v-btn
+        class="saveEvent"
+        type="submit"
+        color="primary"
+        rounded
+        dark
+        depressed
+      >
+        Save
+      </v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -102,61 +101,89 @@ import { mapState, mapGetters } from "vuex";
 import validationErrors from "../shared/mixins/validationErrors";
 import router from "../../routes";
 import axios from "axios";
+import moment from "moment";
 
 export default {
   mixins: [validationErrors],
-
   data() {
     return {
+      overlayPicker: false,
+      picker: new Date().toISOString().substr(0, 10),
       loading: false,
-      event: {
+      form: {
         name: null,
         description: null,
-        street: null,
+        date: null,
+        price: null,
+        media: [],
         city: null,
-        coords: {
-          lat: 0,
-          lng: 0,
+        address: null,
+        location: {
+          latitude: 0,
+          longitude: 0,
         },
       },
-      validation: {
-        name: false,
-      },
+      valid: true,
+      rules: [
+        (v) => !!v || "field is required",
+        (v) => (v && v.length >= 1) || "Name must be more than 1 characters",
+      ],
+      mapboxToken:
+        "pk.eyJ1Ijoibmlzb2w5MSIsImEiOiJjazBjaWRvbTIwMWpmM2hvMDhlYWhhZGV0In0.wyRaVw6FXdw6g3wp3t9FNQ",
     };
   },
+
+  created() {
+    this.$store.commit("toggleHomePage", false);
+  },
   methods: {
-    setCoords(val) {
-      if (val != null) {
-        this.event.coords.lat = parseFloat(val[0].toFixed(1));
-        this.event.coords.lng = parseFloat(val[1].toFixed(1));
-      }
+    validate() {
+      this.$refs.form.validate();
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
     },
     async addEvent() {
       this.loading = true;
-      this.capitalize(this.event.name);
-      //  console.log(this.event.name);
-      try {
-        await axios.post(`api/wine-events`, {
-          event: this.event,
-        });
-        router.push({
-          name: "toccaVinoHome",
-          params: { eventName: this.event.name },
-        });
-      } catch (error) {
-        if (error.response.status === 422) {
-          this.errors = error.response.data.errors;
-          //   console.log("errors: ");
-          //   console.log(this.errors);
-        }
-        this.status = error.response.status;
-      }
+      // this.capitalize(this.form.name);
+      this.validate();
+      console.log(this.form);
+      this.errors = await this.$store.dispatch("saveEvent", this.form);
+      console.log(this.errors);
+
       this.loading = false;
+      router.push({
+        name: "toccaVinoHome",
+        // params: { eventName: this.event.name },
+      });
     },
+    async getPlace() {
+      try {
+        const coordinates = (
+          await axios.get(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.form.address}.json?limit=5&language=it-IT&access_token=${this.mapboxToken}`
+          )
+        ).data.features[0].center;
+        console.log(coordinates);
+        this.form.location.latitude = coordinates[0];
+        this.form.location.longitude = coordinates[1];
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    selectDate(date) {
+      this.overlayPicker = !this.overlayPicker;
+      this.form.date = date;
+      console.log(date);
+    },
+
     capitalize(value) {
       if (!value) return "";
       value = value.toString();
-      this.event.name = value.charAt(0).toUpperCase() + value.slice(1);
+      this.form.name = value.charAt(0).toUpperCase() + value.slice(1);
     },
   },
   filters: {},
@@ -170,4 +197,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.formEvent {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+.saveEvent {
+  margin: 20px 0;
+}
+</style>

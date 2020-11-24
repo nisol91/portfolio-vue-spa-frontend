@@ -1,5 +1,20 @@
 <template>
   <div class="boxPortfolio">
+    <v-snackbar
+      v-if="hotMex && this.$store.state.isHomePage"
+      v-model="hotMex"
+      :timeout="20000"
+      top
+      class="indexSnack"
+    >
+      {{ hotMex }}
+
+      <router-link :to="{ name: 'toccaVinoHome' }"
+        ><v-btn color="blue" text @click="hotMex = ''">VAI</v-btn></router-link
+      >
+
+      <v-btn color="blue" text @click="hotMex = ''"> Close </v-btn>
+    </v-snackbar>
     <div id="home" class="scale-in-center">
       <div class="box-sx">
         <h1 id="mainTitle">{{ $t("message.home1") }}</h1>
@@ -124,6 +139,7 @@
 export default {
   data() {
     return {
+      hotMex: "check out my new project",
       valueProg_1: 0,
       valueProg_2: 0,
       valueProg_3: 0,

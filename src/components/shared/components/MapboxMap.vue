@@ -10,7 +10,10 @@
       <MglMarker
         v-for="event in wineEvents"
         :key="event.name"
-        :coordinates="[event.location.latitude, event.location.longitude]"
+        :coordinates="[
+          event.location ? event.location.latitude : 0,
+          event.location ? event.location.longitude : 0,
+        ]"
         color="blue"
       >
         <MglPopup>

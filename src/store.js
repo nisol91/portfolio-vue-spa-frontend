@@ -284,7 +284,22 @@ export default {
         },
         closeGlobalSnackbar({ commit, dispatch }) {
             commit('setGlobalMessage', false)
+        },
+        saveEvent({ commit, dispatch }, payload) {
+            console.log(payload)
+            return db.collection('wineEvents').add({
+                name: payload.name,
+                description: payload.description,
+                date: payload.date,
+                city: payload.city,
+                address: payload.address,
+                price: payload.price
+                // location: payload.location,
+                // media: payload.media,
+
+            })
         }
+
     },
     // sono come le computed properties del componente vue
     getters: {
