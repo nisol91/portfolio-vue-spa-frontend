@@ -45,13 +45,18 @@
     .projectsChip {
         width: 100px !important;
     }
-    
+
 
 
 }
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
+    .skillBox {
+        display: flex;
+        flex-direction: column;
+    }
+
     .nav-children-dx {
         display: none;
     }
@@ -116,11 +121,12 @@
         h5 {
             font-size: 7px !important;
         }
+
         .projDescription {
             font-size: 12px !important;
 
         }
-        
+
         .projType {
             font-size: 10px !important;
 
@@ -143,6 +149,7 @@
 
             height: auto !important;
             flex-direction: column !important;
+
             .projCardDx {
                 height: auto !important;
                 flex-direction: column !important;
@@ -155,6 +162,7 @@
             margin: 20px 10px !important;
             width: 50% !important;
         }
+
         .projectTitle {
 
             width: 80% !important;
@@ -181,7 +189,7 @@
         h5 {
             font-size: 16px !important;
         }
-        
+
     }
 
     #home,
@@ -259,7 +267,7 @@
             margin: 0px 15px !important;
         }
     }
-    
+
 }
 
 // Large devices (desktops, 992px and up)
@@ -271,9 +279,7 @@
 // ----------
 // Ultra Small devices (small phones, 320px and up)
 
-@media (min-width: 320px) and (max-width: 450px) {
-    
-}
+@media (min-width: 320px) and (max-width: 450px) {}
 
 @media (min-width: 450px) and (max-width: 576px) {
     .filters {

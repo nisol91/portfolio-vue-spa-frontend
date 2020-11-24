@@ -62,26 +62,29 @@
       <h4>{{ $t("message.skills") }}</h4>
       <div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Php: Laravel, Wordpress<v-progress-linear
+          <h4>Php: Laravel, Wordpress</h4>
+          <v-progress-linear
             v-model="valueProg_1"
             color="teal darken-3"
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Javascript: VueJs, Nativescript, JQuery, ReactNative<v-progress-linear
+          <h4>Javascript: VueJs, Nativescript, JQuery, ReactNative</h4>
+          <v-progress-linear
             v-model="valueProg_2"
             color="indigo darken-2"
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Database: MySQL, MongoDB, Firestore
+          <h4>Database: MySQL, MongoDB, Firestore</h4>
+
           <v-progress-linear
             v-model="valueProg_3"
             color="blue lighten-2"
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          Other: Firebase, Lamp, Linux
+          <h4>Other: Firebase, Lamp, Linux</h4>
           <v-progress-linear
             v-model="valueProg_1"
             color="green lighten-2"

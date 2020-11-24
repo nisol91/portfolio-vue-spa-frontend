@@ -91,7 +91,6 @@
           >
             Contact
           </div>
-          <select-locale class="langVSelect"></select-locale>
 
           <!-- mobile menu -->
           <div
@@ -142,7 +141,6 @@
             >
               Contact
             </div>
-            <select-locale class="langVSelectMobile"></select-locale>
           </div>
           <!--  -->
 
@@ -225,6 +223,9 @@
           id="footer"
           class="d-flex justify-content-center align-items-center flex-column"
         >
+          <select-locale class="langVSelect"></select-locale>
+          <select-locale class="langVSelectMobile"></select-locale>
+
           <div
             class="icons-box d-flex justify-content-between align-items-center mb-2"
           >
@@ -264,7 +265,7 @@ export default {
   // this can be used alternatively to the meta in the head of welcome.blade.php page, for seo purpose
   metaInfo: {
     title: "NsZ Developer Portfolio Site",
-    titleTemplate: "%s - Web developer!",
+    titleTemplate: "%s - Web and Mobile developer!",
     htmlAttrs: {
       lang: "en",
       amp: true,
