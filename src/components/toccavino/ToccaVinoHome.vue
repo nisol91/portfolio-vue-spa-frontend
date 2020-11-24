@@ -113,6 +113,7 @@
             <span v-if="event.date">{{
               event.date | moment("dddd, MMMM Do YYYY")
             }}</span>
+            <span v-if="!event.date"> no date </span>
             <span v-if="event.price" class="priceWine">${{ event.price }}</span>
             <span v-if="event.type" class="priceWine">{{ event.type }}</span>
           </div>

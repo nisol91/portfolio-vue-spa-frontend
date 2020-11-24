@@ -2,7 +2,7 @@
   <div
     class="d-flex justify-content-center align-items-center tv-footer col-md-12"
   >
-    <div class="text-white">property of t-wine®</div>
+    <div class="text-white">credits t-wine®</div>
   </div>
 </template>
 

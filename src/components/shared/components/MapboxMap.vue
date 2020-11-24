@@ -12,7 +12,11 @@
         :key="event.name"
         :coordinates="[event.location.latitude, event.location.longitude]"
         color="blue"
-        ><i
+      >
+        <MglPopup>
+          {{ event.name }}
+        </MglPopup>
+        <i
           v-if="!event.isCellar"
           slot="marker"
           class="fas fa-wine-glass-alt markerWine"
@@ -30,12 +34,13 @@
 <script>
 // import VueMapbox from "vue-mapbox";
 import Mapbox from "mapbox-gl";
-import { MglMap, MglMarker } from "vue-mapbox";
+import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 
 export default {
   components: {
     MglMap,
     MglMarker,
+    MglPopup,
   },
   props: ["events"],
   data() {

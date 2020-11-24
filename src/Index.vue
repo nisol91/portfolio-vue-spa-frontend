@@ -295,7 +295,7 @@ export default {
   data() {
     return {
       // lastSearch: this.$store.state.lastSearch,
-      hotMex: "checkout my new project",
+      hotMex: "check out my new project",
       menuOpen: false,
       loaded: false,
       offsetTop: 0,
