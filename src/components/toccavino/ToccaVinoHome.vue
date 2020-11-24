@@ -28,8 +28,20 @@
       ><div @click="overlayPicker = !overlayPicker">
         <i class="fas fa-times closeMonthPicker"></i>
       </div>
-      <v-date-picker v-model="picker" type="month"></v-date-picker
-    ></v-overlay>
+      <v-date-picker v-model="picker" type="month"></v-date-picker>
+      <div class="monthBtn">
+        <v-btn
+          type="submit"
+          color="primary"
+          rounded
+          dark
+          depressed
+          @click="selectMonth(picker)"
+        >
+          SELECT
+        </v-btn>
+      </div>
+    </v-overlay>
     <h6 class="tv-searchBar filtersBox">
       <div>
         <div>Search your event - cellar</div>
@@ -53,6 +65,20 @@
         >
           sort by month
         </div>
+        <div
+          v-if="currentTab == 'wineEvents'"
+          class="btn btn-secondary sorterBtn resetFilters"
+          @click="getEvents('wineEvents')"
+        >
+          reset filters
+        </div>
+        <div
+          v-if="currentTab == 'cellars'"
+          class="btn btn-secondary sorterBtn resetFilters"
+          @click="getEvents('cellars')"
+        >
+          reset filters
+        </div>
       </div>
     </h6>
 
@@ -65,6 +91,16 @@
       ></v-progress-circular>
     </div>
     <div v-if="!loading">
+      <v-chip
+        v-if="wineEventsFiltered.length === 0 && chip2"
+        class="ma-2"
+        close
+        color="red darken-4"
+        text-color="white"
+        @click:close="chip2 = false"
+      >
+        sorry, no events or cellars found :(
+      </v-chip>
       <transition-group name="flip-list">
         <div
           class="pt-2 border-top tv-wineEventCard"
@@ -74,6 +110,9 @@
           <div class="d-flex justify-content-between">
             <span>{{ event.name }}</span>
             <span>{{ event.city }}</span>
+            <span v-if="event.date">{{
+              event.date | moment("dddd, MMMM Do YYYY")
+            }}</span>
             <span v-if="event.price" class="priceWine">${{ event.price }}</span>
             <span v-if="event.type" class="priceWine">{{ event.type }}</span>
           </div>
@@ -110,6 +149,7 @@
 import ToccaVinoFooter from "../toccavino/ToccaVinoFooter";
 import _ from "lodash";
 import { db } from "../../main";
+import VueMoment from "vue-moment";
 
 export default {
   components: {
@@ -118,6 +158,8 @@ export default {
   data() {
     return {
       // currentPagePagination: 1,
+      currentTab: "wineEvents",
+      chip2: true,
       overlayPicker: false,
       picker: new Date().toISOString().substr(0, 10),
       bannerEventName: this.$route.params.eventName,
@@ -140,6 +182,7 @@ export default {
     async getEvents(type) {
       this.loading = true;
       this.wineEvents = null;
+      this.chip2 = true;
       db.collection(type)
         .get()
         .then((querySnapshot) => {
@@ -161,6 +204,8 @@ export default {
           this.wineEventsFiltered = this.wineEvents;
 
           this.loading = false;
+
+          this.currentTab = type;
         })
         .catch((error) => {
           this.errors = error.response && error.response.data.errors;
@@ -190,6 +235,15 @@ export default {
         );
       });
       //    console.log(this.wineEventsFiltered);
+    },
+    selectMonth(month) {
+      this.overlayPicker = !this.overlayPicker;
+      this.wineEventsFiltered = _.filter(this.wineEvents, function (o) {
+        if (o.date) {
+          return o.date.includes(month);
+        }
+      });
+      console.log(this.wineEventsFiltered);
     },
     sortPrice() {
       if (this.sorting.price) {
@@ -264,5 +318,13 @@ export default {
   font-size: 25px;
   margin: 20px;
   cursor: pointer;
+}
+.monthBtn {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+.resetFilters {
+  background: rgb(26, 30, 39);
 }
 </style>

@@ -23,6 +23,7 @@
     "sass-loader": "^8.0.0",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.0",
+    "vue-moment": "^4.1.0",
     "vue-template-compiler": "^2.6.10",
     "vuefire": "^2.2.4"
   },
