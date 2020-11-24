@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="tWineBox">
     <div class="d-flex justify-content-between">
-      <h1>welcome to tocca vino</h1>
+      <h1>t-wine</h1>
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoAddEvent' }">
         <div class="btn btn-secondary">add your own wine event</div>
       </router-link>
@@ -10,7 +10,7 @@
       </router-link>
     </div>
 
-    <h3>...sottotitolo...</h3>
+    <h3>wine events, cellars and ecommerce</h3>
     <success-banner
       v-if="bannerEventName"
       :bannerEventName="bannerEventName"
@@ -26,7 +26,7 @@
       />
     </h6>
     <h6 class="tv-map border-top border-bottom">
-      <mapbox-map></mapbox-map>
+      <mapbox-map :events="wineEvents"></mapbox-map>
     </h6>
 
     <div class="btn btn-secondary" @click="sortPrice">sort by price</div>
@@ -38,7 +38,7 @@
         <div
           class="pt-2 border-top tv-wineEventCard"
           v-for="event in wineEventsFiltered"
-          :key="event.id"
+          :key="event.name"
         >
           <div class="d-flex justify-content-between">
             <span>{{ event.name }}</span>
@@ -88,7 +88,7 @@ export default {
     async getEvents() {
       this.loading = true;
 
-      db.collection("projects")
+      db.collection("wineEvents")
         .get()
         .then((querySnapshot) => {
           // console.log(querySnapshot);
