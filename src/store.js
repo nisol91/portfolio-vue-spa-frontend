@@ -1,7 +1,7 @@
 import { isLoggedIn, logOut } from "./components/shared/utils/auth"
 import axios from 'axios'
 import firebase from "firebase";
-import { db } from "./main";
+import { db, Timestamp, GeoPoint } from "./main";
 import router from "./routes";
 
 
@@ -285,20 +285,21 @@ export default {
         closeGlobalSnackbar({ commit, dispatch }) {
             commit('setGlobalMessage', false)
         },
-        saveEvent({ commit, dispatch }, payload) {
+        async saveEvent({ commit, dispatch }, payload) {
             console.log(payload)
             return db.collection('wineEvents').add({
                 name: payload.name,
                 description: payload.description,
-                date: payload.date,
                 city: payload.city,
                 address: payload.address,
-                price: payload.price
-                // location: payload.location,
-                // media: payload.media,
-
+                price: payload.price,
+                media: payload.media,
+                // date: Timestamp.fromDate(new Date(payload.date)),
+                // date: payload.date,
+                // location: new GeoPoint(payload.location.latitude, payload.location.longitude),
             })
-        }
+        },
+
 
     },
     // sono come le computed properties del componente vue

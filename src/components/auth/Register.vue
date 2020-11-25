@@ -92,6 +92,7 @@ export default {
   methods: {
     validate() {
       this.$refs.form.validate();
+      return this.$refs.form.validate();
     },
     reset() {
       this.$refs.form.reset();
@@ -101,7 +102,9 @@ export default {
     },
     async submit() {
       this.validate();
-      this.error = await this.$store.dispatch("registration", this.form);
+      if (this.validate()) {
+        this.error = await this.$store.dispatch("registration", this.form);
+      }
     },
   },
 };

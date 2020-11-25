@@ -105,7 +105,7 @@
         <div
           class="pt-2 border-top tv-wineEventCard"
           v-for="event in wineEventsFiltered"
-          :key="event.name"
+          :key="event.name + Math.random()"
         >
           <div class="d-flex justify-content-between">
             <span>{{ event.name }}</span>

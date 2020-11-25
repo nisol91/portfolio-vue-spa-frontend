@@ -119,12 +119,14 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 // Get a Firestore instance
 export const db = firebaseApp.firestore();
+// Export types that exists in Firestore
+// This is not always necessary, but it's used in other examples
+const { TimeStamp, GeoPoint } = firebase.firestore
+export { TimeStamp, GeoPoint }
 
+// persistenza sessione di login. serve?
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 
-// firebase.auth().onAuthStateChanged(user => {
-//   this.$store.dispatch("fetchUser", user);
-// });
 
 new Vue({
   el: '#app',
