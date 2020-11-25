@@ -8,8 +8,8 @@
       :zoom="7"
     >
       <MglMarker
-        v-for="event in wineEvents"
-        :key="event.name"
+        v-for="(event, index) in wineEvents"
+        :key="index"
         :coordinates="[
           event.location ? event.location.latitude : 0,
           event.location ? event.location.longitude : 0,

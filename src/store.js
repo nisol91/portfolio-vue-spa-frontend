@@ -294,9 +294,9 @@ export default {
                 address: payload.address,
                 price: payload.price,
                 media: payload.media,
+                date: payload.date,
                 // date: Timestamp.fromDate(new Date(payload.date)),
-                // date: payload.date,
-                // location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
             })
         },
 

@@ -92,7 +92,7 @@
           v-model="mediaFiles"
           value
           label="Add fotos"
-          color="deep-purple accent-4"
+          color="blue"
           counter
           multiple
           placeholder="Select your files"
@@ -100,13 +100,7 @@
           outlined
           :show-size="1000"
           ><template v-slot:selection="{ index, text }">
-            <v-chip
-              v-if="index < 2"
-              color="deep-purple accent-4"
-              dark
-              label
-              small
-            >
+            <v-chip v-if="index < 2" color="blue" dark label small>
               {{ text }}
             </v-chip>
 
@@ -131,7 +125,7 @@
       </div>
 
       <v-btn
-        v-if="mediaUploaded && !this.loading"
+        v-if="form.media.length > 0 && !this.loading"
         class="saveEvent"
         type="submit"
         color="primary"
@@ -142,7 +136,7 @@
         Save
       </v-btn>
       <v-btn
-        v-if="!mediaUploaded || this.loading"
+        v-if="form.media.length == 0 || this.loading"
         class="saveEvent"
         type="submit"
         color="primary"
@@ -187,7 +181,6 @@ export default {
         },
       },
       valid: true,
-      mediaUploaded: false,
       rules: [
         (v) => !!v || "field is required",
         (v) => (v && v.length >= 1) || "Name must be more than 1 characters",
@@ -211,10 +204,9 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-    uploadMedia() {
-      this.mediaUploaded = false;
-      this.loading = true;
 
+    // purtroppo non e asincrona
+    uploadMedia() {
       // Create a root reference
       var storageRef = firebase.storage().ref();
       const downloadMediaUrls = [];
@@ -283,13 +275,11 @@ export default {
         );
       }
       this.form.media = downloadMediaUrls;
-      this.mediaUploaded = true;
-      this.loading = false;
     },
     async addEvent() {
-      this.loading = true;
       this.validate();
       if (this.validate()) {
+        this.loading = true;
         console.log(this.form);
         this.errors = await this.$store.dispatch("saveEvent", this.form);
         console.log(this.errors);

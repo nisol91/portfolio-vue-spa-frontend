@@ -12,6 +12,7 @@ import { messages } from "./i18n/translations"
 import VueI18n from 'vue-i18n'
 import VueMeta from 'vue-meta'
 import firebase from "firebase";
+import 'firebase/firestore'
 import { firestorePlugin } from 'vuefire'
 
 // import axios from 'axios'

@@ -104,8 +104,8 @@
       <transition-group name="flip-list">
         <div
           class="pt-2 border-top tv-wineEventCard"
-          v-for="event in wineEventsFiltered"
-          :key="event.name + Math.random()"
+          v-for="(event, index) in wineEventsFiltered"
+          :key="index"
         >
           <div class="d-flex justify-content-between">
             <span>{{ event.name }}</span>
