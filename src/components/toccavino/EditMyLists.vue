@@ -7,16 +7,31 @@
       <h3>my lists editor</h3>
     </div>
 
-    <!-- modal -->
+    <!-- modal event-->
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
         <v-card-title class="headline"
-          >Are you sure you want to delete this item?</v-card-title
+          >Are you sure you want to delete this event?</v-card-title
         >
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>
-          <v-btn color="primary" text @click="deleteItemConfirm">OK</v-btn>
+          <v-btn color="primary" text @click="deleteEventConfirm">OK</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- modal cellar-->
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline"
+          >Are you sure you want to delete this cellar?</v-card-title
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>
+          <v-btn color="primary" text @click="deleteCellarConfirm">OK</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -26,8 +41,12 @@
     <h2>Events</h2>
     <v-data-table :headers="headersEvents" :items="events" class="elevation-1">
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item.id)">
+          mdi-pencil
+        </v-icon>
+        <v-icon small class="mr-2" @click="deleteEvent(item.id, item)">
+          mdi-delete
+        </v-icon>
         <a
           :href="`https://www.google.com/maps/@${item.location.latitude},${item.location.longitude},15z`"
           ><v-icon small> mdi-google-maps </v-icon></a
@@ -60,8 +79,16 @@
       class="elevation-1"
     >
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item.id)">
+          mdi-pencil
+        </v-icon>
+        <v-icon small class="mr-2" @click="deleteCellar(item.id, item)">
+          mdi-delete
+        </v-icon>
+        <a
+          :href="`https://www.google.com/maps/@${item.location.latitude},${item.location.longitude},15z`"
+          ><v-icon small> mdi-google-maps </v-icon></a
+        >
       </template>
       <template v-slot:[`item.media`]="{ item }">
         <v-img
@@ -181,6 +208,8 @@ export default {
       ],
       events: [],
       cellars: [],
+      idToDelete: null,
+      indexToDelete: null,
     };
   },
   created() {
@@ -190,13 +219,29 @@ export default {
     this.getUserCellars();
   },
   methods: {
-    deleteItem(item) {
-      // this.editedIndex = this.desserts.indexOf(item)
-      // this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true;
+    editItem(id) {
+      console.log(id);
     },
-    deleteItemConfirm() {
-      // this.events.splice(this.editedIndex, 1)
+    deleteEvent(id, item) {
+      this.dialogDelete = true;
+      this.idToDelete = id;
+      this.indexToDelete = this.events.indexOf(item);
+    },
+    async deleteEventConfirm() {
+      this.events.splice(this.indexToDelete, 1);
+      console.log(this.idToDelete);
+      await db.collection("wineEvents").doc(this.idToDelete).delete();
+      this.closeDelete();
+    },
+    deleteCellar(id, item) {
+      this.dialogDelete = true;
+      this.idToDelete = id;
+      this.indexToDelete = this.events.indexOf(item);
+    },
+    async deleteCelarConfirm() {
+      this.cellars.splice(this.indexToDelete, 1);
+      console.log(this.idToDelete);
+      await db.collection("cellars").doc(this.idToDelete).delete();
       this.closeDelete();
     },
     closeDelete() {
@@ -212,7 +257,11 @@ export default {
         .where("userId", "==", firebase.auth().currentUser.uid)
         .get()
         .then((querySnapshot) => {
-          events = querySnapshot.docs.map((doc) => doc.data());
+          events = querySnapshot.docs.map((doc) => {
+            var res = new Object(doc.data());
+            res["id"] = doc.id;
+            return res;
+          });
           console.log(events);
           this.events = events;
         })
@@ -224,7 +273,11 @@ export default {
         .where("userId", "==", firebase.auth().currentUser.uid)
         .get()
         .then((querySnapshot) => {
-          cellars = querySnapshot.docs.map((doc) => doc.data());
+          cellars = querySnapshot.docs.map((doc) => {
+            var res = new Object(doc.data());
+            res["id"] = doc.id;
+            return res;
+          });
           console.log(cellars);
           this.cellars = cellars;
         })
