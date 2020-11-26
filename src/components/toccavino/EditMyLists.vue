@@ -42,7 +42,7 @@
     <v-data-table :headers="headersEvents" :items="events" class="elevation-1">
       <template v-slot:[`item.actions`]="{ item }">
         <router-link
-          class="btn nav-button"
+          class="iconLink"
           :to="{ name: 'toccaVinoEditEvent', params: { id: item.id } }"
         >
           <v-icon small class="mr-2" @click="editItem(item.id)">
@@ -53,6 +53,7 @@
           mdi-delete
         </v-icon>
         <a
+          class="iconLink"
           :href="`https://www.google.com/maps/@${item.location.latitude},${item.location.longitude},15z`"
           ><v-icon small> mdi-google-maps </v-icon></a
         >
@@ -85,7 +86,7 @@
     >
       <template v-slot:[`item.actions`]="{ item }">
         <router-link
-          class="btn nav-button"
+          class="iconLink"
           :to="{ name: 'toccaVinoEditEvent', params: { id: item.id } }"
         >
           <v-icon small class="mr-2" @click="editItem(item.id)">
@@ -97,6 +98,7 @@
           mdi-delete
         </v-icon>
         <a
+          class="iconLink"
           :href="`https://www.google.com/maps/@${item.location.latitude},${item.location.longitude},15z`"
           ><v-icon small> mdi-google-maps </v-icon></a
         >
@@ -307,5 +309,10 @@ export default {
   background: rgb(202, 202, 202);
   display: flex;
   align-items: center;
+}
+.iconLink {
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 </style>
