@@ -41,9 +41,14 @@
     <h2>Events</h2>
     <v-data-table :headers="headersEvents" :items="events" class="elevation-1">
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item.id)">
-          mdi-pencil
-        </v-icon>
+        <router-link
+          class="btn nav-button"
+          :to="{ name: 'toccaVinoEditEvent', params: { id: item.id } }"
+        >
+          <v-icon small class="mr-2" @click="editItem(item.id)">
+            mdi-pencil
+          </v-icon>
+        </router-link>
         <v-icon small class="mr-2" @click="deleteEvent(item.id, item)">
           mdi-delete
         </v-icon>
@@ -79,9 +84,15 @@
       class="elevation-1"
     >
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item.id)">
-          mdi-pencil
-        </v-icon>
+        <router-link
+          class="btn nav-button"
+          :to="{ name: 'toccaVinoEditEvent', params: { id: item.id } }"
+        >
+          <v-icon small class="mr-2" @click="editItem(item.id)">
+            mdi-pencil
+          </v-icon>
+        </router-link>
+
         <v-icon small class="mr-2" @click="deleteCellar(item.id, item)">
           mdi-delete
         </v-icon>
@@ -238,7 +249,7 @@ export default {
       this.idToDelete = id;
       this.indexToDelete = this.events.indexOf(item);
     },
-    async deleteCelarConfirm() {
+    async deleteCellarConfirm() {
       this.cellars.splice(this.indexToDelete, 1);
       console.log(this.idToDelete);
       await db.collection("cellars").doc(this.idToDelete).delete();

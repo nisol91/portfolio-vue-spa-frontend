@@ -17,6 +17,8 @@ import Portfolio from "./components/portfolio/Portfolio";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ToccaVinoHome from "./components/toccavino/ToccaVinoHome";
 import ToccaVinoAddEvent from "./components/toccavino/ToccaVinoAddEvent";
+import ToccaVinoEditEvent from "./components/toccavino/ToccaVinoEditEvent";
+
 import EditMyLists from "./components/toccavino/EditMyLists";
 import ToccaVinoPayment from "./components/toccavino/ToccaVinoPayment";
 import Basket from "./components/basket/Basket";
@@ -97,6 +99,16 @@ const routes = [
         path: "/tocca-vino",
         component: ToccaVinoHome,
         name: "toccaVinoHome"
+    },
+    {
+        path: "/edit-wine-event/:id",
+        component: ToccaVinoEditEvent,
+        name: "toccaVinoEditEvent",
+        // protezione della rotta se non loggato
+        afterEnter: (to, from, next) => {
+            if (to.name !== 'login' && !store.state.isLoggedIn) next({ name: 'home' })
+            else next()
+        }
     },
     {
         path: "/add-wine-event",
