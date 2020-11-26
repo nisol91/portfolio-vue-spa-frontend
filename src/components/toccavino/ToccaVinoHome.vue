@@ -3,7 +3,9 @@
     <div class="d-flex justify-content-between">
       <h1>t-wine</h1>
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoAddEvent' }">
-        <div class="btn btn-secondary">add your own wine event</div>
+        <div v-if="this.$store.state.isLoggedIn" class="btn btn-secondary">
+          add your own wine event
+        </div>
       </router-link>
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoPayment' }">
         <div class="btn btn-secondary">support us</div>

@@ -191,13 +191,9 @@
               >mdi-account-circle</v-icon
             ></router-link
           >
-          <a
-            href="#"
-            v-if="isLoggedIn"
-            class="btn nav-button"
-            @click.prevent="logout"
-            >logout</a
-          >
+          <div v-if="isLoggedIn" class="btn nav-button" @click.prevent="logout">
+            logout
+          </div>
         </div>
       </div>
       <div class="mainBox" v-scroll="onScroll">
@@ -260,6 +256,7 @@ import { mapState, mapGetters } from "vuex";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
 import axios from "axios";
 import firebase from "firebase";
+import store from "./store";
 
 export default {
   // this can be used alternatively to the meta in the head of welcome.blade.php page, for seo purpose
@@ -290,6 +287,7 @@ export default {
 
     // carico l utente firebase dopo il refresh
     this.$store.dispatch("loadFirebaseUserAfterRefresh");
+    this.$store.commit("getUserOnRefresh");
 
     // console.log("====");
     // console.log(this.lastSearch);

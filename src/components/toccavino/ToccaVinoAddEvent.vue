@@ -1,11 +1,19 @@
 <template>
   <div class="formEvent">
-    <div class="text-white">
+    <div class="titleCreateEvent">
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoHome' }">
         <i class="fas fa-arrow-left"></i>
       </router-link>
-
-      toccavino add event
+      <h3>twine add {{ selectedItems }}</h3>
+      <div>
+        <v-select
+          :items="items"
+          v-model="selectedItems"
+          label="Select what to add"
+          dense
+          solo
+        ></v-select>
+      </div>
     </div>
 
     <v-form
@@ -30,6 +38,7 @@
         v-model="form.description"
       ></v-text-field>
       <v-text-field
+        v-if="selectedItems !== 'Cellars'"
         label="date"
         :rules="rules"
         value
@@ -37,6 +46,7 @@
         v-model="form.date"
       ></v-text-field>
       <v-btn
+        v-if="selectedItems !== 'Cellars'"
         class="saveEvent"
         color="primary"
         rounded
@@ -163,6 +173,8 @@ export default {
   mixins: [validationErrors],
   data() {
     return {
+      items: ["Events", "Cellars"],
+      selectedItems: null,
       overlayPicker: false,
       picker: new Date().toISOString().substr(0, 10),
       loading: false,
@@ -339,5 +351,9 @@ export default {
 }
 .uploadBox {
   display: flex;
+}
+.titleCreateEvent {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

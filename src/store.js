@@ -46,10 +46,20 @@ export default {
         setUser(state, payload) {
             state.user = payload
         },
-        setLoggedIn(state, payload) {
-            state.isLoggedIn = payload
-            localStorage.setItem('isLoggedIn', payload);
-
+        getUserOnRefresh(state) {
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                state.user = JSON.parse(localStorage.getItem("currentUser"));
+            }
+        },
+        setLoggedIn(state) {
+            state.isLoggedIn = true
+            localStorage.setItem('isLoggedIn', true);
+            localStorage.setItem('currentUser', JSON.stringify(state.user))
+        },
+        setLoggedOut(state) {
+            state.isLoggedIn = false
+            localStorage.setItem('isLoggedIn', false);
+            localStorage.setItem('currentUser', '')
         },
         setEmailVerified(state, payload) {
             state.isEmailVerified = payload
@@ -168,17 +178,13 @@ export default {
                 .auth()
                 .signOut()
                 .then(() => {
-                    commit('setLoggedIn', false)
+                    commit('setLoggedOut')
                     commit('setUser', {})
-
-                    if (router.currentRoute.name !== 'home') {
-
-                        router.replace({
-                            name: "home"
-                        });
-                    }
-
-
+                    // if (router.currentRoute.name !== 'home') {
+                    //     router.replace({
+                    //         name: "home"
+                    //     });
+                    // }
                 });
         },
         registration({ commit, dispatch }, payload) {
@@ -236,12 +242,11 @@ export default {
                             .set({ displayName: user.displayName, email: user.email });
                     }
 
-                    commit('setLoggedIn', true)
-
                     commit('setUser', {
                         displayName: firebase.auth().currentUser.displayName,
                         email: firebase.auth().currentUser.email,
                     })
+                    commit('setLoggedIn')
 
                     router.replace({ name: "home" });
                     commit('setGlobalMessage', 'successfully logged in')
@@ -259,11 +264,11 @@ export default {
 
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
-                    commit('setLoggedIn', true)
+                    commit('setLoggedIn')
                     // console.log(user)
 
                 } else {
-                    commit('setLoggedIn', false)
+                    commit('setLoggedOut')
 
                 }
             });
@@ -288,6 +293,7 @@ export default {
         async saveEvent({ commit, dispatch }, payload) {
             console.log(payload)
             return db.collection('wineEvents').add({
+                userId: firebase.auth().currentUser.uid,
                 name: payload.name,
                 description: payload.description,
                 city: payload.city,

@@ -24,6 +24,8 @@ import NotFound from "./components/shared/components/NotFound";
 import VueRouter from "vue-router";
 import firebase from 'firebase'
 
+import store from "./store"
+
 const routes = [
     {
         path: "/",
@@ -55,6 +57,7 @@ const routes = [
         path: "/auth/forgot-password",
         name: "forgotPassword",
         component: ForgotPassword,
+        // protezione della rotta se non loggato
         beforeEnter(to, from, next) {
             const user = firebase.auth().currentUser;
             if (user) {
@@ -67,7 +70,12 @@ const routes = [
     {
         path: "/userProfile",
         component: UserProfile,
-        name: "userProfile"
+        name: "userProfile",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'home' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
     },
     {
         path: "/basket",
@@ -82,7 +90,12 @@ const routes = [
     {
         path: "/add-wine-event",
         component: ToccaVinoAddEvent,
-        name: "toccaVinoAddEvent"
+        name: "toccaVinoAddEvent",
+        // protezione della rotta se non loggato
+        afterEnter: (to, from, next) => {
+            if (to.name !== 'home' && !store.state.isLoggedIn) next({ name: 'home' })
+            else next()
+        }
     },
     {
         path: "/support-us",
