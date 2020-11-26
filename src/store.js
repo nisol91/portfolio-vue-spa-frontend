@@ -323,7 +323,6 @@ export default {
             }).then(() => commit('setGlobalMessage', 'successfully created new cellar'))
         },
 
-
     },
     // sono come le computed properties del componente vue
     getters: {

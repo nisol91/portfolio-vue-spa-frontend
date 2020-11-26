@@ -388,8 +388,6 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border: 2px solid grey;
-  border-radius: 4px;
 }
 .active {
   border: 2px solid black !important;
