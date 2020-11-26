@@ -204,6 +204,12 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
     // .v-snack {
     //     top: 90vh !important
     // }
+    .v-data-table__mobile-row__cell {
+        .myImageList {
+            width: 100px !important;
+        }
+    }
+
 
     .v-btn {
         // border-radius: 0px!important;
