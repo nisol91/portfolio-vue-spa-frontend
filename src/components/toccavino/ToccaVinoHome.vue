@@ -10,6 +10,22 @@
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoPayment' }">
         <div class="btn btn-secondary">support us</div>
       </router-link>
+      <div>
+        <router-link
+          class="userIndexIcon"
+          v-if="isLoggedIn"
+          :to="{ name: 'userProfile' }"
+          ><v-icon class="userIndexIcon"
+            >mdi-account-circle</v-icon
+          ></router-link
+        >
+        <router-link
+          class="userIndexIcon"
+          v-if="isLoggedIn"
+          :to="{ name: 'userProfile' }"
+          ><v-icon class="userIndexIcon">mdi-playlist-edit</v-icon></router-link
+        >
+      </div>
     </div>
 
     <h3>wine events, cellars and ecommerce</h3>
@@ -107,7 +123,7 @@
         <div
           class="pt-2 border-top tv-wineEventCard"
           v-for="(event, index) in wineEventsFiltered"
-          :key="index"
+          :key="index + `_event`"
         >
           <div class="d-flex justify-content-between">
             <span>{{ event.name }}</span>
@@ -153,6 +169,7 @@ import ToccaVinoFooter from "../toccavino/ToccaVinoFooter";
 import _ from "lodash";
 import { db } from "../../main";
 import VueMoment from "vue-moment";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -271,7 +288,13 @@ export default {
       }
     },
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      isLoggedIn: "isLoggedIn",
+      userRole: "userRole",
+      globalMessage: "globalMessage",
+    }),
+  },
 };
 </script>
 

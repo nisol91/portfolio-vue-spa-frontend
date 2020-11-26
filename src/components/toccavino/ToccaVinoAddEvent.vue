@@ -12,6 +12,8 @@
           label="Select what to add"
           dense
           solo
+          color="blue darken-4"
+          background-color="blue darken-4"
         ></v-select>
       </div>
     </div>
@@ -37,6 +39,17 @@
         required
         v-model="form.description"
       ></v-text-field>
+      <v-select
+        v-if="selectedItems == 'Cellars'"
+        :items="cellarType"
+        v-model="form.selectedCellarType"
+        label="Select cellar type"
+        dense
+        multiple
+        solo
+        color="blue darken-4"
+        background-color="blue darken-4"
+      ></v-select>
       <v-text-field
         v-if="selectedItems !== 'Cellars'"
         label="date"
@@ -76,6 +89,7 @@
         </div>
       </v-overlay>
       <v-text-field
+        v-if="selectedItems !== 'Cellars'"
         label="price"
         :rules="rules"
         value
@@ -135,9 +149,7 @@
       </div>
 
       <v-btn
-        v-if="
-          form.media.length > 0 && !this.loading && this.selectedItems !== null
-        "
+        v-if="form.media.length > 0 && !loading && selectedItems !== null"
         class="saveEvent"
         type="submit"
         color="primary"
@@ -148,9 +160,7 @@
         Save
       </v-btn>
       <v-btn
-        v-if="
-          form.media.length == 0 || this.loading || this.selectedItems === null
-        "
+        v-if="form.media.length == 0 || loading || selectedItems === null"
         class="saveEvent"
         type="submit"
         color="primary"
@@ -177,6 +187,7 @@ export default {
   mixins: [validationErrors],
   data() {
     return {
+      cellarType: ["red", "white"],
       items: ["Events", "Cellars"],
       selectedItems: null,
       overlayPicker: false,
@@ -189,6 +200,7 @@ export default {
         date: null,
         price: null,
         media: [],
+        selectedCellarType: [],
         city: null,
         address: null,
         location: {
@@ -239,7 +251,7 @@ export default {
 
         // Upload file and metadata to the object 'images/mountains.jpg'
         var uploadTask = storageRef
-          .child("twine/" + file.name)
+          .child("twine/" + firebase.auth().currentUser.uid + "/" + file.name)
           .put(file, metadata);
 
         // Listen for state changes, errors, and completion of the upload.
@@ -297,7 +309,11 @@ export default {
       if (this.validate()) {
         this.loading = true;
         console.log(this.form);
-        this.errors = await this.$store.dispatch("saveEvent", this.form);
+        if (this.selectedItems == "Events") {
+          this.errors = await this.$store.dispatch("saveEvent", this.form);
+        } else if (this.selectedItems == "Cellars") {
+          this.errors = await this.$store.dispatch("saveCellar", this.form);
+        }
         console.log(this.errors);
 
         this.loading = false;

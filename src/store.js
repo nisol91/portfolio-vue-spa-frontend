@@ -304,7 +304,23 @@ export default {
                 date: payload.date,
                 // date: Timestamp.fromDate(new Date(payload.date)),
                 location: new GeoPoint(payload.location.latitude, payload.location.longitude),
-            })
+
+            }).then(() => commit('setGlobalMessage', 'successfully created new event'))
+        },
+        async saveCellar({ commit, dispatch }, payload) {
+            console.log(payload)
+            return db.collection('cellars').add({
+                userId: firebase.auth().currentUser.uid,
+                createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                isCellar: true,
+                cellarType: payload.selectedCellarType,
+                name: payload.name,
+                description: payload.description,
+                city: payload.city,
+                address: payload.address,
+                media: payload.media,
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+            }).then(() => commit('setGlobalMessage', 'successfully created new cellar'))
         },
 
 
