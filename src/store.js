@@ -180,11 +180,11 @@ export default {
                 .then(() => {
                     commit('setLoggedOut')
                     commit('setUser', {})
-                    // if (router.currentRoute.name !== 'home') {
-                    //     router.replace({
-                    //         name: "home"
-                    //     });
-                    // }
+                    if (router.currentRoute.name !== 'home') {
+                        router.replace({
+                            name: "home"
+                        });
+                    }
                 });
         },
         registration({ commit, dispatch }, payload) {

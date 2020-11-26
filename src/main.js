@@ -38,7 +38,6 @@ import NotFound from './components/shared/components/NotFound'
 import ButtonCheck from './components/shared/components/ButtonCheck'
 import MapboxMap from './components/shared/components/MapboxMap'
 import MapboxSearch from './components/shared/components/MapboxSearch'
-import UserSettings from "./components/user/UserSettings"
 import ModalForm from "./components/shared/components/ModalForm.vue"
 import DeleteForm from "./components/shared/components/DeleteForm.vue"
 import CustomSelect from "./components/shared/components/CustomSelect.vue"
@@ -85,7 +84,6 @@ Vue.component('not-found', NotFound);
 Vue.component('button-check', ButtonCheck);
 Vue.component('mapbox-map', MapboxMap);
 Vue.component('mapbox-search', MapboxSearch);
-Vue.component('user-settings', UserSettings);
 Vue.component('modal-form', ModalForm);
 Vue.component('delete-form', DeleteForm);
 Vue.component('custom-select', CustomSelect);

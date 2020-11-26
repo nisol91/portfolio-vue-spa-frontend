@@ -17,6 +17,7 @@ import Portfolio from "./components/portfolio/Portfolio";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ToccaVinoHome from "./components/toccavino/ToccaVinoHome";
 import ToccaVinoAddEvent from "./components/toccavino/ToccaVinoAddEvent";
+import EditMyLists from "./components/toccavino/EditMyLists";
 import ToccaVinoPayment from "./components/toccavino/ToccaVinoPayment";
 import Basket from "./components/basket/Basket";
 import NotFound from "./components/shared/components/NotFound";
@@ -73,7 +74,17 @@ const routes = [
         name: "userProfile",
         // protezione della rotta se non loggato
         beforeEnter: (to, from, next) => {
-            if (to.name !== 'home' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
+    {
+        path: "/editLists",
+        component: EditMyLists,
+        name: "editLists",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'toccaVinoHome' })
             else next()
         }
     },
@@ -93,7 +104,7 @@ const routes = [
         name: "toccaVinoAddEvent",
         // protezione della rotta se non loggato
         afterEnter: (to, from, next) => {
-            if (to.name !== 'home' && !store.state.isLoggedIn) next({ name: 'home' })
+            if (to.name !== 'login' && !store.state.isLoggedIn) next({ name: 'home' })
             else next()
         }
     },

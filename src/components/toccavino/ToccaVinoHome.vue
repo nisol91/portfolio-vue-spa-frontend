@@ -10,7 +10,7 @@
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoPayment' }">
         <div class="btn btn-secondary">support us</div>
       </router-link>
-      <div>
+      <div class="twineIconsBox">
         <router-link
           class="userIndexIcon"
           v-if="isLoggedIn"
@@ -22,8 +22,15 @@
         <router-link
           class="userIndexIcon"
           v-if="isLoggedIn"
-          :to="{ name: 'userProfile' }"
-          ><v-icon class="userIndexIcon">mdi-playlist-edit</v-icon></router-link
+          :to="{ name: 'editLists' }"
+          ><v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="userIndexIcon" v-bind="attrs" v-on="on"
+                >mdi-playlist-edit</v-icon
+              >
+            </template>
+            <span>My lists</span>
+          </v-tooltip></router-link
         >
       </div>
     </div>
@@ -71,13 +78,22 @@
         />
       </div>
       <div>
-        <div class="btn btn-secondary sorterBtn" @click="sortPrice">
+        <div
+          :class="{ active: isPriceFilterActive }"
+          class="btn btn-secondary sorterBtn"
+          @click="sortPrice"
+        >
           sort by price
         </div>
-        <div class="btn btn-secondary sorterBtn" @click="sortName">
+        <div
+          :class="{ active: isNameFilterActive }"
+          class="btn btn-secondary sorterBtn"
+          @click="sortName"
+        >
           sort by name
         </div>
         <div
+          :class="{ active: isMonthFilterActive }"
           class="btn btn-secondary sorterBtn"
           @click="overlayPicker = !overlayPicker"
         >
@@ -115,7 +131,10 @@
         close
         color="red darken-4"
         text-color="white"
-        @click:close="chip2 = false"
+        @click:close="
+          chip2 = false;
+          getEvents(currentTab);
+        "
       >
         sorry, no events or cellars found :(
       </v-chip>
@@ -178,6 +197,9 @@ export default {
   data() {
     return {
       // currentPagePagination: 1,
+      isPriceFilterActive: false,
+      isNameFilterActive: false,
+      isMonthFilterActive: false,
       currentTab: "wineEvents",
       chip2: true,
       overlayPicker: false,
@@ -200,6 +222,11 @@ export default {
   },
   methods: {
     async getEvents(type) {
+      // resetto filtri
+      this.isNameFilterActive = false;
+      this.isPriceFilterActive = false;
+      this.isMonthFilterActive = false;
+
       this.loading = true;
       this.wineEvents = null;
       this.chip2 = true;
@@ -264,6 +291,7 @@ export default {
         }
       });
       console.log(this.wineEventsFiltered);
+      this.isMonthFilterActive = true;
     },
     sortPrice() {
       if (this.sorting.price) {
@@ -275,6 +303,7 @@ export default {
         this.wineEventsFiltered = _.sortBy(this.wineEventsFiltered, ["price"]);
         this.sorting.price = true;
       }
+      this.isPriceFilterActive = true;
     },
     sortName() {
       if (this.sorting.name) {
@@ -286,6 +315,7 @@ export default {
         this.wineEventsFiltered = _.sortBy(this.wineEventsFiltered, ["name"]);
         this.sorting.name = true;
       }
+      this.isNameFilterActive = true;
     },
   },
   computed: {
@@ -352,5 +382,16 @@ export default {
 }
 .resetFilters {
   background: rgb(26, 30, 39);
+}
+.twineIconsBox {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 2px solid grey;
+  border-radius: 4px;
+}
+.active {
+  border: 2px solid black !important;
 }
 </style>
