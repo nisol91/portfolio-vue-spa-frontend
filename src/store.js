@@ -294,6 +294,7 @@ export default {
             console.log(payload)
             return db.collection('wineEvents').add({
                 userId: firebase.auth().currentUser.uid,
+                createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 name: payload.name,
                 description: payload.description,
                 city: payload.city,

@@ -135,7 +135,9 @@
       </div>
 
       <v-btn
-        v-if="form.media.length > 0 && !this.loading"
+        v-if="
+          form.media.length > 0 && !this.loading && this.selectedItems !== null
+        "
         class="saveEvent"
         type="submit"
         color="primary"
@@ -146,7 +148,9 @@
         Save
       </v-btn>
       <v-btn
-        v-if="form.media.length == 0 || this.loading"
+        v-if="
+          form.media.length == 0 || this.loading || this.selectedItems === null
+        "
         class="saveEvent"
         type="submit"
         color="primary"
