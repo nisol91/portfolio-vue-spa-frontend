@@ -87,7 +87,10 @@
       <template v-slot:[`item.actions`]="{ item }">
         <router-link
           class="iconLink"
-          :to="{ name: 'toccaVinoEditEvent', params: { id: item.id } }"
+          :to="{
+            name: 'toccaVinoEditEvent',
+            params: { id: item.id, cellar: true },
+          }"
         >
           <v-icon small class="mr-2" @click="editItem(item.id)">
             mdi-pencil

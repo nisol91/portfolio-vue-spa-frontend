@@ -1,7 +1,7 @@
 <template>
   <div class="formEvent">
     <div class="titleCreateEvent">
-      <router-link class="btn nav-button" :to="{ name: 'toccaVinoHome' }">
+      <router-link class="btn nav-button" :to="{ name: 'editLists' }">
         <i class="fas fa-arrow-left"></i>
       </router-link>
       <h3>twine edit {{ this.$route.params.id }}</h3>
@@ -182,6 +182,7 @@ import router from "../../routes";
 import axios from "axios";
 import moment from "moment";
 import firebase from "firebase";
+import { db } from "../../main";
 
 export default {
   mixins: [validationErrors],
@@ -195,6 +196,8 @@ export default {
       picker: new Date().toISOString().substr(0, 10),
       loading: false,
       mediaFiles: null,
+      event: {},
+      // form: {},
       form: {
         name: null,
         description: null,
@@ -222,6 +225,8 @@ export default {
   created() {
     this.id = this.$route.params.id;
     this.$store.commit("toggleHomePage", false);
+    this.getItemToEdit();
+    this.selectedItems = this.isThisCellar;
   },
   methods: {
     validate() {
@@ -234,7 +239,23 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-
+    getItemToEdit() {
+      var collection =
+        this.$route.params.cellar == true ? "cellars" : "wineEvents";
+      console.log(this.id);
+      var event = [];
+      db.collection(collection)
+        .doc(this.id)
+        .get()
+        .then((querySnapshot) => {
+          event = querySnapshot.data();
+          console.log(event);
+          this.form = event;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // purtroppo non e asincrona
     uploadMedia() {
       // Create a root reference
@@ -353,6 +374,9 @@ export default {
   },
   filters: {},
   computed: {
+    isThisCellar: function () {
+      return this.$route.params.cellar ? "Cellars" : "Events";
+    },
     // ...mapGetters({ itemsInBasket: "itemsInBasket" }),
     // se voglio prendere direttamente basket.items faccio cosi
     // ...mapState({ basket: state => state.basket.items })
