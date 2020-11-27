@@ -323,6 +323,40 @@ export default {
             }).then(() => commit('setGlobalMessage', 'successfully created new cellar'))
         },
 
+
+        async updateEvent({ commit, dispatch }, payload) {
+            console.log(payload)
+            return db.collection('wineEvents').doc(payload.id).update({
+                userId: firebase.auth().currentUser.uid,
+                updatedTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                name: payload.name,
+                description: payload.description,
+                city: payload.city,
+                address: payload.address,
+                price: payload.price,
+                media: payload.media,
+                date: payload.date,
+                // date: Timestamp.fromDate(new Date(payload.date)),
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+
+            }).then(() => commit('setGlobalMessage', 'successfully updated new event'))
+        },
+        async updateCellar({ commit, dispatch }, payload) {
+            console.log(payload)
+            return db.collection('cellars').doc(payload.id).update({
+                userId: firebase.auth().currentUser.uid,
+                updatedTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                isCellar: true,
+                cellarType: payload.selectedCellarType,
+                name: payload.name,
+                description: payload.description,
+                city: payload.city,
+                address: payload.address,
+                media: payload.media,
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+            }).then(() => commit('setGlobalMessage', 'successfully updated new cellar'))
+        },
+
     },
     // sono come le computed properties del componente vue
     getters: {
