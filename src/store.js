@@ -303,8 +303,7 @@ export default {
                 media: payload.media,
                 date: payload.date,
                 // date: Timestamp.fromDate(new Date(payload.date)),
-                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
-
+                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
             }).then(() => commit('setGlobalMessage', 'successfully created new event'))
         },
         async saveCellar({ commit, dispatch }, payload) {
@@ -319,7 +318,7 @@ export default {
                 city: payload.city,
                 address: payload.address,
                 media: payload.media,
-                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
             }).then(() => commit('setGlobalMessage', 'successfully created new cellar'))
         },
 
@@ -337,7 +336,7 @@ export default {
                 media: payload.media,
                 date: payload.date,
                 // date: Timestamp.fromDate(new Date(payload.date)),
-                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
 
             }).then(() => commit('setGlobalMessage', 'successfully updated new event'))
         },
@@ -353,7 +352,7 @@ export default {
                 city: payload.city,
                 address: payload.address,
                 media: payload.media,
-                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
+                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
             }).then(() => commit('setGlobalMessage', 'successfully updated new cellar'))
         },
 

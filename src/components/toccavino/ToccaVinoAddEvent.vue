@@ -337,6 +337,7 @@ export default {
         console.log(coordinates);
         this.form.location.longitude = coordinates[0];
         this.form.location.latitude = coordinates[1];
+        console.log(this.form.location);
       } catch (error) {
         console.log(error);
       }

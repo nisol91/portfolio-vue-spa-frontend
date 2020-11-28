@@ -46,6 +46,7 @@ export default {
   },
   created() {
     this.$store.commit("toggleHomePage", false);
+    this.getProducts();
   },
   methods: {
     async getProducts(type) {

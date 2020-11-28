@@ -191,7 +191,8 @@
           form.media.length > 0 &&
           !loading &&
           selectedItems !== null &&
-          id !== null
+          id !== null &&
+          form.selectedCellarType
         "
         class="saveEvent"
         type="submit"
@@ -207,7 +208,8 @@
           form.media.length == 0 ||
           loading ||
           selectedItems === null ||
-          id == null
+          id == null ||
+          !form.selectedCellarType
         "
         class="saveEvent"
         type="submit"
