@@ -4,7 +4,7 @@
       <router-link class="btn nav-button" :to="{ name: 'editLists' }">
         <i class="fas fa-arrow-left"></i>
       </router-link>
-      <h3>twine edit {{ this.$route.params.id }}</h3>
+      <h3>twine edit {{ this.form.name }}</h3>
       <div>
         <v-select
           :items="items"
@@ -12,6 +12,7 @@
           label="Select what to add"
           dense
           solo
+          disabled
           color="blue darken-4"
           background-color="blue darken-4"
         ></v-select>
@@ -136,16 +137,23 @@
             </span>
           </template></v-file-input
         >
-        <v-btn
-          class="saveEvent"
-          color="primary"
-          rounded
-          dark
-          depressed
-          @click="uploadMedia"
-        >
-          upload
-        </v-btn>
+        <div class="saveUploadProgress">
+          <v-progress-circular
+            v-if="uploading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+          <v-btn
+            class="saveEvent"
+            color="primary"
+            rounded
+            dark
+            depressed
+            @click="uploadMedia"
+          >
+            upload
+          </v-btn>
+        </div>
       </div>
 
       <div v-if="form.media" class="editMediaBox">
@@ -156,7 +164,17 @@
           class="grey lighten-2 mainImgEditing"
           :aspect-ratio="16 / 9"
         >
-          <i class="far fa-times-circle closeIcon" @click="removeMedia(i)"></i>
+          <v-tooltip bottom class="closeIcon">
+            <template v-slot:activator="{ on, attrs }">
+              <i
+                v-bind="attrs"
+                v-on="on"
+                class="far fa-times-circle closeIcon"
+                @click="removeMedia(i)"
+              ></i>
+            </template>
+            <span>remove item</span>
+          </v-tooltip>
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular
@@ -169,7 +187,12 @@
       </div>
 
       <v-btn
-        v-if="form.media.length > 0 && !loading && selectedItems !== null"
+        v-if="
+          form.media.length > 0 &&
+          !loading &&
+          selectedItems !== null &&
+          id !== null
+        "
         class="saveEvent"
         type="submit"
         color="primary"
@@ -180,7 +203,12 @@
         Save
       </v-btn>
       <v-btn
-        v-if="form.media.length == 0 || loading || selectedItems === null"
+        v-if="
+          form.media.length == 0 ||
+          loading ||
+          selectedItems === null ||
+          id == null
+        "
         class="saveEvent"
         type="submit"
         color="primary"
@@ -209,6 +237,7 @@ export default {
   data() {
     return {
       id: null,
+      uploading: false,
       cellarType: ["red", "white"],
       items: ["Events", "Cellars"],
       selectedItems: null,
@@ -283,6 +312,7 @@ export default {
     // questa funzione rappresenta il caricamento asincrono di un file
     // solo rendendo il caricamento una Promise, posso aspettare che si carichi una foto e poi passare a un altra
     async uploadMedia() {
+      this.uploading = true;
       const downloadMediaUrls = this.form.media;
       for (let i = 0; i < this.mediaFiles.length; i++) {
         var file = this.mediaFiles[i];
@@ -314,6 +344,7 @@ export default {
         console.log("---");
       }
       this.form.media = downloadMediaUrls;
+      this.uploading = false;
     },
 
     async editEvent() {
@@ -386,6 +417,12 @@ export default {
 }
 .uploadBox {
   display: flex;
+  flex-direction: column;
+  .saveUploadProgress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 .titleCreateEvent {
   display: flex;
@@ -396,7 +433,7 @@ export default {
   margin: 20px;
 }
 .closeIcon {
-  color: white;
+  color: white !important;
   margin: 10px;
   cursor: pointer;
 }

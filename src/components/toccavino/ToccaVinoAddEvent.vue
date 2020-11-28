@@ -146,8 +146,42 @@
         >
           upload
         </v-btn>
+        <v-progress-circular
+          v-if="uploading"
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
       </div>
+      <div v-if="form.media" class="editMediaBox">
+        <v-img
+          v-for="(media, i) in form.media"
+          :key="i + '_media'"
+          :src="media"
+          class="grey lighten-2 mainImgEditing"
+          :aspect-ratio="16 / 9"
+        >
+          <v-tooltip bottom class="closeIcon">
+            <template v-slot:activator="{ on, attrs }">
+              <i
+                v-bind="attrs"
+                v-on="on"
+                class="far fa-times-circle closeIcon"
+                @click="removeMedia(i)"
+              ></i>
+            </template>
+            <span>remove item</span>
+          </v-tooltip>
 
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular
+                indeterminate
+                color="grey lighten-5"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+      </div>
       <v-btn
         v-if="form.media.length > 0 && !loading && selectedItems !== null"
         class="saveEvent"
@@ -187,6 +221,7 @@ export default {
   mixins: [validationErrors],
   data() {
     return {
+      uploading: false,
       cellarType: ["red", "white"],
       items: ["Events", "Cellars"],
       selectedItems: null,
@@ -222,6 +257,9 @@ export default {
     this.$store.commit("toggleHomePage", false);
   },
   methods: {
+    removeMedia(index) {
+      this.form.media.splice(index, 1);
+    },
     validate() {
       this.$refs.form.validate();
       return this.$refs.form.validate();
@@ -236,7 +274,8 @@ export default {
     // questa funzione rappresenta il caricamento asincrono di un file
     // solo rendendo il caricamento una Promise, posso aspettare che si carichi una foto e poi passare a un altra
     async uploadMedia() {
-      const downloadMediaUrls = [];
+      this.uploading = true;
+      const downloadMediaUrls = this.form.media;
       for (let i = 0; i < this.mediaFiles.length; i++) {
         var file = this.mediaFiles[i];
         var url = await new Promise(function (resolve, reject) {
@@ -267,6 +306,7 @@ export default {
         console.log("---");
       }
       this.form.media = downloadMediaUrls;
+      this.uploading = false;
     },
     async addEvent() {
       this.validate();
@@ -339,5 +379,10 @@ export default {
 .titleCreateEvent {
   display: flex;
   justify-content: space-between;
+}
+.closeIcon {
+  color: white !important;
+  margin: 10px;
+  cursor: pointer;
 }
 </style>
