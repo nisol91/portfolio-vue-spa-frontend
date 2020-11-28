@@ -71,13 +71,14 @@
             >coming soon...
           </router-link></v-btn
         >
-        <v-btn v-if="!project.disabled" color="primary" rounded dark>
-          <router-link
-            class="routerInsideVButton d-flex justify-content-center align-items-center"
-            :to="{ name: 'project', params: { id: project.id } }"
-            >to the project
-          </router-link></v-btn
-        >
+
+        <router-link
+          class="routerInsideVButton d-flex justify-content-center align-items-center"
+          :to="{ name: 'project', params: { id: project.id } }"
+          ><v-btn v-if="!project.disabled" color="primary" rounded dark
+            >to the project</v-btn
+          >
+        </router-link>
       </div>
     </v-card>
   </div>

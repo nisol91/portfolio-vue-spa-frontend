@@ -2,6 +2,17 @@
   <div class="ecommerceBox">
     <div class="eHeader">
       <div class="eTitle">wine shop</div>
+      <div class="eTitle">
+        <v-btn
+          color="primary"
+          rounded
+          dark
+          depressed
+          @click="generateFakeProducts"
+        >
+          Generate products
+        </v-btn>
+      </div>
     </div>
     <div class="eFiltersTop">filtri top</div>
     <div class="eBody">
@@ -13,7 +24,35 @@
           v-for="(product, i) in products"
           :key="i + '_prod'"
         >
-          {{ product.name }}
+          <div>
+            {{ product.name }}
+          </div>
+          <div>
+            {{ product.description }}
+          </div>
+          <div>
+            {{ product.category }}
+          </div>
+          <div>
+            {{ product.origin }}
+          </div>
+          <div>
+            {{ product.year }}
+          </div>
+          <v-img
+            :src="product.media[0]"
+            class="grey lighten-2 mainImgEditing"
+            :aspect-ratio="16 / 9"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </div>
       </div>
     </div>
@@ -21,14 +60,24 @@
 </template>
 <script>
 import _ from "lodash";
-import { db } from "../../main";
+import { db, Timestamp, GeoPoint } from "../../main";
 import { mapState, mapGetters } from "vuex";
+import firebase from "firebase";
 
 export default {
   data() {
     return {
       env: "_test",
       products: [],
+      categories: [
+        "red",
+        "barrique",
+        "white",
+        "rose",
+        "champagne",
+        "italian",
+        "french",
+      ],
       productsFiltered: null,
       isPriceFilterActive: false,
       isNameFilterActive: false,
@@ -50,6 +99,42 @@ export default {
     this.getProducts();
   },
   methods: {
+    generateFakeProducts() {
+      for (let i = 0; i < 20; i++) {
+        db.collection(`products${this.env}`).add({
+          userId: firebase.auth().currentUser.uid,
+          createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+          name: `product_${Math.floor(
+            Math.random() * 10
+          )}_${this.$faker().lorem.word()}`,
+          category: this.categories[
+            Math.floor(Math.random() * this.categories.length)
+          ],
+          description: this.$faker().lorem.sentence(),
+          price: Math.floor(Math.random() * 30),
+          year: this.$faker().random.number({
+            min: 1990,
+            max: 2020,
+          }),
+          origin: this.$faker().address.country(),
+          //   media: [this.$faker().image.nature(), this.$faker().image.food()],
+          media: [
+            "https://picsum.photos/200/300",
+            "https://picsum.photos/200/300",
+          ],
+          location: new GeoPoint(
+            this.$faker().random.number({
+              min: 5,
+              max: 88,
+            }),
+            this.$faker().random.number({
+              min: 5,
+              max: 88,
+            })
+          ),
+        });
+      }
+    },
     async getProducts() {
       // resetto filtri
       this.isNameFilterActive = false;
@@ -173,8 +258,7 @@ export default {
   justify-content: center;
 }
 .eProduct {
-  width: 20%;
-  height: 200px;
+  width: 30%;
   border-radius: 3px;
   background: rgb(201, 212, 226);
   margin: 10px;

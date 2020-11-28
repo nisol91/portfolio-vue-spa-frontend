@@ -56,6 +56,7 @@ Vue.config.productionTip = false
 /* import axios from "axios";
 import _ from "lodash"; */
 
+Vue.use(require('vue-faker'));
 Vue.use(require('vue-moment'));
 Vue.use(firestorePlugin)
 Vue.use(VueRouter);

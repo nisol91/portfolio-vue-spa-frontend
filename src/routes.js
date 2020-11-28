@@ -182,4 +182,12 @@ const router = new VueRouter({
     routes,
 })
 
+// mi serve per scrollare sempre al top quando cambio rotta
+router.beforeEach((to, from, next) => {
+    window.scrollTo(0, 0);
+
+    // More code ...
+    next();
+});
+
 export default router;

@@ -7,31 +7,16 @@
       <h3>my lists editor</h3>
     </div>
 
-    <!-- modal event-->
+    <!-- modal -->
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
         <v-card-title class="headline"
-          >Are you sure you want to delete this event?</v-card-title
+          >Are you sure you want to delete this item?</v-card-title
         >
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>
           <v-btn color="primary" text @click="deleteEventConfirm">OK</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- modal cellar-->
-    <v-dialog v-model="dialogDelete" max-width="500px">
-      <v-card>
-        <v-card-title class="headline"
-          >Are you sure you want to delete this cellar?</v-card-title
-        >
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>
-          <v-btn color="primary" text @click="deleteCellarConfirm">OK</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>

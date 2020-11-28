@@ -29,32 +29,34 @@
           Technologies:
           <span class="projTextBold">{{ project.type }}</span>
         </h6>
-        <v-btn
-          v-if="project.url && !project.type.includes('interactive')"
-          color="primary"
-          rounded
-          dark
+
+        <a
+          class="routerInsideVButton linkProjBtn d-flex justify-content-center align-items-center"
+          :href="project.url"
+          ><v-btn
+            v-if="project.url && !project.type.includes('interactive')"
+            color="primary"
+            rounded
+            dark
+            >links</v-btn
+          ></a
         >
-          <a
-            class="routerInsideVButton linkProjBtn d-flex justify-content-center align-items-center"
-            :href="project.url"
-            >links</a
-          >
-        </v-btn>
-        <v-btn
-          v-if="
-            project.url && project.type && project.type.includes('interactive')
-          "
-          color="primary"
-          rounded
-          dark
+
+        <router-link
+          class="linkProjBtn d-flex justify-content-center align-items-center"
+          :to="{ name: project.url }"
+          ><v-btn
+            v-if="
+              project.url &&
+              project.type &&
+              project.type.includes('interactive')
+            "
+            color="primary"
+            rounded
+            dark
+            >to the interactive project</v-btn
+          ></router-link
         >
-          <router-link
-            class="linkProjBtn d-flex justify-content-center align-items-center"
-            :to="{ name: project.url }"
-            >to the interactive project</router-link
-          >
-        </v-btn>
       </div>
 
       <div class="mediaProj d-flex flex-row align-items-start">

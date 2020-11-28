@@ -10,7 +10,7 @@
       {{ hotMex }}
 
       <router-link :to="{ name: 'toccaVinoHome' }"
-        ><v-btn color="blue" text @click="hotMex = ''">VAI</v-btn></router-link
+        ><v-btn color="blue" text @click="hotMex = ''">GO</v-btn></router-link
       >
 
       <v-btn color="blue" text @click="hotMex = ''"> Close </v-btn>
@@ -139,7 +139,7 @@
 export default {
   data() {
     return {
-      hotMex: "check out my new project",
+      hotMex: null,
       valueProg_1: 0,
       valueProg_2: 0,
       valueProg_3: 0,
@@ -151,6 +151,9 @@ export default {
 
     this.progressBar();
     this.projectsNumberGrow();
+    setTimeout(() => {
+      this.hotMex = "check out my new project";
+    }, 2000);
   },
   computed: {},
   methods: {
