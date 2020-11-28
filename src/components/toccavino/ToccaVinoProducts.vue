@@ -13,7 +13,7 @@
           v-for="(product, i) in products"
           :key="i + '_prod'"
         >
-          {{ product }}
+          {{ product.name }}
         </div>
       </div>
     </div>
@@ -27,7 +27,8 @@ import { mapState, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      products: ["a", "b", "c"],
+      env: "_test",
+      products: [],
       productsFiltered: null,
       isPriceFilterActive: false,
       isNameFilterActive: false,
@@ -49,7 +50,7 @@ export default {
     this.getProducts();
   },
   methods: {
-    async getProducts(type) {
+    async getProducts() {
       // resetto filtri
       this.isNameFilterActive = false;
       this.isPriceFilterActive = false;
@@ -58,7 +59,7 @@ export default {
       this.loading = true;
       this.wineEvents = null;
       this.chip2 = true;
-      db.collection("products")
+      db.collection(`products${this.env}`)
         .get()
         .then((querySnapshot) => {
           // console.log(querySnapshot);
@@ -79,8 +80,6 @@ export default {
           this.productsFiltered = this.products;
 
           this.loading = false;
-
-          this.currentTab = type;
         })
         .catch((error) => {
           this.errors = error.response && error.response.data.errors;
