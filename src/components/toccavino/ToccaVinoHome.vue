@@ -7,6 +7,15 @@
           add your own wine event
         </div>
       </router-link>
+      <router-link
+        v-if="!isLoggedIn"
+        class="btn nav-button"
+        :to="{ name: 'register' }"
+      >
+        <div class="btn btn-secondary">
+          register with your email to see full funcionalities
+        </div>
+      </router-link>
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoPayment' }">
         <div class="btn btn-secondary">support us</div>
       </router-link>
@@ -263,20 +272,6 @@ export default {
         });
     },
 
-    // eventuale pagination
-    pageNext() {
-      this.currentPagePagination += 1;
-      //  console.log(this.currentPagePagination);
-      this.getEvents();
-    },
-    pagePrev() {
-      if (this.currentPagePagination != 1) {
-        this.currentPagePagination -= 1;
-        //   console.log(this.currentPagePagination);
-
-        this.getEvents();
-      }
-    },
     searchEvent(val) {
       this.wineEventsFiltered = _.filter(this.wineEvents, function (o) {
         if (o.name && o.city && o.price) {
@@ -328,6 +323,21 @@ export default {
       this.isNameFilterActive = true;
       this.isMonthFilterActive = false;
       this.isPriceFilterActive = false;
+    },
+
+    // eventuale pagination
+    pageNext() {
+      this.currentPagePagination += 1;
+      //  console.log(this.currentPagePagination);
+      this.getEvents();
+    },
+    pagePrev() {
+      if (this.currentPagePagination != 1) {
+        this.currentPagePagination -= 1;
+        //   console.log(this.currentPagePagination);
+
+        this.getEvents();
+      }
     },
   },
   computed: {

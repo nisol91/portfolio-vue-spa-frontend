@@ -35,6 +35,7 @@ export default {
 </script>
 <style lang="scss">
 .globalMessageBox {
+  z-index: 9999;
   position: fixed;
   height: 50px;
   width: 100vw;
