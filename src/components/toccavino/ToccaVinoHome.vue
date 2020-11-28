@@ -274,11 +274,13 @@ export default {
     },
     searchEvent(val) {
       this.wineEventsFiltered = _.filter(this.wineEvents, function (o) {
-        return (
-          o.name.includes(val) ||
-          o.city.includes(val) ||
-          (o.price && o.price.toString().includes(val))
-        );
+        if (o.name && o.city && o.price) {
+          return (
+            o.name.includes(val) ||
+            o.city.includes(val) ||
+            (o.price && o.price.toString().includes(val))
+          );
+        }
       });
       //    console.log(this.wineEventsFiltered);
     },
