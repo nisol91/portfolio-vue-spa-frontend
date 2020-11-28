@@ -18,7 +18,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ToccaVinoHome from "./components/toccavino/ToccaVinoHome";
 import ToccaVinoAddEvent from "./components/toccavino/ToccaVinoAddEvent";
 import ToccaVinoEditEvent from "./components/toccavino/ToccaVinoEditEvent";
-
+import ToccaVinoProducts from "./components/toccavino/ToccaVinoProducts";
 import EditMyLists from "./components/toccavino/EditMyLists";
 import ToccaVinoPayment from "./components/toccavino/ToccaVinoPayment";
 import Basket from "./components/basket/Basket";
@@ -99,6 +99,11 @@ const routes = [
         path: "/tocca-vino",
         component: ToccaVinoHome,
         name: "toccaVinoHome"
+    },
+    {
+        path: "/tocca-vino-products",
+        component: ToccaVinoProducts,
+        name: "toccaVinoProducts"
     },
     {
         path: "/edit-wine-event/:id",

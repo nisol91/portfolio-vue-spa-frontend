@@ -44,6 +44,11 @@
     <h6 class="tv-map border-top border-bottom">
       <mapbox-map :events="wineEvents"></mapbox-map>
     </h6>
+    <router-link class="btn nav-button" :to="{ name: 'toccaVinoProducts' }">
+      <div class="btn btn-secondary">
+        buy wine!<v-icon class="userIndexIcon">mdi-glass-wine</v-icon>
+      </div>
+    </router-link>
     <v-tabs>
       <v-tab @click="getEvents('wineEvents')">Events</v-tab>
       <v-tab @click="getEvents('cellars')">Cellars</v-tab>
@@ -293,6 +298,8 @@ export default {
       });
       console.log(this.wineEventsFiltered);
       this.isMonthFilterActive = true;
+      this.isPriceFilterActive = false;
+      this.isNameFilterActive = false;
     },
     sortPrice() {
       if (this.sorting.price) {
@@ -305,6 +312,8 @@ export default {
         this.sorting.price = true;
       }
       this.isPriceFilterActive = true;
+      this.isNameFilterActive = false;
+      this.isMonthFilterActive = false;
     },
     sortName() {
       if (this.sorting.name) {
@@ -317,6 +326,8 @@ export default {
         this.sorting.name = true;
       }
       this.isNameFilterActive = true;
+      this.isMonthFilterActive = false;
+      this.isPriceFilterActive = false;
     },
   },
   computed: {
