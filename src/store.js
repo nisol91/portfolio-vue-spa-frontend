@@ -75,6 +75,13 @@ export default {
     // le actions mi chiamano le mutations e in più salvano nel local storage
     // di modo che anche al refresh i dati rimangano salvati
     actions: {
+        loadBasketOnRefresh(context) {
+            // basket
+            const basket = localStorage.getItem('basket')
+            if (basket) {
+                context.commit('setBasket', JSON.parse(basket));
+            }
+        },
         // questo metodo mi va a caricare i dati salvati in sessione, viene chiamato
         // in app.js alla creazione dell'app
         loadStoredState(context) {

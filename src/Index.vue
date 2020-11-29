@@ -289,6 +289,9 @@ export default {
     this.$store.dispatch("loadFirebaseUserAfterRefresh");
     this.$store.commit("getUserOnRefresh");
 
+    // carico il carrello al refresh
+    this.$store.dispatch("loadBasketOnRefresh");
+
     // console.log("====");
     // console.log(this.lastSearch);
     // console.log(this.lastSearchComputed);
