@@ -6,7 +6,7 @@
           <i class="fas fa-arrow-left"></i> </router-link
         >wine shop
       </div>
-      <!-- <v-btn
+      <v-btn
         color="primary"
         rounded
         dark
@@ -14,7 +14,7 @@
         @click="generateFakeProducts"
       >
         Generate fake products
-      </v-btn> -->
+      </v-btn>
     </div>
     <div class="eFiltersTop">
       <div>
@@ -54,6 +54,10 @@
           class="latFilterElements"
           v-for="(cat, i) in categories"
           :key="i + '_cat'"
+          @click="filterProdCat(cat, i)"
+          :class="{
+            activeFilter: activeIndexFilteredCategories.indexOf(i) !== -1,
+          }"
         >
           {{ cat }}
         </div>
@@ -61,7 +65,11 @@
         <div
           class="latFilterElements"
           v-for="(year, i) in years"
-          :key="i + '_cat'"
+          :key="i + '_year'"
+          @click="filterProdYear(year, i)"
+          :class="{
+            activeFilter: activeIndexFilteredYears.indexOf(i) !== -1,
+          }"
         >
           {{ year }}
         </div>
@@ -87,8 +95,11 @@
           <div class="prodDescription">
             {{ product.description }}
           </div>
+
           <div class="prodCategory">
-            {{ product.category }}
+            <span v-for="(cat, i) in product.category" :key="i + '_catz'"
+              >{{ cat }}
+            </span>
           </div>
           <div class="prodOrigin">
             {{ product.origin }}
@@ -97,20 +108,37 @@
             {{ product.year }}
           </div>
           <div class="prodYear">{{ product.price }}€</div>
-          <v-img
-            :src="product.media[0]"
-            class="grey lighten-2 prodMedia"
-            :aspect-ratio="16 / 9"
+
+          <v-carousel
+            :continuous="false"
+            :cycle="false"
+            :show-arrows="false"
+            hide-delimiter-background
+            delimiter-icon="mdi-minus"
+            height="120"
           >
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
+            <v-carousel-item v-for="(img, i) in product.media" :key="i + 'img'">
+              <v-img
+                :src="img"
+                class="grey lighten-2 prodMedia"
+                :aspect-ratio="16 / 9"
+              >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-5"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+            </v-carousel-item>
+          </v-carousel>
+
           <v-btn
             class="addToCart"
             type="submit"
@@ -139,6 +167,10 @@ export default {
     return {
       env: "_test",
       products: [],
+      filteredCategories: [],
+      filteredYears: [],
+      activeIndexFilteredCategories: [],
+      activeIndexFilteredYears: [],
       categories: [
         "red",
         "barrique",
@@ -189,8 +221,9 @@ export default {
           name: `product_${Math.floor(
             Math.random() * 10
           )}_${this.$faker().lorem.word()}`,
-          category: this.categories[
-            Math.floor(Math.random() * this.categories.length)
+          category: [
+            this.categories[Math.floor(Math.random() * this.categories.length)],
+            this.categories[Math.floor(Math.random() * this.categories.length)],
           ],
           description: this.$faker().lorem.sentence(),
           price: Math.floor(Math.random() * 30),
@@ -246,6 +279,12 @@ export default {
           //mi serve per i filtri
           this.productsFiltered = this.products;
 
+          // resetto varie cose
+          this.filteredCategories = [];
+          this.filteredYears = [];
+          this.activeIndexFilteredCategories = [];
+          this.activeIndexFilteredYears = [];
+
           this.loading = false;
         })
         .catch((error) => {
@@ -291,6 +330,52 @@ export default {
       this.isNameFilterActive = true;
       this.isPriceFilterActive = false;
     },
+    filterProdCat(val, i) {
+      if (this.filteredCategories.indexOf(val) == -1) {
+        this.filteredCategories.push(val);
+      }
+      if (this.filteredCategories.length == 1) {
+        this.productsFiltered = this.products;
+        this.activeIndexFilteredYears = [];
+        this.filteredYears = [];
+        this.filteredCategories.push(val);
+      }
+
+      var filteredProds = [];
+      this.products.forEach((prod) => {
+        this.filteredCategories.forEach((cat) => {
+          prod.category.forEach((prCat) => {
+            if (prCat == cat) {
+              filteredProds.push(prod);
+            }
+          });
+        });
+      });
+      this.activeIndexFilteredCategories.push(i);
+      this.productsFiltered = filteredProds;
+    },
+    filterProdYear(val, i) {
+      if (this.filteredYears.indexOf(val) == -1) {
+        this.filteredYears.push(val);
+      }
+      if (this.filteredYears.length == 1) {
+        this.productsFiltered = this.products;
+        this.activeIndexFilteredCategories = [];
+        this.filteredCategories = [];
+        this.filteredYears.push(val);
+      }
+
+      var filteredProds = [];
+      this.products.forEach((prod) => {
+        this.filteredYears.forEach((filtYear) => {
+          if (prod.year == filtYear) {
+            filteredProds.push(prod);
+          }
+        });
+      });
+      this.activeIndexFilteredYears.push(i);
+      this.productsFiltered = filteredProds;
+    },
   },
   computed: {
     ...mapState({
@@ -324,7 +409,7 @@ export default {
 }
 .eHeader {
   width: 100%;
-  height: 70px;
+  min-height: 70px;
   padding: 10px;
   background: rgb(177, 177, 177);
 }
@@ -362,8 +447,9 @@ export default {
   //   font-weight: bold;
 }
 .prodCategory {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
+  font-style: italic;
 }
 .prodOrigin {
   font-size: 16px;
@@ -390,5 +476,8 @@ export default {
 }
 .addToCart {
   margin-top: 5px;
+}
+.activeFilter {
+  color: blue;
 }
 </style>
