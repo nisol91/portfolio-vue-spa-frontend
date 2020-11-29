@@ -21,7 +21,7 @@ import ToccaVinoEditEvent from "./components/toccavino/ToccaVinoEditEvent";
 import ToccaVinoProducts from "./components/toccavino/ToccaVinoProducts";
 import EditMyLists from "./components/toccavino/EditMyLists";
 import ToccaVinoPayment from "./components/toccavino/ToccaVinoPayment";
-import Basket from "./components/basket/Basket";
+import ToccaVinoBasket from "./components/toccavino/ToccaVinoBasket";
 import NotFound from "./components/shared/components/NotFound";
 
 import VueRouter from "vue-router";
@@ -92,8 +92,8 @@ const routes = [
     },
     {
         path: "/basket",
-        component: Basket,
-        name: "basket"
+        component: ToccaVinoBasket,
+        name: "toccaVinoBasket"
     },
     {
         path: "/tocca-vino",

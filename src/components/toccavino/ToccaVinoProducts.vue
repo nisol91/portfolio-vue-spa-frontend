@@ -3,8 +3,13 @@
     <div class="eHeader">
       <div class="eTitle">
         <router-link class="btn nav-button" :to="{ name: 'toccaVinoHome' }">
-          <i class="fas fa-arrow-left"></i> </router-link
-        >wine shop
+          <i class="fas fa-arrow-left"></i>
+        </router-link>
+        <div>wine shop</div>
+        <router-link class="btn nav-button" :to="{ name: 'toccaVinoBasket' }">
+          <v-icon>mdi-cart</v-icon>
+          {{ itemsInBasket }}
+        </router-link>
       </div>
       <v-btn
         color="primary"
@@ -146,7 +151,7 @@
             rounded
             dark
             depressed
-            @click="selectDate(picker)"
+            @click="addProductToBasket(product)"
           >
             add to cart
             <v-icon>mdi-cart-arrow-right</v-icon>
@@ -213,6 +218,9 @@ export default {
     this.getProducts();
   },
   methods: {
+    addProductToBasket(prod) {
+      this.$store.dispatch("addToBasket", prod);
+    },
     generateFakeProducts() {
       for (let i = 0; i < 20; i++) {
         db.collection(`products${this.env}`).add({
@@ -383,6 +391,7 @@ export default {
       userRole: "userRole",
       globalMessage: "globalMessage",
     }),
+    ...mapGetters({ itemsInBasket: "itemsInBasket" }),
   },
 };
 </script>
@@ -393,6 +402,9 @@ export default {
 }
 .eTitle {
   font-size: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 .eFiltersLateral {
   width: 20%;
