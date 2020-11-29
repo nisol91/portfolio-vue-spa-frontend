@@ -1,47 +1,105 @@
 <template>
   <div class="ecommerceBox">
     <div class="eHeader">
-      <div class="eTitle">wine shop</div>
       <div class="eTitle">
-        <v-btn
-          color="primary"
-          rounded
-          dark
-          depressed
-          @click="generateFakeProducts"
-        >
-          Generate products
-        </v-btn>
+        <router-link class="btn nav-button" :to="{ name: 'toccaVinoHome' }">
+          <i class="fas fa-arrow-left"></i> </router-link
+        >wine shop
+      </div>
+      <!-- <v-btn
+        color="primary"
+        rounded
+        dark
+        depressed
+        @click="generateFakeProducts"
+      >
+        Generate fake products
+      </v-btn> -->
+    </div>
+    <div class="eFiltersTop">
+      <div>
+        <div>Search your product</div>
+        <input
+          type="text"
+          v-model="searchValue"
+          class="form-control searchBarWine"
+          @keyup="searchProduct(searchValue)"
+        />
+      </div>
+      <div
+        :class="{ active: isPriceFilterActive }"
+        class="btn btn-secondary sorterBtn"
+        @click="sortPrice"
+      >
+        sort by price
+      </div>
+      <div
+        :class="{ active: isNameFilterActive }"
+        class="btn btn-secondary sorterBtn"
+        @click="sortName"
+      >
+        sort by name
+      </div>
+      <div
+        class="btn btn-secondary sorterBtn resetFilters"
+        @click="getProducts"
+      >
+        reset filters
       </div>
     </div>
-    <div class="eFiltersTop">filtri top</div>
     <div class="eBody">
-      <div class="eFiltersLateral">filtri lateral</div>
+      <div class="eFiltersLateral">
+        <div class="latFilterTitle">CATEGORY</div>
+        <div
+          class="latFilterElements"
+          v-for="(cat, i) in categories"
+          :key="i + '_cat'"
+        >
+          {{ cat }}
+        </div>
+        <div class="latFilterTitle">YEAR</div>
+        <div
+          class="latFilterElements"
+          v-for="(year, i) in years"
+          :key="i + '_cat'"
+        >
+          {{ year }}
+        </div>
+      </div>
 
-      <div class="eProducts">
+      <div v-if="loading" class="eProducts">
+        <v-skeleton-loader
+          class="eProduct"
+          v-for="i in 20"
+          :key="i + '_prodSkeleton'"
+          type="card"
+        ></v-skeleton-loader>
+      </div>
+      <div v-if="!loading" class="eProducts">
         <div
           class="eProduct"
-          v-for="(product, i) in products"
+          v-for="(product, i) in productsFiltered"
           :key="i + '_prod'"
         >
-          <div>
+          <div class="prodName">
             {{ product.name }}
           </div>
-          <div>
+          <div class="prodDescription">
             {{ product.description }}
           </div>
-          <div>
+          <div class="prodCategory">
             {{ product.category }}
           </div>
-          <div>
+          <div class="prodOrigin">
             {{ product.origin }}
           </div>
-          <div>
+          <div class="prodYear">
             {{ product.year }}
           </div>
+          <div class="prodYear">{{ product.price }}€</div>
           <v-img
             :src="product.media[0]"
-            class="grey lighten-2 mainImgEditing"
+            class="grey lighten-2 prodMedia"
             :aspect-ratio="16 / 9"
           >
             <template v-slot:placeholder>
@@ -53,6 +111,18 @@
               </v-row>
             </template>
           </v-img>
+          <v-btn
+            class="addToCart"
+            type="submit"
+            color="primary"
+            rounded
+            dark
+            depressed
+            @click="selectDate(picker)"
+          >
+            add to cart
+            <v-icon>mdi-cart-arrow-right</v-icon>
+          </v-btn>
         </div>
       </div>
     </div>
@@ -77,6 +147,18 @@ export default {
         "champagne",
         "italian",
         "french",
+      ],
+      years: [
+        "2018",
+        "2017",
+        "2016",
+        "2015",
+        "2014",
+        "2013",
+        "2012",
+        "2011",
+        "2010",
+        "2009",
       ],
       productsFiltered: null,
       isPriceFilterActive: false,
@@ -171,29 +253,17 @@ export default {
         });
     },
 
-    searchEvent(val) {
+    searchProduct(val) {
       this.productsFiltered = _.filter(this.products, function (o) {
-        if (o.name && o.city && o.price) {
+        if (o.name && o.year && o.price) {
           return (
             o.name.includes(val) ||
-            o.city.includes(val) ||
+            o.year == val ||
             (o.price && o.price.toString().includes(val))
           );
         }
       });
       //    console.log(this.productsFiltered);
-    },
-    selectMonth(month) {
-      this.overlayPicker = !this.overlayPicker;
-      this.productsFiltered = _.filter(this.products, function (o) {
-        if (o.date) {
-          return o.date.includes(month);
-        }
-      });
-      console.log(this.productsFiltered);
-      this.isMonthFilterActive = true;
-      this.isPriceFilterActive = false;
-      this.isNameFilterActive = false;
     },
     sortPrice() {
       if (this.sorting.price) {
@@ -207,7 +277,6 @@ export default {
       }
       this.isPriceFilterActive = true;
       this.isNameFilterActive = false;
-      this.isMonthFilterActive = false;
     },
     sortName() {
       if (this.sorting.name) {
@@ -220,7 +289,6 @@ export default {
         this.sorting.name = true;
       }
       this.isNameFilterActive = true;
-      this.isMonthFilterActive = false;
       this.isPriceFilterActive = false;
     },
   },
@@ -238,16 +306,26 @@ export default {
   width: 100%;
   min-height: 100vh;
 }
+.eTitle {
+  font-size: 30px;
+}
 .eFiltersLateral {
   width: 20%;
   background: rgb(115, 120, 126);
+  padding: 10px;
 }
 .eFiltersTop {
   width: 100%;
   background: rgb(154, 166, 180);
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 .eHeader {
   width: 100%;
+  height: 70px;
+  padding: 10px;
   background: rgb(177, 177, 177);
 }
 .eProducts {
@@ -263,9 +341,54 @@ export default {
   background: rgb(201, 212, 226);
   margin: 10px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .eBody {
   display: flex;
   min-height: 100%;
+}
+
+.prodName {
+  font-size: 23px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prodDescription {
+  font-size: 17px;
+  //   font-weight: bold;
+}
+.prodCategory {
+  font-size: 22px;
+  font-weight: bold;
+}
+.prodOrigin {
+  font-size: 16px;
+  //   font-weight: bold;
+}
+.prodYear {
+  font-size: 16px;
+  font-weight: bold;
+}
+.prodMedia {
+  margin-top: 10px;
+  max-height: 120px;
+}
+.active {
+  border: 2px solid black !important;
+}
+.latFilterTitle {
+  font-weight: bold;
+  font-size: 22px;
+}
+.latFilterElements {
+  cursor: pointer;
+  font-size: 15px;
+}
+.addToCart {
+  margin-top: 5px;
 }
 </style>
