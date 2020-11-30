@@ -7,13 +7,17 @@
       top
       class="indexSnack"
     >
-      {{ hotMex }}
+      <div class="snackBox">
+        <div class="hotMex">
+          {{ hotMex }}
+        </div>
 
-      <router-link :to="{ name: 'toccaVinoHome' }"
-        ><v-btn color="blue" text @click="hotMex = ''">GO</v-btn></router-link
-      >
+        <router-link :to="{ name: 'toccaVinoHome' }"
+          ><v-btn color="blue" text @click="hotMex = ''">GO</v-btn></router-link
+        >
 
-      <v-btn color="blue" text @click="hotMex = ''"> Close </v-btn>
+        <v-btn color="blue" text @click="hotMex = ''"> Close </v-btn>
+      </div>
     </v-snackbar>
     <div id="home" class="scale-in-center">
       <div class="box-sx">
@@ -152,7 +156,8 @@ export default {
     this.progressBar();
     this.projectsNumberGrow();
     setTimeout(() => {
-      this.hotMex = "check out my new project";
+      this.hotMex =
+        "check out my new project. This is an example of how a custom app I can create works";
     }, 2000);
   },
   computed: {},
@@ -288,6 +293,14 @@ export default {
 }
 .contact.in-viewport {
   opacity: 1;
+}
+.snackBox {
+  display: flex !important;
+  align-items: center;
+}
+.hotMex {
+  width: 250px;
+  margin: 0px;
 }
 </style>
 
