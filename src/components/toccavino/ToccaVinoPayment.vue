@@ -1,8 +1,23 @@
 <template>
   <div class="d-flex justify-content-center">
+    <!-- modal -->
+    <v-dialog v-model="modalPayment" max-width="500px">
+      <v-card>
+        <v-card-title class="headline"
+          >This is a demo-fake payment form</v-card-title
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="modalPayment = false"
+            >Understood</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <div class="paymentBox">
       <div class="titleBox">
-        <router-link class="btn nav-button" :to="{ name: 'toccaVinoHome' }">
+        <router-link class="btn nav-button" :to="{ name: 'toccaVinoBasket' }">
           <i class="fas fa-angle-left freccia"></i>
         </router-link>
 
@@ -84,7 +99,9 @@
         </div>
       </div>
       <div class="mt-4 row j-flex justify-content-center align-items-center">
-        <div class="btn btn-secondary btn-block">pay</div>
+        <div class="btn btn-secondary btn-block" @click="modalPayment = true">
+          pay
+        </div>
       </div>
     </div>
   </div>
@@ -94,6 +111,7 @@
 export default {
   data() {
     return {
+      modalPayment: false,
       front: true,
       rotation: true,
       card: {
@@ -172,9 +190,9 @@ export default {
 
 <style scoped>
 .paymentBox {
-  width: 50%;
+  width: 80%;
+  padding: 30px;
   background: rgba(147, 158, 165, 0.584);
-  height: 100vh;
   border-radius: 10px;
 }
 
@@ -208,8 +226,7 @@ export default {
   background: white;
   border-radius: 10px;
   width: 100%;
-  height: 200px;
-  padding: 20px;
+  padding: 50px;
 }
 .masterIcon {
   font-size: 35px;
