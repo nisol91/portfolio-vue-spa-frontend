@@ -29,12 +29,18 @@ export default {
             state.lastSearch = payload
         },
         addToBasket(state, payload) {
+            payload["added"] = true;
+
             state.basket.items.push(payload)
         },
         removeFromBasket(state, payload) {
             // col filter tengo solo gli elementi che rispettano la condizione, cioè tutti
             // quelli che hann un id differente da quello che passo alla mutation
-            state.basket.items = state.basket.items.filter(item => item.bookable.id != payload)
+            console.log(payload)
+            state.basket.items = state.basket.items.filter(item => {
+                console.log(item.id)
+                return item.id !== payload
+            })
         },
         setBasket(state, payload) {
             state.basket = payload
@@ -70,11 +76,35 @@ export default {
         },
         toggleHomePage(state, payload) {
             state.isHomePage = payload
+        },
+        addItemNumberToBasketItem(state, payload) {
+            state.basket.items.forEach((prod) => {
+                if (prod.id === payload) {
+                    prod.itemsNumber += 1;
+                }
+            })
+        },
+        removeItemNumberFromBasketItem(state, payload) {
+            state.basket.items.forEach((prod) => {
+                if (prod.id === payload) {
+                    if (prod.itemsNumber > 1) {
+                        prod.itemsNumber -= 1;
+                    }
+                }
+            })
         }
     },
     // le actions mi chiamano le mutations e in più salvano nel local storage
     // di modo che anche al refresh i dati rimangano salvati
     actions: {
+        addItemNumberToBasketItem({ commit, state }, payload) {
+            commit('addItemNumberToBasketItem', payload)
+            localStorage.setItem('basket', JSON.stringify(state.basket))
+        },
+        removeItemNumberFromBasketItem({ commit, state }, payload) {
+            commit('removeItemNumberFromBasketItem', payload)
+            localStorage.setItem('basket', JSON.stringify(state.basket))
+        },
         loadBasketOnRefresh(context) {
             // basket
             const basket = localStorage.getItem('basket')
@@ -105,13 +135,15 @@ export default {
             context.commit('setLastSearch', payload);
             localStorage.setItem('lastSearch', JSON.stringify(payload))
         },
-        addToBasket(context, payload) {
-            context.commit('addToBasket', payload);
-            localStorage.setItem('basket', JSON.stringify(context.state.basket))
+        addToBasket({ commit, state }, payload) {
+            commit('addToBasket', payload);
+            localStorage.setItem('basket', JSON.stringify(state.basket))
         },
         removeFromBasket(context, payload) {
             context.commit('removeFromBasket', payload);
             localStorage.setItem('basket', JSON.stringify(context.state.basket))
+            // this.$store.dispatch("loadBasketOnRefresh");
+
         },
         // {commit, state} è il deconstructed object di context (è la stessa cosa, soloche posso
         // accedere direttamente a quei valori, avendo decostruito l'oggetto passato alla action)
@@ -372,11 +404,11 @@ export default {
         // that returns another function
         // Questa funzione controlla che l'elemento sia già o meno nel basket
         // con un reduce(function abbastanza complicata)
-        inBasketAlready(state) {
-            // returns Boolean
-            return function (id) {
-                return state.basket.items.reduce((result, item) => result || item.bookable.id === id, false)
-            }
-        }
+        // inBasketAlready(state) {
+        //     // returns Boolean
+        //     return function (id) {
+        //         return state.basket.items.reduce((result, item) => result || item.bookable.id === id, false)
+        //     }
+        // }
     }
 }

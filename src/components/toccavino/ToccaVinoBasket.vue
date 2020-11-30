@@ -30,14 +30,61 @@
               </v-row>
             </template>
           </v-img>
+          <div class="actions">
+            <v-tooltip bottom class="">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  class="actionIcon"
+                  @click="addItem(item.id)"
+                  >mdi-plus-box</v-icon
+                >
+              </template>
+              <span>add one</span>
+            </v-tooltip>
+            <v-tooltip bottom class="">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  class="actionIcon"
+                  @click="removeItem(item.id)"
+                  >mdi-minus-box</v-icon
+                >
+              </template>
+              <span>remove one</span>
+            </v-tooltip>
+            <v-tooltip bottom class="">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  class="actionIcon"
+                  @click="removeFromBasket(item.id)"
+                  >mdi-delete</v-icon
+                >
+              </template>
+              <span>remove item</span>
+            </v-tooltip>
+          </div>
+          <div>quantity: {{ item.itemsNumber }}</div>
         </div>
 
         <div class="prodPrice">{{ item.price }}€</div>
       </div>
     </div>
     <div class="checkoutBox">
+      <v-btn color="primary" rounded dark depressed @click="clearBasket">
+        clear basket
+        <v-icon class="actionIcon">mdi-basket-remove</v-icon></v-btn
+      >
       <div class="checkTop">
-        <span class="prodName">Total:</span>
+        <span class="prodName">Total items: </span>
+        <span class="prodName">{{ totalItems }}</span>
+      </div>
+      <div class="checkTop">
+        <span class="prodName">Total: </span>
         <span class="prodName">{{ totalPrice }} €</span>
       </div>
 
@@ -62,6 +109,25 @@ export default {
     this.basket = this.$store.state.basket.items;
     console.log(this.basket);
   },
+  methods: {
+    addItem(id) {
+      this.$store.dispatch("addItemNumberToBasketItem", id);
+      this.basket = this.$store.state.basket.items;
+    },
+    removeItem(id) {
+      this.$store.dispatch("removeItemNumberFromBasketItem", id);
+      this.basket = this.$store.state.basket.items;
+    },
+    removeFromBasket(id) {
+      this.$store.dispatch("removeFromBasket", id);
+      this.basket = this.$store.state.basket.items;
+    },
+
+    clearBasket() {
+      this.$store.dispatch("clearBasket");
+      this.basket = this.$store.state.basket.items;
+    },
+  },
   computed: {
     ...mapState({
       isLoggedIn: "isLoggedIn",
@@ -71,9 +137,16 @@ export default {
     totalPrice: function () {
       var totalPrice = 0;
       this.basket.forEach((el) => {
-        totalPrice += el.price;
+        totalPrice += el.price * el.itemsNumber;
       });
       return totalPrice;
+    },
+    totalItems: function () {
+      var totalItems = 0;
+      this.basket.forEach((el) => {
+        totalItems += el.itemsNumber;
+      });
+      return totalItems;
     },
   },
 };
@@ -108,10 +181,9 @@ export default {
   position: fixed;
   top: 100px;
   right: 10px;
-  height: 150px;
   width: 30%;
   margin: 10px;
-  padding: 10px;
+  padding: 30px;
   background: rgb(184, 184, 184);
   display: flex;
   justify-content: space-between;
@@ -123,5 +195,11 @@ export default {
 }
 .imgBasket {
   width: 130px;
+}
+.actions {
+  font-size: 20px;
+  .actionIcon {
+    margin: 0 10px;
+  }
 }
 </style>

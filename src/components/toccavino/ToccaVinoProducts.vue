@@ -54,6 +54,12 @@
     </div>
     <div class="eBody">
       <div class="eFiltersLateral">
+        <div
+          class="btn btn-secondary sorterBtn resetFilters"
+          @click="getProducts"
+        >
+          reset filters
+        </div>
         <div class="latFilterTitle">CATEGORY</div>
         <div
           class="latFilterElements"
@@ -143,8 +149,22 @@
               </v-img>
             </v-carousel-item>
           </v-carousel>
+          <div class="prodYear">
+            <span>
+              <v-icon class="actionIcon" @click="removeItem(product)"
+                >mdi-minus-box</v-icon
+              >
+            </span>
+            <span>{{ product.itemsNumber }} </span>
+            <span>
+              <v-icon class="actionIcon" @click="addItem(product)"
+                >mdi-plus-box</v-icon
+              >
+            </span>
+          </div>
 
           <v-btn
+            v-if="!product.added"
             class="addToCart"
             type="submit"
             color="primary"
@@ -155,6 +175,17 @@
           >
             add to cart
             <v-icon>mdi-cart-arrow-right</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="product.added"
+            class="addToCart"
+            type="submit"
+            color="primary"
+            rounded
+            dark
+            depressed
+          >
+            already in cart
           </v-btn>
         </div>
       </div>
@@ -197,6 +228,12 @@ export default {
         "2010",
         "2009",
       ],
+      fakeImg: [
+        "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/w1.jpg?alt=media&token=8d562466-3cd4-4c45-ac65-65281efd9640",
+        "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/w2.jpeg?alt=media&token=3200a207-f860-47e9-b3fb-45ba2e5df4d3",
+        "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/w3.jpeg?alt=media&token=4ef7d30a-f0fe-4e8e-b318-beabfa159774",
+        "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/w4.jpg?alt=media&token=bf53b7d6-2f3d-45f4-8207-b1fe2d22dfa7",
+      ],
       productsFiltered: null,
       isPriceFilterActive: false,
       isNameFilterActive: false,
@@ -218,6 +255,14 @@ export default {
     this.getProducts();
   },
   methods: {
+    addItem(prod) {
+      prod.itemsNumber += 1;
+    },
+    removeItem(prod) {
+      if (prod.itemsNumber > 1) {
+        prod.itemsNumber -= 1;
+      }
+    },
     addProductToBasket(prod) {
       this.$store.dispatch("addToBasket", prod);
     },
@@ -242,9 +287,14 @@ export default {
           origin: this.$faker().address.country(),
           //   media: [this.$faker().image.nature(), this.$faker().image.food()],
           media: [
-            "https://picsum.photos/200/300",
-            "https://picsum.photos/200/300",
+            this.fakeImg[Math.floor(Math.random() * this.fakeImg.length)],
+            this.fakeImg[Math.floor(Math.random() * this.fakeImg.length)],
           ],
+          warehouseQuantity: this.$faker().random.number({
+            min: 1,
+            max: 25,
+          }),
+          itemsNumber: 1,
           location: new GeoPoint(
             this.$faker().random.number({
               min: 5,
@@ -271,8 +321,13 @@ export default {
         .get()
         .then((querySnapshot) => {
           // console.log(querySnapshot);
-          const products = querySnapshot.docs.map((doc) => doc.data());
-          // console.log(products);
+          const products = querySnapshot.docs.map((doc) => {
+            var res = new Object(doc.data());
+            res["id"] = doc.id;
+            return res;
+          });
+
+          console.log(products);
           this.products = products;
           // sorting products on the base of 'in_evidence' field
           this.products = _.orderBy(
@@ -284,6 +339,15 @@ export default {
             ],
             ["desc"]
           );
+
+          // controllo che sia o meno gia presente nel carrello
+          this.products.forEach((prod) => {
+            this.$store.state.basket.items.forEach((baskItem) => {
+              if (prod.id == baskItem.id) {
+                prod["added"] = true;
+              }
+            });
+          });
           //mi serve per i filtri
           this.productsFiltered = this.products;
 
