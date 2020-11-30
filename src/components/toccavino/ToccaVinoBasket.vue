@@ -1,6 +1,13 @@
 <template>
   <div class="basket">
     <div class="basketBox">
+      <div class="bTitle">
+        <router-link class="btn nav-button" :to="{ name: 'toccaVinoProducts' }">
+          <i class="fas fa-arrow-left"></i>
+        </router-link>
+        <div><h1>basket</h1></div>
+      </div>
+
       <div class="basketProd" v-for="(item, i) in basket" :key="i + 'item'">
         <div class="basketLeft">
           <div class="prodName">
@@ -73,6 +80,9 @@ export default {
 </script>
 <style lang="scss">
 .basket {
+  display: flex;
+}
+.bTitle {
   display: flex;
 }
 .basketBox {
