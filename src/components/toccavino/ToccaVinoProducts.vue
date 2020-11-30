@@ -11,7 +11,7 @@
           {{ itemsInBasket }}
         </router-link>
       </div>
-      <v-btn
+      <!-- <v-btn
         color="primary"
         rounded
         dark
@@ -19,7 +19,7 @@
         @click="generateFakeProducts"
       >
         Generate fake products
-      </v-btn>
+      </v-btn> -->
     </div>
     <div class="eFiltersTop">
       <div>
@@ -60,6 +60,7 @@
         >
           reset filters
         </div>
+        <div>Products: {{ this.productsFiltered.length }}</div>
         <div class="latFilterTitle">CATEGORY</div>
         <div
           class="latFilterElements"
