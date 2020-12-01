@@ -2,6 +2,7 @@
   <div id="map">
     <!-- <MglMap :accessToken="accessToken" :mapStyle="mapStyle" /> -->
     <MglMap
+      v-if="accessToken"
       :accessToken="accessToken"
       :mapStyle.sync="mapStyle"
       :center="coordinates"
@@ -11,8 +12,8 @@
         v-for="(event, index) in wineEvents"
         :key="index"
         :coordinates="[
-          event.location ? event.location.latitude : 0,
           event.location ? event.location.longitude : 0,
+          event.location ? event.location.latitude : 0,
         ]"
         color="blue"
       >
@@ -48,8 +49,7 @@ export default {
   props: ["events"],
   data() {
     return {
-      accessToken:
-        "pk.eyJ1Ijoibmlzb2w5MSIsImEiOiJjazBjaWRvbTIwMWpmM2hvMDhlYWhhZGV0In0.wyRaVw6FXdw6g3wp3t9FNQ",
+      accessToken: null,
       // mapStyle: "mapbox://styles/nisol91/ckfavr6400ebf19mrwoocgtbo",
       mapStyle: "mapbox://styles/nisol91/ck0cimiej4lt91cljcimh64p5",
       coordinates: [10, 45],
@@ -67,8 +67,13 @@ export default {
       set() {},
     },
   },
-  mounted() {
+  async created() {
     console.log(this.events);
+    this.$store
+      .dispatch("getEnvVariables")
+      .then((env) => (this.accessToken = env[0].mapbox_api_key));
+
+    // this.accessToken = env.mapbox_api_key;
 
     // mapboxgl.accessToken = this.token;
     // const map = new mapboxgl.Map({

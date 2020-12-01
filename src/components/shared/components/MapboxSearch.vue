@@ -26,8 +26,7 @@ export default {
     return {
       coordinates: null,
       search: this.$props.value,
-      token:
-        "pk.eyJ1Ijoibmlzb2w5MSIsImEiOiJjazBjaWRvbTIwMWpmM2hvMDhlYWhhZGV0In0.wyRaVw6FXdw6g3wp3t9FNQ",
+      token: "",
     };
   },
   methods: {

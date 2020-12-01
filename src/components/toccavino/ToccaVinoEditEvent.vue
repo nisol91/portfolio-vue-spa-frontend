@@ -274,8 +274,7 @@ export default {
         (v) => !!v || "field is required",
         (v) => (v && v.length >= 1) || "Name must be more than 1 characters",
       ],
-      mapboxToken:
-        "pk.eyJ1Ijoibmlzb2w5MSIsImEiOiJjazBjaWRvbTIwMWpmM2hvMDhlYWhhZGV0In0.wyRaVw6FXdw6g3wp3t9FNQ",
+      mapboxToken: "",
     };
   },
 
@@ -284,6 +283,10 @@ export default {
     this.$store.commit("toggleHomePage", false);
     this.getItemToEdit();
     this.selectedItems = this.isThisCellar;
+
+    this.$store
+      .dispatch("getEnvVariables")
+      .then((env) => (this.mapboxToken = env[0].mapbox_api_key));
   },
   methods: {
     removeMedia(index) {
@@ -377,6 +380,7 @@ export default {
       }
     },
     async getPlace() {
+      this.form.location = {};
       try {
         const coordinates = (
           await axios.get(

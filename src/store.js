@@ -211,7 +211,26 @@ export default {
             }
         },
 
-        // firebase
+        // ################################################
+        //######################## firebase  ##################
+        // ################################################
+
+        getEnvVariables() {
+            return new Promise((resolve, reject) => {
+                var env = db.collection("env")
+                    .where("name", "==", 'env_prod')
+                    .get()
+                    .then((querySnapshot) => {
+                        env = querySnapshot.docs.map((doc) => doc.data());
+                        console.log(env);
+                        return env
+                    })
+                    .catch((err) => console.log(err));
+                resolve(env)
+
+            })
+        },
+
         signOut({ commit, dispatch }) {
             firebase
                 .auth()
@@ -418,7 +437,7 @@ export default {
                 media: payload.media,
                 date: payload.date,
                 // date: Timestamp.fromDate(new Date(payload.date)),
-                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
             }).then(() => commit('setGlobalMessage', 'successfully created new event'))
         },
         async saveCellar({ commit, dispatch }, payload) {
@@ -433,7 +452,7 @@ export default {
                 city: payload.city,
                 address: payload.address,
                 media: payload.media,
-                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
             }).then(() => commit('setGlobalMessage', 'successfully created new cellar'))
         },
 
@@ -452,7 +471,7 @@ export default {
                 media: payload.media,
                 date: payload.date,
                 // date: Timestamp.fromDate(new Date(payload.date)),
-                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
 
             }).then(() => commit('setGlobalMessage', 'successfully updated new event'))
         },
@@ -468,7 +487,7 @@ export default {
                 city: payload.city,
                 address: payload.address,
                 media: payload.media,
-                location: new GeoPoint(payload.location.longitude, payload.location.latitude),
+                location: new GeoPoint(payload.location.latitude, payload.location.longitude),
             }).then(() => commit('setGlobalMessage', 'successfully updated new cellar'))
         },
 
