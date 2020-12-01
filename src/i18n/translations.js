@@ -7,7 +7,7 @@ export const messages = {
             about: 'I am Nicola, software developer from Italy, I have worked as sowftware engineer for various companies such as Ufirst, managing both fontend and backend technologies',
             skills: 'this is my stack',
             contact: 'feel free to contact me for any idea, info and pricing',
-
+            addressForm: 'full address'
         }
     },
     it: {
@@ -18,6 +18,7 @@ export const messages = {
             about: 'Sono Nicola, sviluppo software e vivo in Italia, ho lavorato in varie aziende come Ufirst, in qualità di software engineer, occupandomi di tecnologie frontend e backend',
             skills: 'le tecnologie che utilizzo',
             contact: 'contattami per qualsiasi idea, richiesta di informazioni o prezzi',
+            addressForm: 'indirizzo completo'
         }
     }
 };

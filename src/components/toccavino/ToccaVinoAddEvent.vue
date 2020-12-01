@@ -111,7 +111,7 @@
         v-model="form.city"
       ></v-text-field>
       <v-text-field
-        label="full address"
+        :label="$t('message.addressForm')"
         :rules="rules"
         value
         required
