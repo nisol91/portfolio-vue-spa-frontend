@@ -305,14 +305,14 @@ export default {
     getItemToEdit() {
       var collection =
         this.$route.params.cellar == true ? "cellars" : "wineEvents";
-      console.log(this.id);
+      // console.log(this.id);
       var event = [];
       db.collection(collection)
         .doc(this.id)
         .get()
         .then((querySnapshot) => {
           event = querySnapshot.data();
-          console.log(event);
+          // console.log(event);
           this.form = event;
           this.form.id = this.id;
         })
@@ -329,7 +329,7 @@ export default {
       for (let i = 0; i < this.mediaFiles.length; i++) {
         var file = this.mediaFiles[i];
         var uploadTask = await new Promise(function (resolve, reject) {
-          console.log(file);
+          // console.log(file);
           // Create a root reference
           var storageRef = firebase.storage().ref();
           // Create the file metadata
@@ -344,17 +344,17 @@ export default {
 
           resolve(uploadTask);
         });
-        console.log(uploadTask);
+        // console.log(uploadTask);
         var url = await uploadTask.ref
           .getDownloadURL()
           .then(function (downloadURL) {
-            console.log("File available at", downloadURL);
+            // console.log("File available at", downloadURL);
             return downloadURL;
           });
         downloadMediaUrls.push(url);
-        console.log("---");
-        console.log(downloadMediaUrls);
-        console.log("---");
+        // console.log("---");
+        // console.log(downloadMediaUrls);
+        // console.log("---");
       }
       this.form.media = downloadMediaUrls;
       this.uploading = false;
@@ -364,7 +364,7 @@ export default {
       this.validate();
       if (this.validate()) {
         this.loading = true;
-        console.log(this.form);
+        // console.log(this.form);
         if (this.selectedItems == "Events") {
           this.errors = await this.$store.dispatch("updateEvent", this.form);
         } else if (this.selectedItems == "Cellars") {
@@ -387,7 +387,7 @@ export default {
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.form.address}.json?limit=5&language=it-IT&access_token=${this.mapboxToken}`
           )
         ).data.features[0].center;
-        console.log(coordinates);
+        // console.log(coordinates);
         this.form.location.longitude = coordinates[0];
         this.form.location.latitude = coordinates[1];
       } catch (error) {
@@ -397,7 +397,7 @@ export default {
     selectDate(date) {
       this.overlayPicker = !this.overlayPicker;
       this.form.date = date;
-      console.log(date);
+      // console.log(date);
     },
 
     // capitalize(value) {

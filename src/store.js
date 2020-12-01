@@ -36,9 +36,9 @@ export default {
         removeFromBasket(state, payload) {
             // col filter tengo solo gli elementi che rispettano la condizione, cioè tutti
             // quelli che hann un id differente da quello che passo alla mutation
-            console.log(payload)
+            // console.log(payload)
             state.basket.items = state.basket.items.filter(item => {
-                console.log(item.id)
+                // console.log(item.id)
                 return item.id !== payload
             })
         },
@@ -222,7 +222,7 @@ export default {
                     .get()
                     .then((querySnapshot) => {
                         env = querySnapshot.docs.map((doc) => doc.data());
-                        console.log(env);
+                        // console.log(env);
                         return env
                     })
                     .catch((err) => console.log(err));
@@ -327,7 +327,7 @@ export default {
                 .auth()
                 .createUserWithEmailAndPassword(payload.email, payload.password)
                 .then((data) => {
-                    console.log(data)
+                    // console.log(data)
                     db.collection("users")
                         .doc(data.user.uid)
                         .set({ displayName: payload.name, email: payload.email });
@@ -424,7 +424,7 @@ export default {
             commit('setGlobalMessage', false)
         },
         async saveEvent({ commit, dispatch }, payload) {
-            console.log(payload)
+            // console.log(payload)
             return db.collection('wineEvents').add({
                 userId: firebase.auth().currentUser.uid,
                 createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -441,7 +441,7 @@ export default {
             }).then(() => commit('setGlobalMessage', 'successfully created new event'))
         },
         async saveCellar({ commit, dispatch }, payload) {
-            console.log(payload)
+            // console.log(payload)
             return db.collection('cellars').add({
                 userId: firebase.auth().currentUser.uid,
                 createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -458,7 +458,7 @@ export default {
 
 
         async updateEvent({ commit, dispatch }, payload) {
-            console.log(payload)
+            // console.log(payload)
             return db.collection('wineEvents').doc(payload.id).update({
                 userId: firebase.auth().currentUser.uid,
                 updatedTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -476,7 +476,7 @@ export default {
             }).then(() => commit('setGlobalMessage', 'successfully updated new event'))
         },
         async updateCellar({ commit, dispatch }, payload) {
-            console.log(payload)
+            // console.log(payload)
             return db.collection('cellars').doc(payload.id).update({
                 userId: firebase.auth().currentUser.uid,
                 updatedTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),

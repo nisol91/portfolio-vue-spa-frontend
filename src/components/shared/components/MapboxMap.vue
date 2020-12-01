@@ -68,7 +68,6 @@ export default {
     },
   },
   async created() {
-    console.log(this.events);
     this.$store
       .dispatch("getEnvVariables")
       .then((env) => (this.accessToken = env[0].mapbox_api_key));

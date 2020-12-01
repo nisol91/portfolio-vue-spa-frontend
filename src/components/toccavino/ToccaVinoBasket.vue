@@ -107,7 +107,7 @@ export default {
     this.$store.commit("toggleHomePage", false);
 
     this.basket = this.$store.state.basket.items;
-    console.log(this.basket);
+    // console.log(this.basket);
   },
   methods: {
     addItem(id) {

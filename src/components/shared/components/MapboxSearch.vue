@@ -37,7 +37,7 @@ export default {
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.search}.json?limit=5&language=it-IT&access_token=${this.token}`
           )
         ).data.features[0].center;
-        console.log(this.coordinates);
+        // console.log(this.coordinates);
       } catch (error) {
         console.log(error);
       }

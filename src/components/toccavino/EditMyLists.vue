@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     editItem(id) {
-      console.log(id);
+      // console.log(id);
     },
     deleteEvent(id, item) {
       this.dialogDelete = true;
@@ -230,7 +230,7 @@ export default {
     },
     async deleteEventConfirm() {
       this.events.splice(this.indexToDelete, 1);
-      console.log(this.idToDelete);
+      // console.log(this.idToDelete);
       await db.collection("wineEvents").doc(this.idToDelete).delete();
       this.closeDelete();
     },
@@ -241,7 +241,7 @@ export default {
     },
     async deleteCellarConfirm() {
       this.cellars.splice(this.indexToDelete, 1);
-      console.log(this.idToDelete);
+      // console.log(this.idToDelete);
       await db.collection("cellars").doc(this.idToDelete).delete();
       this.closeDelete();
     },
@@ -263,7 +263,7 @@ export default {
             res["id"] = doc.id;
             return res;
           });
-          console.log(events);
+          // console.log(events);
           this.events = events;
         })
         .catch((err) => console.log(err));
@@ -279,7 +279,7 @@ export default {
             res["id"] = doc.id;
             return res;
           });
-          console.log(cellars);
+          // console.log(cellars);
           this.cellars = cellars;
         })
         .catch((err) => console.log(err));

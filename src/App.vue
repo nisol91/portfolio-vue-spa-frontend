@@ -18,8 +18,8 @@ export default {
     Index,
   },
   created() {
-    console.log("aaaaa");
-    console.log(process.env.VUE_APP_TITLE);
+    // console.log("aaaaa");
+    // console.log(process.env.VUE_APP_TITLE);
   },
 };
 </script>

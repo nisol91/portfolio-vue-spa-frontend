@@ -292,7 +292,7 @@ export default {
           return o.date.includes(month);
         }
       });
-      console.log(this.wineEventsFiltered);
+      // console.log(this.wineEventsFiltered);
       this.isMonthFilterActive = true;
       this.isPriceFilterActive = false;
       this.isNameFilterActive = false;

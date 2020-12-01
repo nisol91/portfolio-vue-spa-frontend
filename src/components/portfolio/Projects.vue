@@ -193,14 +193,14 @@ export default {
               .get()
               .then((querySnapshot) => {
                 const order = querySnapshot.docs.map((doc) => {
-                  console.log(doc.id);
+                  // console.log(doc.id);
                   return doc.data();
                 });
-                console.log(order);
-                console.log(order.id);
+                // console.log(order);
+                // console.log(order.id);
               });
           });
-          console.log(this.orders);
+          // console.log(this.orders);
         })
         .catch((error) => {
           this.errors = error.response && error.response.data.errors;

@@ -334,7 +334,7 @@ export default {
             return res;
           });
 
-          console.log(products);
+          // console.log(products);
           this.products = products;
           // sorting products on the base of 'in_evidence' field
           this.products = _.orderBy(

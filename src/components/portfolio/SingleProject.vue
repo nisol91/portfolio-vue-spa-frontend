@@ -111,7 +111,7 @@ export default {
         .get()
         .then((querySnapshot) => {
           const project = querySnapshot.docs.map((doc) => doc.data());
-          console.log(project[0]);
+          // console.log(project[0]);
           this.project = project[0];
           this.loading = false;
         })

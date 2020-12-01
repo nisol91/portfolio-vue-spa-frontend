@@ -233,13 +233,13 @@ export default {
       this.$refs.form.resetValidation();
     },
     async editUser() {
-      console.log(this.form);
+      // console.log(this.form);
 
       if (this.validate()) {
-        console.log(this.form);
+        // console.log(this.form);
         this.loading = true;
         this.errors = await this.$store.dispatch("editUser", this.form);
-        console.log(this.errors);
+        // console.log(this.errors);
 
         this.loading = false;
         router.push({
@@ -260,7 +260,7 @@ export default {
           // console.log(querySnapshot);
           const user = querySnapshot.data();
 
-          console.log(user);
+          // console.log(user);
           this.user = user;
 
           this.form.displayName = user.displayName;
@@ -280,7 +280,7 @@ export default {
     selectDate(date) {
       this.overlayPicker = !this.overlayPicker;
       this.form.birthDate = date;
-      console.log(date);
+      // console.log(date);
     },
     // questa funzione rappresenta il caricamento asincrono di un file
     // solo rendendo il caricamento una Promise, posso aspettare che si carichi una foto e poi passare a un altra
@@ -291,7 +291,7 @@ export default {
       for (let i = 0; i < 1; i++) {
         var file = this.mediaFiles[i];
         var uploadTask = await new Promise(function (resolve, reject) {
-          console.log(file);
+          // console.log(file);
           // Create a root reference
           var storageRef = firebase.storage().ref();
           // Create the file metadata
@@ -306,17 +306,17 @@ export default {
 
           resolve(uploadTask);
         });
-        console.log(uploadTask);
+        // console.log(uploadTask);
         var url = await uploadTask.ref
           .getDownloadURL()
           .then(function (downloadURL) {
-            console.log("File available at", downloadURL);
+            // console.log("File available at", downloadURL);
             return downloadURL;
           });
         downloadMediaUrls.push(url);
-        console.log("---");
-        console.log(downloadMediaUrls);
-        console.log("---");
+        // console.log("---");
+        // console.log(downloadMediaUrls);
+        // console.log("---");
       }
       this.form.media = downloadMediaUrls;
       this.uploading = false;
