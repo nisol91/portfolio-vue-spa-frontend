@@ -183,6 +183,7 @@
                 </v-row>
               </template>
             </v-img>
+            <div class="mt-4">{{ event.cellar }}</div>
             <div class="mt-4">{{ event.description }}</div>
           </div>
         </div>

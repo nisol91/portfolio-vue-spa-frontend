@@ -226,6 +226,40 @@ export default {
                     }
                 });
         },
+
+        async editUser({ commit, dispatch }, payload) {
+            const user = firebase.auth().currentUser;
+            user.updateProfile({ displayName: payload.displayName });
+
+            db.collection('users').doc(payload.id).update({
+                displayName: payload.displayName,
+                description: payload.description,
+                birthDate: payload.birthDate,
+                age: payload.age,
+                gender: payload.gender[0],
+                address: payload.address,
+                media: payload.media,
+            }).then(() => {
+                commit('setGlobalMessage', 'successfully edited user')
+
+            })
+        },
+        async removeUser({ commit, dispatch }, payload) {
+            var user = firebase.auth().currentUser;
+            db.collection('users')
+                .doc(user.uid)
+                .delete()
+
+            user.delete().then(function () {
+                router.push({
+                    name: "toccaVinoHome",
+                });
+                commit('setGlobalMessage', 'successfully removed user')
+
+            }).catch(function (error) {
+                // An error happened.
+            });
+        },
         registration({ commit, dispatch }, payload) {
 
             const err = firebase
@@ -250,11 +284,11 @@ export default {
                     setTimeout(() => {
                         commit('setGlobalMessage', '')
                     }, 3000)
-                    dispatch('signOut')
+
                     router.replace({
                         name: "home"
                     });
-                })
+                }).then(() => dispatch('signOut'))
                 .catch((err) => {
                     // console.log(err.message)
                     return err
@@ -274,12 +308,11 @@ export default {
 
 
                     // se non ho ancora creato l user nel db, lo creo al primo login
-                    if (!db.collection("users")
-                        .doc(user.uid)) {
-                        db.collection("users")
-                            .doc(user.uid)
-                            .set({ displayName: user.displayName, email: user.email });
-                    }
+                    db.collection("users")
+                        .doc(user.uid)
+                        .set({ displayName: user.displayName, email: user.email }, { merge: true });
+
+
 
                     commit('setUser', {
                         displayName: firebase.auth().currentUser.displayName,
@@ -335,6 +368,7 @@ export default {
                 userId: firebase.auth().currentUser.uid,
                 createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 name: payload.name,
+                cellar: payload.cellar,
                 description: payload.description,
                 city: payload.city,
                 address: payload.address,
@@ -368,6 +402,7 @@ export default {
                 userId: firebase.auth().currentUser.uid,
                 updatedTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 name: payload.name,
+                cellar: payload.cellar,
                 description: payload.description,
                 city: payload.city,
                 address: payload.address,

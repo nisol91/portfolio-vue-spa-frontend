@@ -33,6 +33,13 @@
         v-model="form.name"
       ></v-text-field>
       <v-text-field
+        label="cellar"
+        :rules="rules"
+        value
+        required
+        v-model="form.cellar"
+      ></v-text-field>
+      <v-text-field
         label="description"
         :rules="rules"
         value
@@ -231,6 +238,7 @@ export default {
       mediaFiles: null,
       form: {
         name: null,
+        cellar: null,
         description: null,
         date: null,
         price: null,
@@ -278,7 +286,7 @@ export default {
       const downloadMediaUrls = this.form.media;
       for (let i = 0; i < this.mediaFiles.length; i++) {
         var file = this.mediaFiles[i];
-        var url = await new Promise(function (resolve, reject) {
+        var uploadTask = await new Promise(function (resolve, reject) {
           console.log(file);
           // Create a root reference
           var storageRef = firebase.storage().ref();
@@ -292,14 +300,15 @@ export default {
             .child(`twine/${firebase.auth().currentUser.uid}/${file.name}`)
             .put(file, metadata);
 
-          var downloadUrl = uploadTask.snapshot.ref
-            .getDownloadURL()
-            .then(function (downloadURL) {
-              console.log("File available at", downloadURL);
-              return downloadURL;
-            });
-          resolve(downloadUrl);
+          resolve(uploadTask);
         });
+        console.log(uploadTask);
+        var url = await uploadTask.ref
+          .getDownloadURL()
+          .then(function (downloadURL) {
+            console.log("File available at", downloadURL);
+            return downloadURL;
+          });
         downloadMediaUrls.push(url);
         console.log("---");
         console.log(downloadMediaUrls);

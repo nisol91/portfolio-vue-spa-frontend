@@ -7,12 +7,10 @@
       <div class="">settings</div>
     </div>
 
-    <div class="role" v-if="user && user.role == 'superAdmin'">
-      role: {{ user.role }}
-    </div>
+    <div class="role" v-if="user && user.role == '03746'">role: superAdmin</div>
     <v-form
       action="#"
-      @submit.prevent="addEvent"
+      @submit.prevent="editUser"
       ref="form"
       v-model="valid"
       lazy-validation
@@ -22,7 +20,7 @@
         :rules="rules"
         value
         required
-        v-model="form.name"
+        v-model="form.displayName"
       ></v-text-field>
       <v-text-field
         label="description"
@@ -32,7 +30,7 @@
         v-model="form.description"
       ></v-text-field>
       <v-select
-        :items="cellarType"
+        :items="genderTypes"
         v-model="form.gender"
         label="Select gender"
         dense
@@ -91,7 +89,6 @@
         value
         required
         v-model="form.address"
-        @keyup="getPlace()"
       ></v-text-field>
       <div class="uploadBox">
         <v-file-input
@@ -100,6 +97,7 @@
           label="Add fotos"
           color="blue"
           counter
+          multiple
           placeholder="Select your avatar"
           prepend-icon="mdi-paperclip"
           outlined
@@ -164,7 +162,7 @@
         </v-img>
       </div>
       <v-btn
-        v-if="form.media.length > 0 && !loading && selectedItems !== null"
+        v-if="form.media && form.media.length > 0 && !loading"
         class="saveEvent"
         type="submit"
         color="primary"
@@ -172,10 +170,10 @@
         dark
         depressed
       >
-        Save user setting
+        Save user settings
       </v-btn>
       <v-btn
-        v-if="form.media.length == 0 || loading || selectedItems === null"
+        v-if="(form.media && form.media.length == 0) || loading"
         class="saveEvent"
         type="submit"
         color="primary"
@@ -184,10 +182,18 @@
         depressed
         disabled
       >
-        Save user setting
+        Save user settings
       </v-btn>
     </v-form>
-    <v-btn class="saveEvent" type="submit" color="red" rounded dark depressed>
+    <v-btn
+      class="saveEvent"
+      type="submit"
+      color="red"
+      rounded
+      dark
+      depressed
+      @click="removeUser"
+    >
       remove user
     </v-btn>
   </div>
@@ -195,6 +201,7 @@
 <script>
 import { db } from "../../main";
 import firebase from "firebase";
+import router from "../../routes";
 
 export default {
   data() {
@@ -209,23 +216,20 @@ export default {
         (v) => !!v || "field is required",
         (v) => (v && v.length >= 1) || "Name must be more than 1 characters",
       ],
-      cellarType: ["male", "female"],
+      genderTypes: ["male", "female"],
       selectedItems: null,
       overlayPicker: false,
       picker: new Date().toISOString().substr(0, 10),
       mediaFiles: null,
       form: {
-        name: null,
-        description: null,
-        birthDate: null,
-        age: null,
+        displayName: null,
+        description: "",
+        birthDate: "",
+        age: "",
         media: [],
         gender: [],
-        address: null,
-        location: {
-          latitude: 0,
-          longitude: 0,
-        },
+        address: "",
+        id: null,
       },
     };
   },
@@ -235,9 +239,42 @@ export default {
     this.getUser(firebase.auth().currentUser.uid);
   },
   methods: {
+    async removeUser() {
+      this.errors = await this.$store.dispatch("removeUser");
+    },
+    removeMedia(index) {
+      this.form.media.splice(index, 1);
+    },
+    validate() {
+      this.$refs.form.validate();
+      return this.$refs.form.validate();
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+    async editUser() {
+      console.log(this.form);
+
+      if (this.validate()) {
+        console.log(this.form);
+        this.loading = true;
+        this.errors = await this.$store.dispatch("editUser", this.form);
+        console.log(this.errors);
+
+        this.loading = false;
+        router.push({
+          name: "toccaVinoHome",
+          // params: { eventName: this.event.name },
+        });
+      }
+    },
     getUser(id) {
       this.loading = true;
       this.firebaseUser = firebase.auth().currentUser;
+      this.form.id = this.firebaseUser.uid;
 
       db.collection(`users${this.env}`)
         .doc(id)
@@ -248,20 +285,35 @@ export default {
 
           console.log(user);
           this.user = user;
+
+          this.form.displayName = user.displayName;
+          this.form.description = user.description ? user.description : "";
+          this.form.birthDate = user.birthDate ? user.birthDate : "";
+          this.form.age = user.age ? user.age : "";
+          this.form.media = user.media ? user.media : [];
+          this.form.gender = user.gender ? user.gender : "";
+          this.form.address = user.address ? user.address : "";
+
           this.loading = false;
         })
         .catch((error) => {
           this.errors = error.response && error.response.data.errors;
         });
     },
+    selectDate(date) {
+      this.overlayPicker = !this.overlayPicker;
+      this.form.birthDate = date;
+      console.log(date);
+    },
     // questa funzione rappresenta il caricamento asincrono di un file
     // solo rendendo il caricamento una Promise, posso aspettare che si carichi una foto e poi passare a un altra
     async uploadMedia() {
       this.uploading = true;
-      const downloadMediaUrls = this.form.media;
-      for (let i = 0; i < this.mediaFiles.length; i++) {
+      // forzo il caricamento singolo
+      const downloadMediaUrls = [];
+      for (let i = 0; i < 1; i++) {
         var file = this.mediaFiles[i];
-        var url = await new Promise(function (resolve, reject) {
+        var uploadTask = await new Promise(function (resolve, reject) {
           console.log(file);
           // Create a root reference
           var storageRef = firebase.storage().ref();
@@ -275,14 +327,15 @@ export default {
             .child(`twine/${firebase.auth().currentUser.uid}/${file.name}`)
             .put(file, metadata);
 
-          var downloadUrl = uploadTask.snapshot.ref
-            .getDownloadURL()
-            .then(function (downloadURL) {
-              console.log("File available at", downloadURL);
-              return downloadURL;
-            });
-          resolve(downloadUrl);
+          resolve(uploadTask);
         });
+        console.log(uploadTask);
+        var url = await uploadTask.ref
+          .getDownloadURL()
+          .then(function (downloadURL) {
+            console.log("File available at", downloadURL);
+            return downloadURL;
+          });
         downloadMediaUrls.push(url);
         console.log("---");
         console.log(downloadMediaUrls);

@@ -50,7 +50,8 @@ export default {
     return {
       accessToken:
         "pk.eyJ1Ijoibmlzb2w5MSIsImEiOiJjazBjaWRvbTIwMWpmM2hvMDhlYWhhZGV0In0.wyRaVw6FXdw6g3wp3t9FNQ",
-      mapStyle: "mapbox://styles/nisol91/ckfavr6400ebf19mrwoocgtbo",
+      // mapStyle: "mapbox://styles/nisol91/ckfavr6400ebf19mrwoocgtbo",
+      mapStyle: "mapbox://styles/nisol91/ck0cimiej4lt91cljcimh64p5",
       coordinates: [10, 45],
     };
   },

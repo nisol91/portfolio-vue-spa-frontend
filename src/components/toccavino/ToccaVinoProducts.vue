@@ -11,7 +11,7 @@
           {{ itemsInBasket }}
         </router-link>
       </div>
-      <!-- <v-btn
+      <v-btn
         color="primary"
         rounded
         dark
@@ -19,7 +19,7 @@
         @click="generateFakeProducts"
       >
         Generate fake products
-      </v-btn> -->
+      </v-btn>
     </div>
     <div class="eFiltersTop">
       <div>
@@ -60,7 +60,9 @@
         >
           reset filters
         </div>
-        <div>Products: {{ this.productsFiltered.length }}</div>
+        <div v-if="productsFiltered">
+          Products: {{ productsFiltered.length }}
+        </div>
         <div class="latFilterTitle">CATEGORY</div>
         <div
           class="latFilterElements"
@@ -118,6 +120,9 @@
           </div>
           <div class="prodYear">
             {{ product.year }}
+          </div>
+          <div class="prodYear">
+            {{ product.wineyard }}
           </div>
           <div class="prodYear">{{ product.price }}€</div>
 
@@ -275,6 +280,7 @@ export default {
           name: `product_${Math.floor(
             Math.random() * 10
           )}_${this.$faker().lorem.word()}`,
+          wineyard: this.$faker().lorem.word(),
           category: [
             this.categories[Math.floor(Math.random() * this.categories.length)],
             this.categories[Math.floor(Math.random() * this.categories.length)],
