@@ -24,9 +24,7 @@
       ></v-text-field>
       <v-text-field
         label="description"
-        :rules="rules"
         value
-        required
         v-model="form.description"
       ></v-text-field>
       <v-select
@@ -41,7 +39,6 @@
       ></v-select>
       <v-text-field
         label="birthDate"
-        :rules="rules"
         value
         disabled
         v-model="form.birthDate"
@@ -75,19 +72,11 @@
           </v-btn>
         </div>
       </v-overlay>
-      <v-text-field
-        label="age"
-        :rules="rules"
-        value
-        required
-        v-model="form.age"
-      ></v-text-field>
+      <v-text-field label="age" value v-model="form.age"></v-text-field>
 
       <v-text-field
         label="full address"
-        :rules="rules"
         value
-        required
         v-model="form.address"
       ></v-text-field>
       <div class="uploadBox">
@@ -162,25 +151,13 @@
         </v-img>
       </div>
       <v-btn
-        v-if="form.media && form.media.length > 0 && !loading"
+        v-if="!loading"
         class="saveEvent"
         type="submit"
         color="primary"
         rounded
         dark
         depressed
-      >
-        Save user settings
-      </v-btn>
-      <v-btn
-        v-if="(form.media && form.media.length == 0) || loading"
-        class="saveEvent"
-        type="submit"
-        color="primary"
-        rounded
-        dark
-        depressed
-        disabled
       >
         Save user settings
       </v-btn>
@@ -227,7 +204,7 @@ export default {
         birthDate: "",
         age: "",
         media: [],
-        gender: [],
+        gender: [""],
         address: "",
         id: null,
       },
@@ -291,7 +268,7 @@ export default {
           this.form.birthDate = user.birthDate ? user.birthDate : "";
           this.form.age = user.age ? user.age : "";
           this.form.media = user.media ? user.media : [];
-          this.form.gender = user.gender ? user.gender : "";
+          this.form.gender = user.gender ? user.gender : [""];
           this.form.address = user.address ? user.address : "";
 
           this.loading = false;

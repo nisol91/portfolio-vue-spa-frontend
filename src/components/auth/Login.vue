@@ -62,14 +62,30 @@
                   </v-btn>
                 </div>
               </div>
-              <div class="form-group row mb-0">
-                <div class="col-md-8 offset-md-4">
-                  <router-link :to="{ name: 'forgotPassword' }"
-                    ><v-btn color="blue" rounded dark>forgot password?</v-btn>
-                  </router-link>
-                </div>
-              </div>
             </form>
+            <div class="form-group row mb-0">
+              <div class="col-md-8 offset-md-4">
+                <v-btn
+                  type="submit"
+                  color="grey"
+                  rounded
+                  dark
+                  depressed
+                  @click="googleSignin"
+                >
+                  Signin with google
+                  <v-icon class="actionIcon">mdi-google</v-icon>
+                </v-btn>
+              </div>
+            </div>
+
+            <div class="form-group row mb-0">
+              <div class="col-md-8 offset-md-4">
+                <router-link :to="{ name: 'forgotPassword' }"
+                  ><v-btn color="blue" rounded dark>forgot password?</v-btn>
+                </router-link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -97,6 +113,16 @@ export default {
     async submit() {
       this.error = await this.$store.dispatch("login", this.form);
     },
+    async googleSignin() {
+      this.error = await this.$store.dispatch("googleLogin");
+    },
   },
 };
 </script>
+<style lang="scss">
+.google {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+</style>
