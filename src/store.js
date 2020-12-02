@@ -8,6 +8,7 @@ import router from "./routes";
 export default {
     // vuex store
     state: {
+        env: '',
         isHomePage: true,
         lastSearch: {
             from: null,
@@ -180,11 +181,7 @@ export default {
                 }
             }
         },
-        async getUserRole({ commit }) {
-            const role = (await axios.get("/api/get-user-role")).data.role;
-            //  console.log("RUOLO vuex " + role)
-            commit('setUserRole', role)
-        },
+
         async logout({ commit, dispatch }) {
             // laravel endpoint
             await axios.post("/api/logout");
@@ -245,7 +242,20 @@ export default {
                     }
                 });
         },
+        async getUserRole({ commit, state }, payload) {
+            var user = firebase.auth().currentUser
 
+            const role = await db.collection(`users${state.env}`)
+                .doc(user.uid)
+                .get()
+                .then((querySnapshot) => {
+                    // console.log(querySnapshot.data().role);
+                    if (querySnapshot.data().role) {
+                        return querySnapshot.data().role;
+                    }
+                })
+            commit('setUserRole', role)
+        },
         async editUser({ commit, dispatch }, payload) {
             const user = firebase.auth().currentUser;
             user.updateProfile({ displayName: payload.displayName });
@@ -305,11 +315,15 @@ export default {
                 })
                 commit('setLoggedIn')
 
+
                 router.replace({ name: "home" });
                 commit('setGlobalMessage', 'successfully logged in')
                 setTimeout(() => {
                     commit('setGlobalMessage', '')
                 }, 3000)
+            }).then(() => {
+                // ruolo utente
+                dispatch("getUserRole");
             }).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -381,11 +395,16 @@ export default {
                     })
                     commit('setLoggedIn')
 
+
+
                     router.replace({ name: "home" });
                     commit('setGlobalMessage', 'successfully logged in')
                     setTimeout(() => {
                         commit('setGlobalMessage', '')
                     }, 3000)
+                }).then(() => {
+                    // ruolo utente
+                    dispatch("getUserRole");
                 })
                 .catch((err) => {
                     return err

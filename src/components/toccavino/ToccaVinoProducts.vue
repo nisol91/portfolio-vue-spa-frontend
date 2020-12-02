@@ -12,6 +12,7 @@
         </router-link>
       </div>
       <v-btn
+        v-if="userRole == '03746'"
         color="primary"
         rounded
         dark

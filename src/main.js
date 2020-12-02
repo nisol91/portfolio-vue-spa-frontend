@@ -46,6 +46,7 @@ import FileLoader from "./components/shared/components/FileLoader.vue"
 import GlobalMessage from "./components/shared/components/GlobalMessage.vue"
 
 import SelectLocale from './i18n/SelectLocale.vue'
+import './registerServiceWorker'
 
 
 Vue.config.productionTip = false

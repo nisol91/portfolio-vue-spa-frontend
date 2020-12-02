@@ -298,12 +298,11 @@ export default {
     // console.log(this.lastSearch);
     // console.log(this.lastSearchComputed);
     // console.log(this.itemsInBasket);
-    // this.$store.dispatch("getUserRole");
 
     // console.log("ruolo index " + this.userRole);
     setTimeout(() => {
       this.loaded = true;
-    }, 2000);
+    }, 1000);
   },
   computed: {
     ...mapState({

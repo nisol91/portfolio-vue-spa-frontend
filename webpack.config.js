@@ -1,19 +1,31 @@
 module.exports = {
-	// pwa: {
-	// 	name: 'My App',
-	// 	themeColor: '#4DBA87',
-	// 	msTileColor: '#000000',
-	// 	appleMobileWebAppCapable: 'yes',
-	// 	appleMobileWebAppStatusBarStyle: 'black',
+	pwa: {
+		name: 'My App',
+		themeColor: '#4DBA87',
+		msTileColor: '#000000',
+		appleMobileWebAppCapable: 'yes',
+		appleMobileWebAppStatusBarStyle: 'black',
+		iconPaths: {
+			// favicon32: 'img/icons/favicon-32x32.png',
+			// favicon16: 'img/icons/favicon-16x16.png',
+			// appleTouchIcon: 'img/icons/apple-touch-icon-152x152.png',
+			// maskIcon: 'img/icons/safari-pinned-tab.svg',
+			// msTileImage: 'img/icons/msapplication-icon-144x144.png'
+			favicon32: 'favicon.ico',
+			favicon16: 'favicon.ico',
+			appleTouchIcon: 'favicon.ico',
+			maskIcon: 'favicon.ico',
+			msTileImage: 'favicon.ico'
+		},
 
-	// 	// configure the workbox plugin
-	// 	workboxPluginMode: 'InjectManifest',
-	// 	workboxOptions: {
-	// 		// swSrc is required in InjectManifest mode.
-	// 		swSrc: 'dev/sw.js',
-	// 		// ...other Workbox options...
-	// 	}
-	// },
+		// configure the workbox plugin
+		workboxPluginMode: 'InjectManifest',
+		workboxOptions: {
+			// swSrc is required in InjectManifest mode.
+			swSrc: 'dev/sw.js',
+			// ...other Workbox options...
+		}
+	},
 	module: {
 		rules: [
 			// ... other rules omitted
