@@ -52,11 +52,11 @@
     }
 
     .my-navbar {
-        height: 100px !important;
+        height: 110px !important;
     }
 
     .mainBox {
-        padding-top: 100px !important;
+        padding-top: 110px !important;
     }
 
     .tHomeHeader {
@@ -74,6 +74,24 @@
     .containerFormAuth {
         height: 120vh !important;
     }
+
+    .creditCardContainer {
+        width: 100% !important;
+    }
+
+    .paymentBox {
+        width: 95% !important;
+        padding: 0px !important;
+    }
+
+    .eventHomeText {
+        font-size: 12px !important;
+        margin: 5px !important;
+    }
+
+
+
+
 
 }
 
@@ -181,6 +199,10 @@
         .nav-children {
             margin: 0px 5px !important;
         }
+    }
+
+    .homeBtn {
+        font-size: 12px !important;
     }
 
     .projectsGallery {
@@ -326,7 +348,17 @@
         flex-direction: column !important;
 
     }
+
+
 }
+
+@media (min-width: 200px) and (max-width: 576px) {
+    .homeBtn {
+        font-size: 18px !important;
+    }
+}
+
+
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) and (max-width: 767.98px) {}

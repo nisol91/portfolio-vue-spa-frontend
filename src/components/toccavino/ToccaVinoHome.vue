@@ -7,7 +7,10 @@
       </div>
 
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoAddEvent' }">
-        <div v-if="this.$store.state.isLoggedIn" class="btn btn-secondary">
+        <div
+          v-if="this.$store.state.isLoggedIn"
+          class="btn btn-secondary homeBtn"
+        >
           add your own wine event
         </div>
       </router-link>
@@ -16,12 +19,12 @@
         class="btn nav-button"
         :to="{ name: 'register' }"
       >
-        <div class="btn btn-secondary">
+        <div class="btn btn-secondary homeBtn">
           register with your email to see full funcionalities
         </div>
       </router-link>
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoPayment' }">
-        <div class="btn btn-secondary">support us</div>
+        <div class="btn btn-secondary homeBtn">support us</div>
       </router-link>
       <div class="twineIconsBox">
         <router-link
@@ -162,13 +165,15 @@
           :key="index + `_event`"
         >
           <div class="d-flex justify-content-between">
-            <span>{{ event.name }}</span>
-            <span>{{ event.city }}</span>
-            <span v-if="event.date">{{
+            <span class="eventHomeText">{{ event.name }}</span>
+            <span class="eventHomeText">{{ event.city }}</span>
+            <span class="eventHomeText" v-if="event.date">{{
               event.date | moment("dddd, MMMM Do YYYY")
             }}</span>
             <span v-if="event.price" class="priceWine">${{ event.price }}</span>
-            <span v-if="event.type" class="">{{ event.type }}</span>
+            <span v-if="event.type" class="eventHomeText">{{
+              event.type
+            }}</span>
           </div>
           <div class="mt-4 descImgMainBox">
             <v-img
@@ -186,8 +191,8 @@
                 </v-row>
               </template>
             </v-img>
-            <div class="mt-4">{{ event.cellar }}</div>
-            <div class="mt-4">{{ event.description }}</div>
+            <div class="mt-4 eventHomeText">{{ event.cellar }}</div>
+            <div class="mt-4 eventHomeText">{{ event.description }}</div>
           </div>
         </div>
       </transition-group>
