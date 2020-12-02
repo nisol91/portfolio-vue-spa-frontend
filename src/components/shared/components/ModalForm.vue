@@ -39,7 +39,7 @@
                 required
                 v-model="newCatName"
               ></v-text-field>
-              <div v-if="formErrors && isAdd">{{ err }}</div>
+              <!-- <div v-if="formErrors && isAdd">{{ err }}</div> -->
 
               <v-text-field
                 v-if="isEdit"
@@ -47,9 +47,9 @@
                 required
                 v-model="editCatName"
               ></v-text-field>
-              <div class="errorColor" v-if="formErrors && isEdit">
+              <!-- <div class="errorColor" v-if="formErrors && isEdit">
                 {{ err }}
-              </div>
+              </div> -->
             </v-col>
           </v-row>
         </v-container>
@@ -79,15 +79,15 @@ export default {
   }),
   computed: {
     //   passo un eventuale errore dal metodo del componente padre
-    formErrors: {
-      get() {
-        //   nel metodo computed get() posso anche bindare la props a un data in questo modo
-        this.err = this.errorsForm;
-        // cosi posso sempre accedere col nome della computed prop (formErrors in questo caso)
-        return this.errorsForm;
-      },
-      set() {},
-    },
+    // formErrors: {
+    //   get() {
+    //     //   nel metodo computed get() posso anche bindare la props a un data in questo modo
+    //     this.err = this.errorsForm;
+    //     // cosi posso sempre accedere col nome della computed prop (formErrors in questo caso)
+    //     return this.errorsForm;
+    //   },
+    //   set() {},
+    // },
 
     //   faccio un v-model con un computed con get() e set(), esattamente come si fa con un data
     editCatName: {
