@@ -1,10 +1,19 @@
 module.exports = {
 	pwa: {
-		name: 'My App',
+		name: 'NsZDevStudio',
 		themeColor: '#4DBA87',
 		msTileColor: '#000000',
 		appleMobileWebAppCapable: 'yes',
 		appleMobileWebAppStatusBarStyle: 'black',
+		manifestOptions: {
+			icons: [
+				{
+					src: "img/icons/favicon.ico",
+					// sizes: "32x32",
+					type: "image/png",
+				},
+			]
+		},
 		iconPaths: {
 			// favicon32: 'img/icons/favicon-32x32.png',
 			// favicon16: 'img/icons/favicon-16x16.png',
@@ -19,7 +28,7 @@ module.exports = {
 		},
 
 		// configure the workbox plugin
-		workboxPluginMode: 'InjectManifest',
+		workboxPluginMode: 'GenerateSW',
 		// workboxOptions: {
 		// 	// swSrc is required in InjectManifest mode.
 		// 	swSrc: 'dev/sw.js',
