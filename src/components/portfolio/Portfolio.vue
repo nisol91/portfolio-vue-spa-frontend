@@ -11,12 +11,15 @@
         <div class="hotMex">
           {{ hotMex }}
         </div>
+        <div class="">
+          <router-link :to="{ name: 'toccaVinoHome' }"
+            ><v-btn color="blue" text @click="hotMex = ''"
+              >GO</v-btn
+            ></router-link
+          >
 
-        <router-link :to="{ name: 'toccaVinoHome' }"
-          ><v-btn color="blue" text @click="hotMex = ''">GO</v-btn></router-link
-        >
-
-        <v-btn color="blue" text @click="hotMex = ''"> Close </v-btn>
+          <v-btn color="blue" text @click="hotMex = ''"> Close </v-btn>
+        </div>
       </div>
     </v-snackbar>
     <div id="home" class="scale-in-center">
@@ -296,7 +299,11 @@ export default {
 }
 .snackBox {
   display: flex !important;
-  align-items: center;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  flex-direction: column !important;
+  text-align: center;
 }
 .hotMex {
   width: 250px;

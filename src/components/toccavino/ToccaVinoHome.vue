@@ -1,7 +1,11 @@
 <template>
   <div class="tWineBox">
-    <div class="d-flex justify-content-between">
-      <h1>t-wine</h1>
+    <div class="d-flex justify-content-between tHomeHeader">
+      <div class="tTitle">
+        <h1>t-wine</h1>
+        <h3>wine events, cellars and ecommerce</h3>
+      </div>
+
       <router-link class="btn nav-button" :to="{ name: 'toccaVinoAddEvent' }">
         <div v-if="this.$store.state.isLoggedIn" class="btn btn-secondary">
           add your own wine event
@@ -44,7 +48,6 @@
       </div>
     </div>
 
-    <h3>wine events, cellars and ecommerce</h3>
     <success-banner
       v-if="bannerEventName"
       :bannerEventName="bannerEventName"
@@ -91,7 +94,7 @@
           @keyup="searchEvent(searchValue)"
         />
       </div>
-      <div>
+      <div class="sortBtns">
         <div
           :class="{ active: isPriceFilterActive }"
           class="btn btn-secondary sorterBtn"
@@ -352,6 +355,14 @@ export default {
 </script>
 
 <style scoped>
+.tHomeHeader {
+  display: flex;
+  align-items: center;
+}
+.tTitle {
+  display: flex;
+  flex-direction: column;
+}
 .tv-searchBar {
   margin: 50px 0;
 }
@@ -377,6 +388,10 @@ export default {
 
 .mainImg {
   max-width: 200px;
+}
+.sortBtns {
+  display: flex;
+  justify-content: center;
 }
 .sorterBtn {
   margin: 20px;

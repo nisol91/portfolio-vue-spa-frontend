@@ -1,6 +1,14 @@
 <template>
   <div id="map">
     <!-- <MglMap :accessToken="accessToken" :mapStyle="mapStyle" /> -->
+    <div v-if="!accessToken" class="splash-box">
+      <v-progress-circular
+        :size="70"
+        color="primary"
+        indeterminate
+        class="splash-box-progress"
+      ></v-progress-circular>
+    </div>
     <MglMap
       v-if="accessToken"
       :accessToken="accessToken"

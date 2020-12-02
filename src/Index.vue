@@ -48,7 +48,7 @@
           <router-link :to="{ name: 'home' }">back to home</router-link>
         </div>
         <div
-          class="d-flex justify-content-between align-items-center"
+          class="d-flex justify-content-between align-items-center dxBoxNavbar"
           v-if="this.$store.state.isHomePage"
         >
           <div
