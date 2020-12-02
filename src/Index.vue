@@ -286,7 +286,7 @@ export default {
     this.loaded = false;
     // console.log(process.env.VUE_APP_TITLE);
     console.log(process.env.NODE_ENV);
-    console.log(process.env.VUE_APP_BASE);
+    console.log(process.env.VUE_APP_DB_ENV);
 
     // carico l utente firebase dopo il refresh
     this.$store.dispatch("loadFirebaseUserAfterRefresh");

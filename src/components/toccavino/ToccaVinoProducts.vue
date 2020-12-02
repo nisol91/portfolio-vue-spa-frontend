@@ -208,7 +208,9 @@ import firebase from "firebase";
 export default {
   data() {
     return {
-      env: "_test",
+      // env: "_test",
+      env: process.env.VUE_APP_DB_ENV,
+
       products: [],
       filteredCategories: [],
       filteredYears: [],
