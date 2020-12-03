@@ -233,6 +233,25 @@
     }
 }
 
+@media (max-width: 800px) {
+    .basket {
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .checkoutBox {
+        position: inherit !important;
+        width: 80% !important;
+    }
+
+    .basketLeft {
+        .prodName {
+            font-size: 20px !important;
+        }
+    }
+}
+
 // Medium devices (tablets, less than 992px)
 @media (max-width: 991.98px) {
     .my-navbar {
