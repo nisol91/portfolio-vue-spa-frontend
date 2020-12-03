@@ -373,7 +373,7 @@ export default {
 #footer {
   width: 100%;
   border-bottom: 1px solid grey;
-  padding: 20px 40px;
+  padding: 20px 35px;
   background: rgb(107, 109, 114);
 }
 .footerFirebaseImg {
