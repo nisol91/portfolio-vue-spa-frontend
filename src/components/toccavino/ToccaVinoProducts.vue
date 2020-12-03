@@ -32,29 +32,45 @@
           @keyup="searchProduct(searchValue)"
         />
       </div>
-      <div
-        :class="{ active: isPriceFilterActive }"
-        class="btn btn-secondary sorterBtn"
-        @click="sortPrice"
-      >
-        sort by price
+      <div class="sorterBox">
+        <div
+          :class="{ active: isPriceFilterActive }"
+          class="btn btn-secondary sorterBtn"
+          @click="sortPrice"
+        >
+          sort by price
+        </div>
+        <div
+          :class="{ active: isNameFilterActive }"
+          class="btn btn-secondary sorterBtn"
+          @click="sortName"
+        >
+          sort by name
+        </div>
+        <div
+          class="btn btn-secondary sorterBtn resetFilters"
+          @click="getProducts"
+        >
+          reset filters
+        </div>
       </div>
       <div
-        :class="{ active: isNameFilterActive }"
-        class="btn btn-secondary sorterBtn"
-        @click="sortName"
+        class="btn btn-secondary eFiltersLateralArrow included"
+        @click="openSideBar = !openSideBar"
       >
-        sort by name
-      </div>
-      <div
-        class="btn btn-secondary sorterBtn resetFilters"
-        @click="getProducts"
-      >
-        reset filters
+        <v-icon>mdi-arrow-collapse-left</v-icon>
+        <span>lateral bar filters</span>
       </div>
     </div>
     <div class="eBody">
-      <div class="eFiltersLateral">
+      <div
+        v-click-outside="{
+          handler: onClickOutsideSideBar,
+          include: include,
+        }"
+        class="eFiltersLateral"
+        :class="{ eFiltersLateralShow: openSideBar }"
+      >
         <div
           class="btn btn-secondary sorterBtn resetFilters"
           @click="getProducts"
@@ -210,7 +226,7 @@ export default {
     return {
       // env: "_test",
       env: process.env.VUE_APP_DB_ENV,
-
+      openSideBar: false,
       products: [],
       filteredCategories: [],
       filteredYears: [],
@@ -264,6 +280,12 @@ export default {
     this.getProducts();
   },
   methods: {
+    onClickOutsideSideBar() {
+      this.openSideBar = false;
+    },
+    include() {
+      return [document.querySelector(".included")];
+    },
     addItem(prod) {
       prod.itemsNumber += 1;
     },
@@ -480,10 +502,17 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
+.eFiltersLateralArrow {
+  margin-top: 10px !important;
+  font-size: 8px !important;
+  margin-left: 130px;
+  display: none !important;
+}
 .eFiltersLateral {
   width: 20%;
   background: rgb(115, 120, 126);
   padding: 10px;
+  padding-left: 20px;
 }
 .eFiltersTop {
   width: 100%;
@@ -565,5 +594,8 @@ export default {
 }
 .activeFilter {
   color: blue;
+}
+.sorterBtn {
+  margin: 0 10px;
 }
 </style>

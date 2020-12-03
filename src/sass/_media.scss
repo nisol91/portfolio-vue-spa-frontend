@@ -10,6 +10,8 @@
     #backToHome {
         display: none !important;
     }
+
+
 }
 
 // Extra small devices (portrait phones, less than 576px)
@@ -53,6 +55,16 @@
 
     .my-navbar {
         height: 110px !important;
+    }
+
+    .mobile-menu {
+
+        top: 110px !important;
+    }
+
+    .editMediaBox {
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
     .mainBox {
@@ -190,7 +202,35 @@
         }
     }
 
+    .eFiltersTop {
+        flex-direction: column;
+    }
 
+    .sorterBox {
+        margin-top: 10px !important;
+    }
+
+    .eFiltersLateral {
+        width: 40% !important;
+        padding: 10px !important;
+    }
+
+    .eProducts {
+        width: 60% !important;
+    }
+
+    .eProduct {
+        width: 43% !important;
+        margin: 5px !important;
+        padding: 5px !important;
+    }
+
+    .sorterBtn {
+        margin: 0 3px !important;
+        width: 75px !important;
+        font-size: 10px !important;
+        padding: 2px !important;
+    }
 }
 
 // Medium devices (tablets, less than 992px)
@@ -355,6 +395,40 @@
 @media (min-width: 200px) and (max-width: 576px) {
     .homeBtn {
         font-size: 18px !important;
+    }
+
+
+    .eFiltersLateral {
+        width: 200px !important;
+        position: fixed !important;
+        top: 110px;
+        left: -200px;
+        height: 100vh !important;
+        z-index: 9999 !important;
+        background: rgba(115, 120, 126, 0.89) !important;
+        transition: 1s;
+
+    }
+
+    .eFiltersLateralShow {
+        left: 0px;
+        transition: 1s;
+    }
+
+    .eFiltersLateralArrow {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .eProducts {
+        width: 100% !important;
+    }
+
+    .eProduct {
+        width: 90% !important;
+        margin: 5px !important;
+        padding: 5px !important;
     }
 }
 

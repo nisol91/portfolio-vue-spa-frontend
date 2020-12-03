@@ -445,6 +445,7 @@ export default {
 .mainImgEditing {
   max-width: 200px !important;
   margin: 20px;
+  width: 100%;
 }
 .closeIcon {
   color: white !important;

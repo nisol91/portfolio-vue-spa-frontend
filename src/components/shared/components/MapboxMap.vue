@@ -102,7 +102,7 @@ export default {
 
 <style scoped>
 #map {
-  height: 300px;
+  height: 400px;
   width: 100%;
 }
 .markerWine {
