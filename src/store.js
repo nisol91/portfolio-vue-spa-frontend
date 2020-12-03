@@ -10,6 +10,7 @@ export default {
     state: {
         env: '',
         isHomePage: true,
+        isMetamorphosis: false,
         lastSearch: {
             from: null,
             to: null,
@@ -26,6 +27,9 @@ export default {
     // le mutations hanno solo il compito di mutare lo stato dell'app, sono
     // come semplici funzioni
     mutations: {
+        isMetamorphosis(state, payload) {
+            state.isMetamorphosis = payload
+        },
         setLastSearch(state, payload) {
             state.lastSearch = payload
         },

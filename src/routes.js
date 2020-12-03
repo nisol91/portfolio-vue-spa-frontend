@@ -8,6 +8,10 @@
 // import App from "./App.vue";
 // import Review from "./components/review/Review";
 
+
+import MHome from "./components/metamorphosis/MHome.vue";
+
+
 import Register from "./components/auth/Register.vue";
 import Login from "./components/auth/Login.vue";
 import UserProfile from "./components/user/UserProfile";
@@ -36,6 +40,16 @@ const routes = [
         name: "home"
     },
 
+    {
+        path: "/m-home",
+        component: MHome,
+        name: "mHome",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
     {
         path: "/projects",
         component: Projects,

@@ -5,6 +5,7 @@
       <div
         class="my-navbar d-flex justify-content-between align-items-center"
         :class="[{ 'my-navbar-hidden': getOffsetNav }]"
+        v-if="!isMetamorphosis"
       >
         <div>
           <!-- <router-link class="navbar-brand mr-auto" v-bind:to="{ name: 'home' }"
@@ -218,6 +219,7 @@
         <div
           id="footer"
           class="d-flex justify-content-center align-items-center flex-column"
+          v-if="!isMetamorphosis"
         >
           <select-locale class="langVSelect"></select-locale>
           <select-locale class="langVSelectMobile"></select-locale>
@@ -313,6 +315,7 @@ export default {
       isLoggedIn: "isLoggedIn",
       userRole: "userRole",
       globalMessage: "globalMessage",
+      isMetamorphosis: "isMetamorphosis",
     }),
 
     ...mapGetters({ itemsInBasket: "itemsInBasket" }),
