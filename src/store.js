@@ -53,6 +53,14 @@ export default {
         setUser(state, payload) {
             state.user = payload
         },
+        setUserRole(state, payload) {
+            state.userRole = payload
+            localStorage.setItem('userRole', payload)
+        },
+        getUserRole(state) {
+            state.userRole = localStorage.getItem('userRole')
+        },
+
         getUserOnRefresh(state) {
             if (localStorage.getItem("isLoggedIn") === "true") {
                 state.user = JSON.parse(localStorage.getItem("currentUser"));
@@ -71,10 +79,7 @@ export default {
         setEmailVerified(state, payload) {
             state.isEmailVerified = payload
         },
-        setUserRole(state, payload) {
-            state.userRole = payload
 
-        },
         toggleHomePage(state, payload) {
             state.isHomePage = payload
         },
@@ -235,6 +240,8 @@ export default {
                 .then(() => {
                     commit('setLoggedOut')
                     commit('setUser', {})
+                    commit('setUserRole', '')
+
                     if (router.currentRoute.name !== 'home') {
                         router.replace({
                             name: "home"
@@ -324,6 +331,8 @@ export default {
             }).then(() => {
                 // ruolo utente
                 dispatch("getUserRole");
+
+
             }).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;

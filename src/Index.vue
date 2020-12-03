@@ -295,6 +295,9 @@ export default {
     // carico il carrello al refresh
     this.$store.dispatch("loadBasketOnRefresh");
 
+    // prendo l userRole nello storage
+    this.$store.commit("getUserRole");
+
     // console.log("====");
     // console.log(this.lastSearch);
     // console.log(this.lastSearchComputed);

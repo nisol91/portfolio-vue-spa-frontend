@@ -225,7 +225,8 @@ export default {
   data() {
     return {
       // env: "_test",
-      env: process.env.VUE_APP_DB_ENV,
+      env: "",
+      // env: process.env.VUE_APP_DB_ENV,
       openSideBar: false,
       products: [],
       filteredCategories: [],
@@ -298,7 +299,7 @@ export default {
       this.$store.dispatch("addToBasket", prod);
     },
     generateFakeProducts() {
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 10; i++) {
         db.collection(`products${this.env}`).add({
           userId: firebase.auth().currentUser.uid,
           createdTimestamp: firebase.firestore.Timestamp.fromDate(new Date()),
