@@ -225,8 +225,8 @@ export default {
   data() {
     return {
       // env: "_test",
-      env: "",
-      // env: process.env.VUE_APP_DB_ENV,
+      // env: "",
+      env: process.env.VUE_APP_DB_ENV,
       openSideBar: false,
       products: [],
       filteredCategories: [],

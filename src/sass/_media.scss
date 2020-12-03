@@ -117,8 +117,15 @@
 
     }
 
+
+
     .sortBtns {
-        flex-direction: column !important;
+        flex-direction: row !important;
+        width: 100% !important;
+
+        .sortBtn {
+            margin: 5px !important;
+        }
     }
 
     .skillBox {
