@@ -6,6 +6,26 @@
       alt=""
     />
     <div class="mImgBackgroundOverlay"></div>
+    <div class="mTripartition">
+      <div class="mTrip m1">
+        <div class="mTripText mTripTextSx">
+          <div class="mLine mLineSx"></div>
+          ABOUT
+        </div>
+      </div>
+      <div class="mTrip mTripCenter m2">
+        <div class="mTripText mTripTextCenter">CONTENTS</div>
+        <div class="mLineBottom"></div>
+      </div>
+
+      <div class="mTrip m3">
+        <div class="mTripText mTripTextDx">
+          BLOG
+          <div class="mLine mLineDx"></div>
+        </div>
+      </div>
+    </div>
+
     <div v-if="splash" class="splash pulsate-fwd">METAMORPHOSI</div>
     <div v-if="!splash" class="mHome">
       <div class="mTop">
@@ -52,6 +72,7 @@ export default {
   align-items: center;
   height: 100vh;
   position: relative;
+  z-index: 8000;
 }
 .mImgBackground {
   position: absolute;
@@ -67,12 +88,83 @@ export default {
   z-index: 8100;
   background: rgba(155, 155, 155, 0.589);
 }
+.mTripartition {
+  position: absolute;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .mTrip {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 100px;
+  }
+  .mTripCenter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 0px;
+    flex-direction: column;
+  }
+  .mTripText {
+    color: white;
+    font-weight: bold;
+    font-size: 35px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .mLineSx {
+    margin-right: 30px;
+  }
+  .mLineDx {
+    margin-left: 30px;
+  }
+  .mTripTextSx {
+    justify-content: flex-start;
+  }
+  .mTripTextDx {
+    justify-content: flex-end;
+  }
+  .mTripTextCenter {
+    padding-bottom: 60px;
+  }
+  .mLineBottom {
+    width: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-left: 0.5px solid white;
+    border-right: 0.5px solid white;
+  }
+  .m1 {
+    width: 33%;
+    height: 100%;
+    border-right: 2px solid white;
+  }
+  .m2 {
+    width: 33%;
+    height: 100%;
+    border-right: 2px solid white;
+  }
+  .m3 {
+    width: 33%;
+    height: 100%;
+  }
+}
 .mHome {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
-  z-index: 9999;
+  z-index: 9998;
 }
 .mTop {
   width: 100vw;
@@ -90,12 +182,12 @@ export default {
     color: red;
     font-weight: bold;
     font-size: 30px;
+    cursor: pointer;
   }
   .mCont {
     justify-content: flex-start;
     cursor: pointer;
     font-weight: bold;
-
     color: white;
     .mContText {
       margin-left: 10px;
