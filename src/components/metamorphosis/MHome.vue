@@ -13,7 +13,13 @@
       <div class="mTripartition">
         <div
           class="mTrip m1 mTripSx"
-          :class="[{ mTripSxHover: mTripSxHover, mTripHidden: mTripDxHover }]"
+          :class="[
+            {
+              mTripSxHover: mTripSxHover,
+              mTripHidden: mTripDxHover,
+              mShort: mTripDxHover,
+            },
+          ]"
           :style="{
             backgroundImage: `url(${mTripSxHover ? img : ''})`,
             backgroundSize: `cover`,
@@ -50,7 +56,13 @@
 
         <div
           class="mTrip m3 mTripDx"
-          :class="[{ mTripDxHover: mTripDxHover, mTripHidden: mTripSxHover }]"
+          :class="[
+            {
+              mTripDxHover: mTripDxHover,
+              mTripHidden: mTripSxHover,
+              mShort: mTripSxHover,
+            },
+          ]"
           :style="{
             backgroundImage: `url(${mTripDxHover ? img : ''})`,
             backgroundSize: `cover`,
@@ -66,6 +78,16 @@
           </div>
         </div>
       </div>
+
+      <!-- mobile tripartition -->
+
+      <div class="mTripartitionMobile">
+        <div class="mTripMobile">ABOUT</div>
+        <div class="mTripMobile">CONTENTS</div>
+        <div class="mTripMobile">BLOG</div>
+      </div>
+
+      <!-- header bar -->
 
       <div class="mTop">
         <div class="mTopEl mCont">
@@ -340,7 +362,7 @@ export default {
   .mTripSxHover {
     background: rgba(128, 128, 128, 0.404);
     transition: 1s;
-    width: 60vw !important;
+    width: 55vw !important;
   }
   .mTripText {
     color: white;
@@ -405,14 +427,19 @@ export default {
     height: 100%;
     border-right: 0.3px solid rgba(255, 255, 255, 0.507);
   }
+
   .m2 {
     width: 33%;
     height: 100%;
     border-right: 0.3px solid rgba(255, 255, 255, 0.507);
   }
+
   .m3 {
     width: 33%;
     height: 100%;
+  }
+  .mShort {
+    width: 28%;
   }
 }
 .mHome {
@@ -512,5 +539,44 @@ export default {
 .pulsate-fwd {
   -webkit-animation: pulsate-fwd 1.5s ease-in-out infinite both;
   animation: pulsate-fwd 1.5s ease-in-out infinite both;
+}
+
+.mTripartitionMobile {
+  display: none;
+  position: absolute;
+  top: 100px;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  z-index: 9996;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+//  media
+
+// ##
+@media (max-width: 1050px) {
+  .mTripartition {
+    display: none;
+  }
+  .mTripartitionMobile {
+    display: flex;
+  }
+  .mTripMobile {
+    color: white;
+    font-weight: bold;
+    font-size: 45px;
+    cursor: pointer;
+    border-bottom: 0.5px solid white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 33%;
+  }
+  .mTop {
+    background: rgba(255, 255, 255, 0.329);
+  }
 }
 </style>
