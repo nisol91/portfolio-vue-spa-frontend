@@ -243,13 +243,9 @@ export default {
   .mTripHidden {
     background: rgba(0, 0, 0, 0.89);
   }
-  .mTripDxHover {
-    background: grey;
-    transition: 1s;
-    width: 60vw !important;
-  }
+  .mTripDxHover,
   .mTripSxHover {
-    background: rgba(128, 128, 128, 0.521);
+    background: rgba(128, 128, 128, 0.404);
     transition: 1s;
     width: 60vw !important;
   }
