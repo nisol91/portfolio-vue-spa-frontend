@@ -13,7 +13,7 @@
       <div class="mTripartition">
         <div
           class="mTrip m1 mTripSx"
-          :class="[{ mTripSxHover: mTripSxHover }]"
+          :class="[{ mTripSxHover: mTripSxHover, mTripHidden: mTripDxHover }]"
           :style="{
             backgroundImage: `url(${mTripSxHover ? img : ''})`,
             backgroundSize: `cover`,
@@ -50,7 +50,7 @@
 
         <div
           class="mTrip m3 mTripDx"
-          :class="[{ mTripDxHover: mTripDxHover }]"
+          :class="[{ mTripDxHover: mTripDxHover, mTripHidden: mTripSxHover }]"
           :style="{
             backgroundImage: `url(${mTripDxHover ? img : ''})`,
             backgroundSize: `cover`,
@@ -238,7 +238,10 @@ export default {
   }
   .mTripCenterHidden,
   .mTripCenterHidden_2 {
-    background: rgb(61, 61, 61);
+    background: rgba(61, 61, 61, 0.897);
+  }
+  .mTripHidden {
+    background: rgba(0, 0, 0, 0.89);
   }
   .mTripDxHover {
     background: grey;
@@ -246,7 +249,7 @@ export default {
     width: 60vw !important;
   }
   .mTripSxHover {
-    background: grey;
+    background: rgba(128, 128, 128, 0.521);
     transition: 1s;
     width: 60vw !important;
   }
