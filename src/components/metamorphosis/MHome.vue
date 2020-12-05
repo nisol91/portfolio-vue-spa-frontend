@@ -11,19 +11,42 @@
       <div v-if="menu" class="mBackgroundOverlay fade-in fade-out"></div>
 
       <div class="mTripartition">
-        <div class="mTrip m1">
-          <div class="mTripText mTripTextSx">
+        <div class="mTrip m1 mTripSx" :class="[{ mTripSxHover: mTripSxHover }]">
+          <div
+            class="mTripText mTripTextSx"
+            @mouseenter="mTripSxHover = true"
+            @mouseleave="mTripSxHover = false"
+          >
             <div class="mLine mLineSx"></div>
             ABOUT
           </div>
         </div>
-        <div class="mTrip mTripCenter m2">
-          <div class="mTripText mTripTextCenter">CONTENTS</div>
+        <div
+          class="mTrip mTripCenter m2"
+          :class="[
+            {
+              mTripCenterHover: mTripCenterHover,
+              mTripCenterHidden: mTripDxHover,
+              mTripCenterHidden_2: mTripSxHover,
+            },
+          ]"
+        >
+          <div
+            class="mTripText mTripTextCenter"
+            @mouseenter="mTripCenterHover = true"
+            @mouseleave="mTripCenterHover = false"
+          >
+            CONTENTS
+          </div>
           <div class="mLineBottom"></div>
         </div>
 
-        <div class="mTrip m3">
-          <div class="mTripText mTripTextDx">
+        <div class="mTrip m3 mTripDx" :class="[{ mTripDxHover: mTripDxHover }]">
+          <div
+            class="mTripText mTripTextDx"
+            @mouseenter="mTripDxHover = true"
+            @mouseleave="mTripDxHover = false"
+          >
             BLOG
             <div class="mLine mLineDx"></div>
           </div>
@@ -76,6 +99,9 @@ export default {
     return {
       splash: true,
       menu: false,
+      mTripCenterHover: false,
+      mTripDxHover: false,
+      mTripSxHover: false,
     };
   },
   created() {
@@ -141,6 +167,7 @@ export default {
 }
 .menuEl {
   transition: 2s;
+  margin: 0 10px;
 
   &:hover {
     text-decoration: line-through;
@@ -168,6 +195,32 @@ export default {
     align-items: center;
     padding-bottom: 0px;
     flex-direction: column;
+    transition: 1s;
+  }
+  .mTripSx {
+    transition: 1s;
+  }
+  .mTripDx {
+    transition: 1s;
+  }
+  .mTripCenterHover {
+    background: white;
+    transition: 1s;
+    width: 60vw !important;
+  }
+  .mTripCenterHidden,
+  .mTripCenterHidden_2 {
+    background: rgb(61, 61, 61);
+  }
+  .mTripDxHover {
+    background: grey;
+    transition: 1s;
+    width: 60vw !important;
+  }
+  .mTripSxHover {
+    background: grey;
+    transition: 1s;
+    width: 60vw !important;
   }
   .mTripText {
     color: white;
@@ -209,6 +262,7 @@ export default {
       }
     }
   }
+
   .mTripTextCenter {
     padding-bottom: 60px;
     transition: 2s;
@@ -254,7 +308,6 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 9997;
   .mTopEl {
     width: 33%;
     display: flex;
@@ -266,6 +319,7 @@ export default {
     font-weight: bold;
     font-size: 30px;
     cursor: pointer;
+    z-index: 9994;
   }
   .mCont {
     justify-content: flex-start;
@@ -304,9 +358,10 @@ export default {
 }
 .showMenu {
   transition: 0.5s;
-  right: 50px;
+  right: 150px;
 }
 .menuCross {
+  margin-right: 10px;
   font-size: 40px !important;
   color: white !important;
 }
