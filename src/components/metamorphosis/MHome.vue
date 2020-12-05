@@ -75,15 +75,53 @@
         <div class="mTopEl mLogo">中文</div>
         <div class="mTopEl mMenu">
           <div class="menuOpen" :class="[{ showMenu: menu }]">
-            <div class="menuEl">HOME</div>
+            <div class="menuEl" @click="selectEl('home')">
+              <div
+                class="menuLine"
+                :class="[{ menuLineShow: menuEl.home.val }]"
+              ></div>
+              HOME
+            </div>
             <div>/</div>
-            <div class="menuEl">ABOUT</div>
+            <div class="menuEl" @click="selectEl('about')">
+              <div
+                class="menuLine"
+                :class="[{ menuLineShow: menuEl.about.val }]"
+              ></div>
+              ABOUT
+            </div>
             <div>/</div>
-            <div class="menuEl">CONTENT</div>
+            <div class="menuEl" @click="selectEl('content')">
+              <div
+                class="menuLine"
+                :class="[{ menuLineShow: menuEl.content.val }]"
+              ></div>
+              CONTENT
+            </div>
             <div>/</div>
-            <div class="menuEl">SHOP</div>
+            <div class="menuEl" @click="selectEl('blog')">
+              <div
+                class="menuLine"
+                :class="[{ menuLineShow: menuEl.blog.val }]"
+              ></div>
+              BLOG
+            </div>
             <div>/</div>
-            <div class="menuEl">CONTACTS</div>
+            <div class="menuEl" @click="selectEl('shop')">
+              <div
+                class="menuLine"
+                :class="[{ menuLineShow: menuEl.shop.val }]"
+              ></div>
+              SHOP
+            </div>
+            <div>/</div>
+            <div class="menuEl" @click="selectEl('contacts')">
+              <div
+                class="menuLine"
+                :class="[{ menuLineShow: menuEl.contacts.val }]"
+              ></div>
+              CONTACTS
+            </div>
           </div>
           <div class="mMenuText fade-in fade-out" :class="[{ hideMenu: menu }]">
             MENU
@@ -111,6 +149,32 @@
 export default {
   data() {
     return {
+      menuEl: {
+        home: {
+          val: true,
+          slug: "home",
+        },
+        about: {
+          val: false,
+          slug: "about",
+        },
+        content: {
+          val: false,
+          slug: "content",
+        },
+        blog: {
+          val: false,
+          slug: "blog",
+        },
+        shop: {
+          val: false,
+          slug: "shop",
+        },
+        contacts: {
+          val: false,
+          slug: "contacts",
+        },
+      },
       splash: true,
       menu: false,
       mTripCenterHover: false,
@@ -129,6 +193,16 @@ export default {
     this.backImgs();
   },
   methods: {
+    selectEl(value) {
+      var menu = this.menuEl;
+      for (const el in menu) {
+        if (menu[el].slug != value) {
+          menu[el].val = false;
+        } else {
+          menu[el].val = true;
+        }
+      }
+    },
     setSplash() {
       setTimeout(() => {
         this.splash = false;
@@ -196,10 +270,29 @@ export default {
 .menuEl {
   transition: 2s;
   margin: 0 10px;
+  position: relative;
 
   &:hover {
-    text-decoration: line-through;
+    // text-decoration: line-through;
     transition: 2s;
+    .menuLine {
+      opacity: 1;
+      transition: 0.5s;
+    }
+  }
+
+  .menuLine {
+    position: absolute;
+    top: 10px;
+    opacity: 0;
+    transition: 0.5s;
+    width: 100%;
+    height: 1px;
+    background: white;
+  }
+  .menuLineShow {
+    opacity: 1;
+    transition: 0.5s;
   }
 }
 .mTripartition {
@@ -385,7 +478,7 @@ export default {
 }
 .showMenu {
   transition: 0.5s;
-  right: 150px;
+  right: 250px;
 }
 .menuCross {
   margin-right: 10px;
