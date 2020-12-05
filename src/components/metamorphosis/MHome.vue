@@ -11,7 +11,14 @@
       <div v-if="menu" class="mBackgroundOverlay fade-in fade-out"></div>
 
       <div class="mTripartition">
-        <div class="mTrip m1 mTripSx" :class="[{ mTripSxHover: mTripSxHover }]">
+        <div
+          class="mTrip m1 mTripSx"
+          :class="[{ mTripSxHover: mTripSxHover }]"
+          :style="{
+            backgroundImage: `url(${mTripSxHover ? img : ''})`,
+            backgroundSize: `cover`,
+          }"
+        >
           <div
             class="mTripText mTripTextSx"
             @mouseenter="mTripSxHover = true"
@@ -41,7 +48,14 @@
           <div class="mLineBottom"></div>
         </div>
 
-        <div class="mTrip m3 mTripDx" :class="[{ mTripDxHover: mTripDxHover }]">
+        <div
+          class="mTrip m3 mTripDx"
+          :class="[{ mTripDxHover: mTripDxHover }]"
+          :style="{
+            backgroundImage: `url(${mTripDxHover ? img : ''})`,
+            backgroundSize: `cover`,
+          }"
+        >
           <div
             class="mTripText mTripTextDx"
             @mouseenter="mTripDxHover = true"
@@ -102,11 +116,17 @@ export default {
       mTripCenterHover: false,
       mTripDxHover: false,
       mTripSxHover: false,
+      backgrounds: [
+        "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/twine%2F4k-desktop-wallpaper.-2560%C3%971080.jpg?alt=media&token=1ad3dc60-d128-48cd-8d1d-894fd3156abc",
+        "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/twine%2F4k-wallpaper-clouds-cloudy-1183099.jpg?alt=media&token=02117b89-7751-4feb-9fe0-a6be5ceb488c",
+      ],
+      img: null,
     };
   },
   created() {
     this.$store.commit("isMetamorphosis", true);
     this.setSplash();
+    this.backImgs();
   },
   methods: {
     setSplash() {
@@ -117,7 +137,15 @@ export default {
     toggleMenu() {
       this.menu = !this.menu;
     },
+    backImgs() {
+      setInterval(() => {
+        this.img = this.backgrounds[
+          Math.floor(Math.random() * this.backgrounds.length)
+        ];
+      }, 1000);
+    },
   },
+  computed: {},
 };
 </script>
 <style lang="scss">
