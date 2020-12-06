@@ -529,7 +529,7 @@ export default {
 }
 .showMenu {
   transition: 0.5s;
-  right: 250px;
+  right: 220px;
 }
 .menuCross {
   margin-right: 10px;
