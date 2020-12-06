@@ -104,7 +104,7 @@
               ></div>
               HOME
             </div>
-            <div>/</div>
+            <div class="menuElDivider">/</div>
             <div class="menuEl" @click="selectEl('about')">
               <div
                 class="menuLine"
@@ -112,7 +112,7 @@
               ></div>
               ABOUT
             </div>
-            <div>/</div>
+            <div class="menuElDivider">/</div>
             <div class="menuEl" @click="selectEl('content')">
               <div
                 class="menuLine"
@@ -120,7 +120,7 @@
               ></div>
               CONTENT
             </div>
-            <div>/</div>
+            <div class="menuElDivider">/</div>
             <div class="menuEl" @click="selectEl('blog')">
               <div
                 class="menuLine"
@@ -128,7 +128,7 @@
               ></div>
               BLOG
             </div>
-            <div>/</div>
+            <div class="menuElDivider">/</div>
             <div class="menuEl" @click="selectEl('shop')">
               <div
                 class="menuLine"
@@ -136,7 +136,7 @@
               ></div>
               SHOP
             </div>
-            <div>/</div>
+            <div class="menuElDivider">/</div>
             <div class="menuEl" @click="selectEl('contacts')">
               <div
                 class="menuLine"
@@ -577,6 +577,28 @@ export default {
   }
   .mTop {
     background: rgba(255, 255, 255, 0.329);
+  }
+}
+// ##
+@media (max-width: 800px) {
+  .menuOpen {
+    width: 300px;
+    top: 80px;
+  }
+
+  .showMenu {
+    transition: 0.5s;
+    right: 20px;
+  }
+  .menuEl {
+    font-size: 10px;
+    margin: 0 3px;
+    .menuLine {
+      top: -3px;
+    }
+  }
+  .menuElDivider {
+    display: none;
   }
 }
 </style>
