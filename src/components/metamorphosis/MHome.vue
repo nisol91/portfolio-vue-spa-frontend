@@ -1,5 +1,15 @@
 <template>
-  <div class="mHomeBox">
+  <div
+    class="mHomeBox"
+    :style="{
+      background: `${splash ? 'rgb(80, 80, 80)' : ''}`,
+      backgroundImage: `url(${
+        !splash
+          ? 'https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/home_1.jpg?alt=media&token=3cac5c30-12cc-47cb-ae90-0de367b74369'
+          : ''
+      })`,
+    }"
+  >
     <div v-if="splash" class="splash pulsate-fwd">METAMORPHOSI</div>
     <div v-if="!splash" class="mHome">
       <!-- <img
@@ -18,6 +28,7 @@
               mTripSxHover: mTripSxHover,
               mTripHidden: mTripDxHover,
               mShort: mTripDxHover,
+              hide: pushedAbout,
             },
           ]"
           :style="{
@@ -41,6 +52,7 @@
               mTripCenterHover: mTripCenterHover,
               mTripCenterHidden: mTripDxHover,
               mTripCenterHidden_2: mTripSxHover,
+              pushingAbout: pushedAbout,
             },
           ]"
         >
@@ -48,6 +60,7 @@
             class="mTripText mTripTextCenter"
             @mouseenter="mTripCenterHover = true"
             @mouseleave="mTripCenterHover = false"
+            @click="pushAbout"
           >
             CONTENTS
           </div>
@@ -61,6 +74,7 @@
               mTripDxHover: mTripDxHover,
               mTripHidden: mTripSxHover,
               mShort: mTripSxHover,
+              hide: pushedAbout,
             },
           ]"
           :style="{
@@ -202,6 +216,7 @@ export default {
       mTripCenterHover: false,
       mTripDxHover: false,
       mTripSxHover: false,
+      pushedAbout: false,
       backgrounds: [
         "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/twine%2F4k-desktop-wallpaper.-2560%C3%971080.jpg?alt=media&token=1ad3dc60-d128-48cd-8d1d-894fd3156abc",
         "https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/twine%2F4k-wallpaper-clouds-cloudy-1183099.jpg?alt=media&token=02117b89-7751-4feb-9fe0-a6be5ceb488c",
@@ -215,6 +230,15 @@ export default {
     this.backImgs();
   },
   methods: {
+    pushAbout() {
+      this.pushedAbout = true;
+      setTimeout(() => {
+        this.$router.push({
+          name: "toccaVinoHome",
+          // params: { eventName: this.event.name },
+        });
+      }, 2000);
+    },
     selectEl(value) {
       var menu = this.menuEl;
       for (const el in menu) {
@@ -228,7 +252,7 @@ export default {
     setSplash() {
       setTimeout(() => {
         this.splash = false;
-      }, 0);
+      }, 3000);
     },
     toggleMenu() {
       this.menu = !this.menu;
@@ -245,23 +269,13 @@ export default {
 };
 </script>
 <style lang="scss">
-.fade-out {
-  -webkit-animation: fade-out 1s ease-out both;
-  animation: fade-out 1s ease-out both;
-}
-.fade-in {
-  -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
 .mHomeBox {
-  background: rgb(80, 80, 80);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   position: relative;
   z-index: 8000;
-  background-image: url("https://firebasestorage.googleapis.com/v0/b/portfolio-f8a45.appspot.com/o/home_1.jpg?alt=media&token=3cac5c30-12cc-47cb-ae90-0de367b74369");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -351,6 +365,16 @@ export default {
     transition: 1s;
     width: 60vw !important;
   }
+  .pushingAbout {
+    width: 100vw !important;
+    transition: 1s;
+    background: white;
+    color: black;
+    .mTripTextCenter {
+      color: black;
+    }
+  }
+
   .mTripCenterHidden,
   .mTripCenterHidden_2 {
     background: rgba(61, 61, 61, 0.897);
@@ -552,8 +576,21 @@ export default {
   justify-content: flex-end;
   align-items: center;
 }
+.hide {
+  display: none !important;
+}
+.fade-out {
+  -webkit-animation: fade-out 1s ease-out both;
+  animation: fade-out 1s ease-out both;
+}
+.fade-in {
+  -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
 
-//  media
+// #######################################
+// ############## media ##################
+// #######################################
 
 // ##
 @media (max-width: 1050px) {

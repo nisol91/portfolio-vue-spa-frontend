@@ -199,7 +199,10 @@
       </div>
       <div class="mainBox" v-scroll="onScroll">
         <!--  -->
-        <router-view v-if="loaded"></router-view>
+        <transition name="fade">
+          <router-view v-if="loaded"></router-view>
+        </transition>
+
         <!--  -->
         <global-message
           v-if="globalMessage"
@@ -376,6 +379,13 @@ export default {
 };
 </script>
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 #footer {
   width: 100%;
   border-bottom: 1px solid grey;
