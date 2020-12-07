@@ -42,7 +42,7 @@
             @mouseleave="mTripSxHover = false"
           >
             <div class="mLine mLineSx"></div>
-            ABOUT
+            CONTENTS
           </div>
         </div>
         <div
@@ -62,7 +62,7 @@
             @mouseleave="mTripCenterHover = false"
             @click="pushAbout"
           >
-            CONTENTS
+            ABOUT
           </div>
           <div class="mLineBottom"></div>
         </div>
@@ -111,53 +111,83 @@
         <div class="mTopEl mLogo">中文</div>
         <div class="mTopEl mMenu">
           <div class="menuOpen" :class="[{ showMenu: menu }]">
-            <div class="menuEl" @click="selectEl('home')">
+            <router-link
+              :to="{ name: 'mHome' }"
+              class="menuEl"
+              @click="selectEl('home')"
+              style="color: white"
+            >
               <div
                 class="menuLine"
                 :class="[{ menuLineShow: menuEl.home.val }]"
               ></div>
-              HOME
-            </div>
+              <div style="color: white">HOME</div>
+            </router-link>
             <div class="menuElDivider">/</div>
-            <div class="menuEl" @click="selectEl('about')">
+            <router-link
+              :to="{ name: 'mAbout' }"
+              class="menuEl"
+              @click="selectEl('about')"
+              style="color: white"
+            >
               <div
                 class="menuLine"
                 :class="[{ menuLineShow: menuEl.about.val }]"
               ></div>
-              ABOUT
-            </div>
+              <div style="color: white">ABOUT</div>
+            </router-link>
             <div class="menuElDivider">/</div>
-            <div class="menuEl" @click="selectEl('content')">
+            <router-link
+              :to="{ name: 'mContents' }"
+              class="menuEl"
+              @click="selectEl('contents')"
+              style="color: white"
+            >
               <div
                 class="menuLine"
-                :class="[{ menuLineShow: menuEl.content.val }]"
+                :class="[{ menuLineShow: menuEl.contents.val }]"
               ></div>
-              CONTENT
-            </div>
+              <div style="color: white">CONTENTS</div>
+            </router-link>
             <div class="menuElDivider">/</div>
-            <div class="menuEl" @click="selectEl('blog')">
+            <router-link
+              :to="{ name: 'mBlog' }"
+              class="menuEl"
+              @click="selectEl('blog')"
+              style="color: white"
+            >
               <div
                 class="menuLine"
                 :class="[{ menuLineShow: menuEl.blog.val }]"
               ></div>
-              BLOG
-            </div>
+              <div style="color: white">BLOG</div>
+            </router-link>
             <div class="menuElDivider">/</div>
-            <div class="menuEl" @click="selectEl('shop')">
+            <router-link
+              :to="{ name: 'mShop' }"
+              class="menuEl"
+              @click="selectEl('shop')"
+              style="color: white"
+            >
               <div
                 class="menuLine"
                 :class="[{ menuLineShow: menuEl.shop.val }]"
               ></div>
-              SHOP
-            </div>
+              <div style="color: white">SHOP</div>
+            </router-link>
             <div class="menuElDivider">/</div>
-            <div class="menuEl" @click="selectEl('contacts')">
+            <router-link
+              :to="{ name: 'mContacts' }"
+              class="menuEl"
+              @click="selectEl('contacts')"
+              style="color: white"
+            >
               <div
                 class="menuLine"
                 :class="[{ menuLineShow: menuEl.contacts.val }]"
               ></div>
-              CONTACTS
-            </div>
+              <div style="color: white">CONTACTS</div>
+            </router-link>
           </div>
           <div class="mMenuText fade-in fade-out" :class="[{ hideMenu: menu }]">
             MENU
@@ -194,9 +224,9 @@ export default {
           val: false,
           slug: "about",
         },
-        content: {
+        contents: {
           val: false,
-          slug: "content",
+          slug: "contents",
         },
         blog: {
           val: false,
@@ -234,7 +264,7 @@ export default {
       this.pushedAbout = true;
       setTimeout(() => {
         this.$router.push({
-          name: "toccaVinoHome",
+          name: "mAbout",
           // params: { eventName: this.event.name },
         });
       }, 2000);
@@ -309,7 +339,7 @@ export default {
   position: relative;
 
   &:hover {
-    // text-decoration: line-through;
+    text-decoration: none;
     transition: 2s;
     .menuLine {
       opacity: 1;
@@ -591,7 +621,19 @@ export default {
 // #######################################
 // ############## media ##################
 // #######################################
-
+@media (max-width: 1300px) {
+  .mTripartition {
+    .mTripText {
+      font-size: 40px;
+    }
+    .mLineSx {
+      margin-right: 10px;
+    }
+    .mLineDx {
+      margin-left: 10px;
+    }
+  }
+}
 // ##
 @media (max-width: 1050px) {
   .mTripartition {

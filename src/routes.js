@@ -10,6 +10,12 @@
 
 
 import MHome from "./components/metamorphosis/MHome.vue";
+import MAbout from "./components/metamorphosis/MAbout.vue";
+import MContents from "./components/metamorphosis/MContents.vue";
+import MBlog from "./components/metamorphosis/MBlog.vue";
+import MShop from "./components/metamorphosis/MShop.vue";
+import MContacts from "./components/metamorphosis/MContacts.vue";
+
 
 
 import Register from "./components/auth/Register.vue";
@@ -44,6 +50,56 @@ const routes = [
         path: "/m-home",
         component: MHome,
         name: "mHome",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
+    {
+        path: "/m-about",
+        component: MAbout,
+        name: "mAbout",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
+    {
+        path: "/m-contents",
+        component: MContents,
+        name: "mContents",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
+    {
+        path: "/m-blog",
+        component: MBlog,
+        name: "mBlog",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
+    {
+        path: "/m-contacts",
+        component: MContacts,
+        name: "mContacts",
+        // protezione della rotta se non loggato
+        beforeEnter: (to, from, next) => {
+            if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
+            else next()
+        }
+    },
+    {
+        path: "/m-shop",
+        component: MShop,
+        name: "mShop",
         // protezione della rotta se non loggato
         beforeEnter: (to, from, next) => {
             if (to.name !== 'login' && localStorage.getItem("isLoggedIn") === "false") next({ name: 'home' })
