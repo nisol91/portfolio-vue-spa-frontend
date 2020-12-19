@@ -34,14 +34,14 @@
       </div>
       <div class="sorterBox">
         <div
-          :class="{ active: isPriceFilterActive }"
+          :class="{ activeFilter: isPriceFilterActive }"
           class="btn btn-secondary sorterBtn"
           @click="sortPrice"
         >
           sort by price
         </div>
         <div
-          :class="{ active: isNameFilterActive }"
+          :class="{ activeFilter: isNameFilterActive }"
           class="btn btn-secondary sorterBtn"
           @click="sortName"
         >
@@ -577,7 +577,7 @@ export default {
   margin-top: 10px;
   max-height: 120px;
 }
-.active {
+.activeFilter {
   border: 2px solid black !important;
 }
 .latFilterTitle {
