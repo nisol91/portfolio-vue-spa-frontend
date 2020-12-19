@@ -436,13 +436,12 @@ export default {
       this.isPriceFilterActive = false;
     },
     filterProdCat(val, i) {
-      if (this.filteredCategories.indexOf(val) == -1) {
-        this.filteredCategories.push(val);
-      }
       if (this.filteredCategories.length == 1) {
         this.productsFiltered = this.products;
         this.activeIndexFilteredYears = [];
         this.filteredYears = [];
+        this.filteredCategories.push(val);
+      } else if (this.filteredCategories.indexOf(val) == -1) {
         this.filteredCategories.push(val);
       }
 
@@ -450,7 +449,7 @@ export default {
       this.products.forEach((prod) => {
         this.filteredCategories.forEach((cat) => {
           prod.category.forEach((prCat) => {
-            if (prCat == cat) {
+            if (prCat == cat && !filteredProds.includes(prod)) {
               filteredProds.push(prod);
             }
           });
@@ -460,13 +459,12 @@ export default {
       this.productsFiltered = filteredProds;
     },
     filterProdYear(val, i) {
-      if (this.filteredYears.indexOf(val) == -1) {
-        this.filteredYears.push(val);
-      }
       if (this.filteredYears.length == 1) {
         this.productsFiltered = this.products;
         this.activeIndexFilteredCategories = [];
         this.filteredCategories = [];
+        this.filteredYears.push(val);
+      } else if (this.filteredYears.indexOf(val) == -1) {
         this.filteredYears.push(val);
       }
 

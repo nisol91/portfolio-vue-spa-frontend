@@ -212,12 +212,17 @@
 
         <!--  -->
         <div v-if="!loaded" class="splash-box">
-          <v-progress-circular
+          <img
+            class="rotating"
+            src="../public/img/icons/favicon_32x32.png"
+            alt=""
+          />
+          <!-- <v-progress-circular
             :size="70"
             color="primary"
             indeterminate
             class="splash-box-progress"
-          ></v-progress-circular>
+          ></v-progress-circular> -->
         </div>
         <div
           id="footer"
@@ -311,7 +316,7 @@ export default {
     // console.log("ruolo index " + this.userRole);
     setTimeout(() => {
       this.loaded = true;
-    }, 1000);
+    }, 3000);
   },
   computed: {
     ...mapState({
@@ -379,6 +384,49 @@ export default {
 };
 </script>
 <style lang="scss">
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  width: 90px;
+  -webkit-animation: rotating 3s linear infinite;
+  -moz-animation: rotating 3s linear infinite;
+  -ms-animation: rotating 3s linear infinite;
+  -o-animation: rotating 3s linear infinite;
+  animation: rotating 3s linear infinite;
+  margin-top: 30vh;
+}
+.splash-box {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
