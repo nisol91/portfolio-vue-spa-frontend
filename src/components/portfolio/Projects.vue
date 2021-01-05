@@ -55,30 +55,32 @@
             technologies: {{ project.type }}
           </div>
         </div>
-        <img
-          v-if="project.img"
-          class="projectImage"
-          :src="project.img[0]"
-          alt=""
-        />
-        <div v-if="!project.img" class="imgPlaceholder"></div>
+        <div class="projCardDxDx">
+          <img
+            v-if="project.img"
+            class="projectImage"
+            :src="project.img[0]"
+            alt=""
+          />
+          <div v-if="!project.img" class="imgPlaceholder"></div>
 
-        <v-btn v-if="project.disabled" color="" rounded dark disabled>
-          <router-link
-            id="routerInsideVButtonDisabled"
-            class="d-flex justify-content-center align-items-center"
-            :to="{ name: 'project', params: { id: project.id } }"
-            >coming soon...
-          </router-link></v-btn
-        >
-
-        <router-link
-          class="routerInsideVButton d-flex justify-content-center align-items-center"
-          :to="{ name: 'project', params: { id: project.id } }"
-          ><v-btn v-if="!project.disabled" color="primary" rounded dark
-            >to the project</v-btn
+          <v-btn v-if="project.disabled" color="" rounded dark disabled>
+            <router-link
+              id="routerInsideVButtonDisabled"
+              class="d-flex justify-content-center align-items-center"
+              :to="{ name: 'project', params: { id: project.id } }"
+              >coming soon...
+            </router-link></v-btn
           >
-        </router-link>
+
+          <router-link
+            class="routerInsideVButton d-flex justify-content-center align-items-center"
+            :to="{ name: 'project', params: { id: project.id } }"
+            ><v-btn v-if="!project.disabled" color="primary" rounded dark
+              >to the project</v-btn
+            >
+          </router-link>
+        </div>
       </div>
     </v-card>
   </div>
@@ -251,8 +253,14 @@ export default {
       width: 70%;
       height: 100%;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
+      .projCardDxDx {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
     }
   }
   .projDescription {
