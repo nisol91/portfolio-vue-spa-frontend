@@ -280,6 +280,14 @@
             .projCardDx {
                 height: auto !important;
                 flex-direction: column !important;
+                text-align: center;
+
+                .projCardDxDx {
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column !important;
+
+                }
             }
         }
     }
