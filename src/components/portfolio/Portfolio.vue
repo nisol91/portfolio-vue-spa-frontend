@@ -65,9 +65,16 @@
           about <span><i class="far fa-user"></i></span>
         </h1>
         <h4>
-          I am nicola, software developer from italy, I have worked as sowftware
-          engineer for various companies such as ufirst, managing both fontend
-          and backend technologies
+          <p>
+            I am nicola, software developer from italy, I have worked as
+            sowftware engineer for various companies such as ufirst, managing
+            both fontend and backend technologies.
+          </p>
+
+          <p>
+            I am currently collaborating with various realities in the tech and
+            digital world such as metamorphosi and aicod.
+          </p>
         </h4>
       </div>
       <div class="trianglesBox">
