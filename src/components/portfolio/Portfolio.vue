@@ -98,7 +98,7 @@
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          <h4>Javascript: VueJs, Nativescript, JQuery, ReactNative</h4>
+          <h4>Javascript: VueJs, JQuery, React</h4>
           <v-progress-linear
             v-model="valueProg_2"
             color="indigo darken-2"
@@ -113,7 +113,7 @@
           ></v-progress-linear>
         </div>
         <div class="skillBox d-flex justify-content-between align-items-center">
-          <h4>Other: Firebase, Lamp, Linux</h4>
+          <h4>Other: Flutter, Firebase, Lamp, Linux</h4>
           <v-progress-linear
             v-model="valueProg_1"
             color="green lighten-2"
@@ -124,7 +124,7 @@
         <h4>services:</h4>
         <h4>
           <span class="dotList"><i class="far fa-dot-circle"></i></span
-          >Small-Medium Custom Applications (vuejs, firebase, laravel)
+          >Small-Medium Custom Applications (vuejs, firebase, flutter)
         </h4>
         <h4>
           <span class="dotList"><i class="far fa-dot-circle"></i></span

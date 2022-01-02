@@ -270,6 +270,7 @@ export default {
   .projectImage {
     max-height: 100%;
     margin: 0 30px;
+    width: 100px;
   }
   .imgPlaceholder {
     max-height: 100%;
